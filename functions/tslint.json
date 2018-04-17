@@ -1,5 +1,6 @@
 {
   "rules": {
+    "no-any": true,
     // -- Strict errors --
     // These lint rules are likely always a good idea.
 
@@ -30,7 +31,7 @@
 
     // Disallows constructors for primitive types (e.g. new Number('123'), though Number('123') is still allowed).
     "no-construct": true,
-
+    
     // Do not allow super() to be called twice in a constructor.
     "no-duplicate-super": true,
 
