@@ -69,28 +69,20 @@ class MainController: ViewController, FUIAuthDelegate {
                     FirebaseHelper.sharedInstance.setUpListener(email: email)
                 }
             } else {
-                self.syncFirebaseWithCoreDataChannels(email: email) {
-                    if FirebaseHelper.sharedInstance.listener == nil {
-                        FirebaseHelper.sharedInstance.setUpListener(email: email)
-                    }
+                if FirebaseHelper.sharedInstance.listener == nil {
+                    FirebaseHelper.sharedInstance.setUpListener(email: email)
                 }
                 self.tableView.reloadData()
             }
         }
     }
 
-    private func syncFirebaseWithCoreDataChannels(email: String, completion: @escaping () -> ()) {
-        FirebaseHelper.sharedInstance.getChannels(of: email) { channels, error in
-            guard error == nil else {
+    @objc func updateCoreDataChannels(notification: Notification) {
+        guard  let userInfo = notification.userInfo,
+            let channels = userInfo["channels"] as? [String] else {
+                Log.error("processing new channel failed")
                 return
-            }
-            self.updateCoreDataChannels(channels: channels) {
-                completion()
-            }
         }
-    }
-
-    private func updateCoreDataChannels(channels: [String], completion: @escaping () -> ()?) {
         guard let user = authUI?.auth?.currentUser, let email = user.email else {
             Log.error("get current user failed")
             return
@@ -105,26 +97,15 @@ class MainController: ViewController, FUIAuthDelegate {
                     }
                     _ = CoreDataHelper.sharedInstance.createChannel(withName: name, globalName: channel, card: "FIXME")
                     self.tableView.reloadData()
-                    completion()
                 }
             }
-        }
-    }
-
-    @objc func updateCoreDataChannels(notification: Notification) {
-        guard  let userInfo = notification.userInfo,
-            let channels = userInfo["channels"] as? [String] else {
-                Log.error("processing new channel failed")
-                return
-        }
-        self.updateCoreDataChannels(channels: channels) {
-            return
         }
     }
     
     @IBAction func signOutTapped(_ sender: Any) {
         try! authUI?.signOut()
         FirebaseHelper.sharedInstance.listener?.remove()
+        FirebaseHelper.sharedInstance.listener = nil
         CoreDataHelper.sharedInstance.setCurrent(account: nil)
         self.tableView.reloadData()
         self.authorize()
@@ -172,10 +153,6 @@ class MainController: ViewController, FUIAuthDelegate {
                 self.alert(withTitle: "There are no such user")
                 return
             }
-            guard let globalName = FirebaseHelper.makeChannelName(currentUser, username) else {
-                return
-            }
-            _ = CoreDataHelper.sharedInstance.createChannel(withName: username, globalName: globalName, card: "FIXME")
 
             FirebaseHelper.sharedInstance.createChannel(currentUser: currentUser, user: username) { error in
                 guard error == nil else {

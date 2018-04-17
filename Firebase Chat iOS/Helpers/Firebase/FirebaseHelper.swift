@@ -80,7 +80,7 @@ class FirebaseHelper {
 
     func createChannel(currentUser: String, user: String, completion: @escaping (Error?) -> ()) {
         guard let name = FirebaseHelper.makeChannelName(currentUser, user) else {
-            Log.error("creating Channel failed")
+            Log.error("Firestore: creating Channel failed")
             completion(NSError())
             return
         }
@@ -93,17 +93,34 @@ class FirebaseHelper {
                 completion(error)
                 return
             }
-            self.userCollection.document(currentUser).setData([
-                Keys.channels.rawValue: [name]
-            ], options: SetOptions.merge()) { error in
-                guard error == nil else {
+
+            self.userCollection.document(currentUser).getDocument { snapshot, error in
+                guard let snapshot = snapshot, error == nil, var channels = snapshot.data()?[Keys.channels.rawValue] as? [String] else {
+                    Log.error("Firestore: get user document failed with error: (\(error?.localizedDescription ?? "unknown error")")
                     completion(error)
                     return
                 }
-                self.userCollection.document(user).setData([
-                    Keys.channels.rawValue: [name]
-                ], options: SetOptions.merge()) { error in
-                    completion(error)
+                channels.append(name)
+                self.userCollection.document(currentUser).updateData([
+                    Keys.channels.rawValue: channels
+                ]) { error in
+                    guard error == nil else {
+                        completion(error) 
+                        return
+                    }
+                    self.userCollection.document(user).getDocument { snapshot, error in
+                        guard let snapshot = snapshot, error == nil, var channels = snapshot.data()?[Keys.channels.rawValue] as? [String] else {
+                            Log.error("Firestore: get user document failed with error: (\(error?.localizedDescription ?? "unknown error")")
+                            completion(error)
+                            return
+                        }
+                        channels.append(name)
+                        self.userCollection.document(user).updateData([
+                            Keys.channels.rawValue: channels
+                        ]) { error in
+                            completion(error)
+                        }
+                    }
                 }
             }
         }
