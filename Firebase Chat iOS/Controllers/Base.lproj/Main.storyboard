@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jkB-ND-jdb">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Item-->
+        <scene sceneID="75Z-fr-z7n">
+            <objects>
+                <navigationController navigationBarHidden="YES" id="jkB-ND-jdb" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" image="sign" id="7ck-zS-Xso"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6tV-aP-BJR">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="1MZ-ws-Dy1" kind="relationship" relationship="rootViewController" id="8pj-0M-i9A"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hu2-be-PiT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1884" y="-786"/>
+        </scene>
+        <!--Chats-->
+        <scene sceneID="W0K-e9-0Dm">
+            <objects>
+                <viewController id="YcV-1X-D93" customClass="MainController" customModule="Firebase_Chat_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cs1-0L-WEJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D3X-YU-MxJ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                                <color key="backgroundColor" red="0.12549019610000001" green="0.13725490200000001" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="separatorColor" red="0.12549019610000001" green="0.13725490200000001" blue="0.16862745100000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.49803921569999998" green="0.49803921569999998" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="D3X-YU-MxJ" firstAttribute="leading" secondItem="iLY-m5-v5Q" secondAttribute="leading" id="EY3-t2-tCl"/>
+                            <constraint firstItem="D3X-YU-MxJ" firstAttribute="top" secondItem="iLY-m5-v5Q" secondAttribute="top" id="cSo-Kh-plS"/>
+                            <constraint firstItem="iLY-m5-v5Q" firstAttribute="trailing" secondItem="D3X-YU-MxJ" secondAttribute="trailing" id="uu5-vE-03v"/>
+                            <constraint firstItem="iLY-m5-v5Q" firstAttribute="bottom" secondItem="D3X-YU-MxJ" secondAttribute="bottom" id="zFi-Ek-bdX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="iLY-m5-v5Q"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" image="icon-chats" id="hPa-Le-2OL"/>
+                    <navigationItem key="navigationItem" title="Chats" id="0ec-JH-owV">
+                        <barButtonItem key="leftBarButtonItem" title="Sign Out" id="yuH-3N-xEi">
+                            <color key="tintColor" red="0.9763245558375635" green="0.22174888610904034" blue="0.20725183414273576" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="signOutTapped:" destination="YcV-1X-D93" id="naG-Ws-aez"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="kuc-CP-cE6">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addChannelTapped:" destination="YcV-1X-D93" id="UXa-qb-yc7"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="D3X-YU-MxJ" id="pgX-AP-Hgb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f2P-sv-dCn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Q1m-F4-V26">
+                    <connections>
+                        <action selector="noChatsTap:" destination="YcV-1X-D93" id="wGp-R9-BLV"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="727.5" y="-975"/>
+        </scene>
+        <!--Chats-->
+        <scene sceneID="S9X-LE-2EO">
+            <objects>
+                <navigationController id="gOn-DN-hN9" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Chats" image="icon-chats" landscapeImage="sign" id="DJw-cf-mLC"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" id="kyy-h2-cTg">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.12549019610000001" green="0.13725490200000001" blue="0.16862745100000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.1250250041" green="0.13665896650000001" blue="0.16987201569999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="view.backgroundColor">
+                            <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="YcV-1X-D93" kind="relationship" relationship="rootViewController" id="BNK-eT-MBh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Rg-V3-wc9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-174" y="-975"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="QVc-9m-6E3">
+            <objects>
+                <tabBarController id="1MZ-ws-Dy1" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="VNy-Mn-LAD"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="U4D-cW-lyu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.12110299619999999" green="0.13273561" blue="0.16594806309999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="gOn-DN-hN9" kind="relationship" relationship="viewControllers" id="Cd9-HU-sCt"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OBe-zY-rwS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1061" y="-786"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="icon-chats" width="28" height="26"/>
+        <image name="sign" width="29" height="29"/>
+    </resources>
+</document>
