@@ -22,7 +22,6 @@ class MainController: ViewController, FUIAuthDelegate {
                                 forCellReuseIdentifier: ChatListCell.name)
         self.tableView.rowHeight = 94
         self.tableView.tableFooterView = UIView(frame: .zero)
-        self.tableView.backgroundColor = UIColor(rgb: 0x2B303B)
         self.tableView.dataSource = self
 
         NotificationCenter.default.addObserver(self,
@@ -33,6 +32,8 @@ class MainController: ViewController, FUIAuthDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         self.authorize()
+        FirebaseHelper.sharedInstance.channelListener?.remove()
+        FirebaseHelper.sharedInstance.channelListener = nil
     }
 
     private func authorize() {
@@ -66,11 +67,11 @@ class MainController: ViewController, FUIAuthDelegate {
                         self.alert(withTitle: "Creating user failed")
                         return
                     }
-                    FirebaseHelper.sharedInstance.setUpListener(email: email)
+                    FirebaseHelper.sharedInstance.setUpChannelListListener(email: email)
                 }
             } else {
-                if FirebaseHelper.sharedInstance.listener == nil {
-                    FirebaseHelper.sharedInstance.setUpListener(email: email)
+                if FirebaseHelper.sharedInstance.channelListListener == nil {
+                    FirebaseHelper.sharedInstance.setUpChannelListListener(email: email)
                 }
                 self.tableView.reloadData()
             }
@@ -79,7 +80,7 @@ class MainController: ViewController, FUIAuthDelegate {
 
     @objc func updateCoreDataChannels(notification: Notification) {
         guard  let userInfo = notification.userInfo,
-            let channels = userInfo["channels"] as? [String] else {
+            let channels = userInfo[FirebaseHelper.NotificationKeys.channels.rawValue] as? [String] else {
                 Log.error("processing new channel failed")
                 return
         }
@@ -104,8 +105,8 @@ class MainController: ViewController, FUIAuthDelegate {
     
     @IBAction func signOutTapped(_ sender: Any) {
         try! authUI?.signOut()
-        FirebaseHelper.sharedInstance.listener?.remove()
-        FirebaseHelper.sharedInstance.listener = nil
+        FirebaseHelper.sharedInstance.channelListListener?.remove()
+        FirebaseHelper.sharedInstance.channelListListener = nil
         CoreDataHelper.sharedInstance.setCurrent(account: nil)
         self.tableView.reloadData()
         self.authorize()
@@ -210,39 +211,40 @@ extension MainController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = UIColor(rgb: 0x2B303B)
+//        cell.backgroundColor = .gray
     }
 }
 
 extension MainController: CellTapDelegate {
     func didTapOn(_ cell: UITableViewCell) {
-//        if let username = (cell as! ChatListCell).usernameLabel.text {
-//            TwilioHelper.sharedInstance.setChannel(withUsername: (username))
-//
-//            guard CoreDataHelper.sharedInstance.loadChannel(withName: username),
-//                let channel = CoreDataHelper.sharedInstance.currentChannel,
-//                let exportedCard = channel.card
-//                else {
-//                    Log.error("Channel do not exist in Core Data")
-//                    return
-//            }
-//
-//            VirgilHelper.sharedInstance.setChannelCard(exportedCard)
-//
-//            self.performSegue(withIdentifier: "goToChat", sender: self)
+        if let username = (cell as! ChatListCell).usernameLabel.text {
+            //TwilioHelper.sharedInstance.setChannel(withUsername: (username))
+
+            guard CoreDataHelper.sharedInstance.loadChannel(withName: username)
+                //let channel = CoreDataHelper.sharedInstance.currentChannel
+                //let exportedCard = channel.card // FIXME
+                else {
+                    Log.error("Channel do not exist in Core Data")
+                    return
+            }
+
+            // VirgilHelper.sharedInstance.setChannelCard(exportedCard)
+
+            self.performSegue(withIdentifier: "goToChat", sender: self)
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        super.prepare(for: segue, sender: sender)
+        super.prepare(for: segue, sender: sender)
 
-//        if let chatController = segue.destination as? ChatViewController {
-//            let pageSize = ChatConstants.chatPageSize
-//
-//            let dataSource = DataSource(pageSize: pageSize)
-//            chatController.title = TwilioHelper.sharedInstance.getCompanion(ofChannel: TwilioHelper.sharedInstance.currentChannel)
-//            chatController.dataSource = dataSource
-//            chatController.messageSender = dataSource.messageSender
-//        }
+        if let chatController = segue.destination as? ChatViewController {
+            let pageSize = ChatConstants.chatPageSize
+
+            let dataSource = DataSource(pageSize: pageSize)
+            chatController.title = CoreDataHelper.sharedInstance.currentChannel?.name
+            chatController.dataSource = dataSource
+            chatController.messageSender = dataSource.messageSender
+        }
     }
 }
 

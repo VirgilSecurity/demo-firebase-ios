@@ -13,4 +13,7 @@ target 'Firebase Chat iOS' do
 
   pod 'VirgilCryptoApiImpl', '~> 3.0.0'
   pod 'VirgilSDK', '~> 5.0.0'
+
+  pod 'Chatto'
+  pod 'ChattoAdditions'
 end

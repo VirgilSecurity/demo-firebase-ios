@@ -11,6 +11,9 @@ PODS:
   - BoringSSL/Implementation (10.0):
     - BoringSSL/Interface (= 10.0)
   - BoringSSL/Interface (10.0)
+  - Chatto (3.3.0)
+  - ChattoAdditions (3.3.0):
+    - Chatto
   - FBSDKCoreKit (4.31.1):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.31.1):
@@ -162,6 +165,8 @@ PODS:
     - VirgilCryptoAPI (~> 1.0.0)
 
 DEPENDENCIES:
+  - Chatto
+  - ChattoAdditions
   - Firebase/Core
   - Firebase/Firestore
   - Firebase/Messaging
@@ -173,6 +178,8 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Bolts
     - BoringSSL
+    - Chatto
+    - ChattoAdditions
     - FBSDKCoreKit
     - FBSDKLoginKit
     - Firebase
@@ -207,6 +214,8 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   BoringSSL: 32764dbaf5f5888cf51fbaa172a010126b41bcd4
+  Chatto: d9f67acd6230f08323a51a11c4b639d40c1f8d99
+  ChattoAdditions: 9ee09ac09a89d8c0aa3dc87019e3a22efb2cbac6
   FBSDKCoreKit: e08ccfcefa7bc1347a07c276dac9bf6c7fe57024
   FBSDKLoginKit: 99797ac39252fef6f72600b886f6ee60b4b29cab
   Firebase: 92c6ba593e32db0defde464a9adc981d5cb49f97
@@ -238,6 +247,6 @@ SPEC CHECKSUMS:
   VirgilCryptoApiImpl: 5eccb2ff48c1659f77ed6647f82eecb2a3884217
   VirgilSDK: 1d980ac6340bfe87151deb302d00da30e0041b14
 
-PODFILE CHECKSUM: 950129d936093819fd6afd9d2e0f36f390861800
+PODFILE CHECKSUM: 960a7301f7378896f6f9969d60f8408c005fbe03
 
 COCOAPODS: 1.5.0

@@ -31,6 +31,23 @@
 		16AF357D2080DE6B00B441D0 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF357C2080DE6B00B441D0 /* FirebaseHelper.swift */; };
 		16AF35802080F3CB00B441D0 /* VirgilHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */; };
 		16C1D3AC207F8E540087DF81 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C1D3AB207F8E540087DF81 /* MainController.swift */; };
+		16E6C72320862BE000FAE035 /* TimeSeparatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C71B20862BE000FAE035 /* TimeSeparatorModel.swift */; };
+		16E6C72420862BE000FAE035 /* TimeSeparatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C71C20862BE000FAE035 /* TimeSeparatorPresenter.swift */; };
+		16E6C72520862BE000FAE035 /* TimeSeparatorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C71D20862BE000FAE035 /* TimeSeparatorCollectionViewCell.swift */; };
+		16E6C72620862BE000FAE035 /* SendingStatusPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C71F20862BE000FAE035 /* SendingStatusPresenter.swift */; };
+		16E6C72720862BE000FAE035 /* SendingStatusCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C72020862BE000FAE035 /* SendingStatusCollectionViewCell.swift */; };
+		16E6C72820862BE000FAE035 /* SendingStatusCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16E6C72120862BE000FAE035 /* SendingStatusCollectionViewCell.xib */; };
+		16E6C72920862BE000FAE035 /* ChatItemsDemoDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C72220862BE000FAE035 /* ChatItemsDemoDecorator.swift */; };
+		16E6C72E20862BEE00FAE035 /* DemoTextMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C72B20862BEE00FAE035 /* DemoTextMessageModel.swift */; };
+		16E6C72F20862BEE00FAE035 /* DemoTextMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C72C20862BEE00FAE035 /* DemoTextMessageHandler.swift */; };
+		16E6C73020862BEE00FAE035 /* DemoTextMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C72D20862BEE00FAE035 /* DemoTextMessageViewModel.swift */; };
+		16E6C73820862C3900FAE035 /* MessageFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C73120862C3900FAE035 /* MessageFactory.swift */; };
+		16E6C73920862C3900FAE035 /* SlidingDatasSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C73220862C3900FAE035 /* SlidingDatasSource.swift */; };
+		16E6C73A20862C3900FAE035 /* BaseMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C73320862C3900FAE035 /* BaseMessageHandler.swift */; };
+		16E6C73B20862C3900FAE035 /* MessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C73420862C3900FAE035 /* MessageSender.swift */; };
+		16E6C73C20862C3900FAE035 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C73520862C3900FAE035 /* DataSource.swift */; };
+		16E6C73D20862C3900FAE035 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C73620862C3900FAE035 /* ChatViewController.swift */; };
+		16E6C73E20862C3900FAE035 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16E6C73720862C3900FAE035 /* Chat.storyboard */; };
 		3E8E3139A2D7B481D6E2FF15 /* Pods_Firebase_Chat_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED7DBCB22FFC162C8C20595F /* Pods_Firebase_Chat_iOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +79,23 @@
 		16AF357E2080EFB900B441D0 /* Firebase Chat iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Firebase Chat iOS.entitlements"; sourceTree = "<group>"; };
 		16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirgilHelper.swift; sourceTree = "<group>"; };
 		16C1D3AB207F8E540087DF81 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		16E6C71B20862BE000FAE035 /* TimeSeparatorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorModel.swift; sourceTree = "<group>"; };
+		16E6C71C20862BE000FAE035 /* TimeSeparatorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorPresenter.swift; sourceTree = "<group>"; };
+		16E6C71D20862BE000FAE035 /* TimeSeparatorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorCollectionViewCell.swift; sourceTree = "<group>"; };
+		16E6C71F20862BE000FAE035 /* SendingStatusPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendingStatusPresenter.swift; sourceTree = "<group>"; };
+		16E6C72020862BE000FAE035 /* SendingStatusCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendingStatusCollectionViewCell.swift; sourceTree = "<group>"; };
+		16E6C72120862BE000FAE035 /* SendingStatusCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendingStatusCollectionViewCell.xib; sourceTree = "<group>"; };
+		16E6C72220862BE000FAE035 /* ChatItemsDemoDecorator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatItemsDemoDecorator.swift; sourceTree = "<group>"; };
+		16E6C72B20862BEE00FAE035 /* DemoTextMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageModel.swift; sourceTree = "<group>"; };
+		16E6C72C20862BEE00FAE035 /* DemoTextMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageHandler.swift; sourceTree = "<group>"; };
+		16E6C72D20862BEE00FAE035 /* DemoTextMessageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTextMessageViewModel.swift; sourceTree = "<group>"; };
+		16E6C73120862C3900FAE035 /* MessageFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageFactory.swift; sourceTree = "<group>"; };
+		16E6C73220862C3900FAE035 /* SlidingDatasSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlidingDatasSource.swift; sourceTree = "<group>"; };
+		16E6C73320862C3900FAE035 /* BaseMessageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMessageHandler.swift; sourceTree = "<group>"; };
+		16E6C73420862C3900FAE035 /* MessageSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageSender.swift; sourceTree = "<group>"; };
+		16E6C73520862C3900FAE035 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
+		16E6C73620862C3900FAE035 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		16E6C73720862C3900FAE035 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		874F3B27B03AD24F33DC6559 /* Pods-Firebase Chat iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Chat iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED7DBCB22FFC162C8C20595F /* Pods_Firebase_Chat_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Firebase_Chat_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB1BC130AC8B8F9BCC576644 /* Pods-Firebase Chat iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Chat iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -140,10 +174,8 @@
 		16AF355E2080B65300B441D0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				16C1D3AB207F8E540087DF81 /* MainController.swift */,
-				16A5D623207D004500DFAD6F /* Main.storyboard */,
-				16AF355C2080B64700B441D0 /* ChatListCell.swift */,
-				16AF35582080B5F100B441D0 /* ChatListCell.xib */,
+				16E6C71720862BC100FAE035 /* Main */,
+				16E6C71820862BCF00FAE035 /* Chat */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -184,6 +216,73 @@
 				16AF357C2080DE6B00B441D0 /* FirebaseHelper.swift */,
 			);
 			path = Firebase;
+			sourceTree = "<group>";
+		};
+		16E6C71720862BC100FAE035 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				16C1D3AB207F8E540087DF81 /* MainController.swift */,
+				16A5D623207D004500DFAD6F /* Main.storyboard */,
+				16AF355C2080B64700B441D0 /* ChatListCell.swift */,
+				16AF35582080B5F100B441D0 /* ChatListCell.xib */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		16E6C71820862BCF00FAE035 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				16E6C71920862BE000FAE035 /* Decorations */,
+				16E6C72A20862BEE00FAE035 /* TextMessage */,
+				16E6C73320862C3900FAE035 /* BaseMessageHandler.swift */,
+				16E6C73720862C3900FAE035 /* Chat.storyboard */,
+				16E6C73620862C3900FAE035 /* ChatViewController.swift */,
+				16E6C73520862C3900FAE035 /* DataSource.swift */,
+				16E6C73120862C3900FAE035 /* MessageFactory.swift */,
+				16E6C73420862C3900FAE035 /* MessageSender.swift */,
+				16E6C73220862C3900FAE035 /* SlidingDatasSource.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		16E6C71920862BE000FAE035 /* Decorations */ = {
+			isa = PBXGroup;
+			children = (
+				16E6C71A20862BE000FAE035 /* Time Separator */,
+				16E6C71E20862BE000FAE035 /* Sending status */,
+				16E6C72220862BE000FAE035 /* ChatItemsDemoDecorator.swift */,
+			);
+			path = Decorations;
+			sourceTree = "<group>";
+		};
+		16E6C71A20862BE000FAE035 /* Time Separator */ = {
+			isa = PBXGroup;
+			children = (
+				16E6C71B20862BE000FAE035 /* TimeSeparatorModel.swift */,
+				16E6C71C20862BE000FAE035 /* TimeSeparatorPresenter.swift */,
+				16E6C71D20862BE000FAE035 /* TimeSeparatorCollectionViewCell.swift */,
+			);
+			path = "Time Separator";
+			sourceTree = "<group>";
+		};
+		16E6C71E20862BE000FAE035 /* Sending status */ = {
+			isa = PBXGroup;
+			children = (
+				16E6C71F20862BE000FAE035 /* SendingStatusPresenter.swift */,
+				16E6C72020862BE000FAE035 /* SendingStatusCollectionViewCell.swift */,
+				16E6C72120862BE000FAE035 /* SendingStatusCollectionViewCell.xib */,
+			);
+			path = "Sending status";
+			sourceTree = "<group>";
+		};
+		16E6C72A20862BEE00FAE035 /* TextMessage */ = {
+			isa = PBXGroup;
+			children = (
+				16E6C72B20862BEE00FAE035 /* DemoTextMessageModel.swift */,
+				16E6C72C20862BEE00FAE035 /* DemoTextMessageHandler.swift */,
+				16E6C72D20862BEE00FAE035 /* DemoTextMessageViewModel.swift */,
+			);
+			path = TextMessage;
 			sourceTree = "<group>";
 		};
 		2B4416990A1216B6CE5C23EE /* Pods */ = {
@@ -272,9 +371,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16E6C73E20862C3900FAE035 /* Chat.storyboard in Resources */,
 				16A5D62A207D004700DFAD6F /* LaunchScreen.storyboard in Resources */,
 				16A5D632207D022300DFAD6F /* GoogleService-Info.plist in Resources */,
 				16AF355A2080B5F100B441D0 /* ChatListCell.xib in Resources */,
+				16E6C72820862BE000FAE035 /* SendingStatusCollectionViewCell.xib in Resources */,
 				16A5D627207D004700DFAD6F /* Assets.xcassets in Resources */,
 				16A5D625207D004500DFAD6F /* Main.storyboard in Resources */,
 			);
@@ -292,6 +393,8 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/Chatto/Chatto.framework",
+				"${BUILT_PRODUCTS_DIR}/ChattoAdditions/ChattoAdditions.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
@@ -317,6 +420,8 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Chatto.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChattoAdditions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
@@ -401,22 +506,37 @@
 			buildActionMask = 2147483647;
 			files = (
 				16C1D3AC207F8E540087DF81 /* MainController.swift in Sources */,
+				16E6C72E20862BEE00FAE035 /* DemoTextMessageModel.swift in Sources */,
+				16E6C72F20862BEE00FAE035 /* DemoTextMessageHandler.swift in Sources */,
 				16AF35622080B81C00B441D0 /* UIColor+RGB.swift in Sources */,
 				16AF35802080F3CB00B441D0 /* VirgilHelper.swift in Sources */,
 				16AF357D2080DE6B00B441D0 /* FirebaseHelper.swift in Sources */,
+				16E6C72920862BE000FAE035 /* ChatItemsDemoDecorator.swift in Sources */,
+				16E6C72320862BE000FAE035 /* TimeSeparatorModel.swift in Sources */,
+				16E6C73020862BEE00FAE035 /* DemoTextMessageViewModel.swift in Sources */,
+				16E6C73C20862C3900FAE035 /* DataSource.swift in Sources */,
+				16E6C72620862BE000FAE035 /* SendingStatusPresenter.swift in Sources */,
 				16AF35692080BBAA00B441D0 /* CoreDataHelper+Account.swift in Sources */,
 				164D697C207E25D600F3A368 /* ServiceRequest.swift in Sources */,
 				16A5D622207D004500DFAD6F /* ViewController.swift in Sources */,
 				16AF355D2080B64700B441D0 /* ChatListCell.swift in Sources */,
 				16A5D620207D004500DFAD6F /* AppDelegate.swift in Sources */,
+				16E6C72720862BE000FAE035 /* SendingStatusCollectionViewCell.swift in Sources */,
 				16AF357A2080CD7E00B441D0 /* Constants.swift in Sources */,
+				16E6C72420862BE000FAE035 /* TimeSeparatorPresenter.swift in Sources */,
+				16E6C73A20862C3900FAE035 /* BaseMessageHandler.swift in Sources */,
 				164D697D207E25D600F3A368 /* ServiceConnection.swift in Sources */,
+				16E6C73B20862C3900FAE035 /* MessageSender.swift in Sources */,
 				164D697E207E25D600F3A368 /* ServiceResponse.swift in Sources */,
 				16AF356A2080BBAA00B441D0 /* CoreDataHelper+Messages.swift in Sources */,
 				16AF356E2080BCFB00B441D0 /* FirebaseChatModel.xcdatamodeld in Sources */,
 				16AF35682080BBAA00B441D0 /* CoreDataHelper.swift in Sources */,
 				164D6975207E24FB00F3A368 /* Log.swift in Sources */,
 				16AF356B2080BBAA00B441D0 /* CoreDataHelper+Channel.swift in Sources */,
+				16E6C73D20862C3900FAE035 /* ChatViewController.swift in Sources */,
+				16E6C72520862BE000FAE035 /* TimeSeparatorCollectionViewCell.swift in Sources */,
+				16E6C73820862C3900FAE035 /* MessageFactory.swift in Sources */,
+				16E6C73920862C3900FAE035 /* SlidingDatasSource.swift in Sources */,
 				164D697B207E25D600F3A368 /* Connection.swift in Sources */,
 				162469852084C14500001801 /* Data+hex.swift in Sources */,
 			);
