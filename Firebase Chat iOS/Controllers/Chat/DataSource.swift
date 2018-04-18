@@ -61,8 +61,9 @@ class DataSource: ChatDataSourceProtocol {
         }
 
         for i in self.countCore..<messages.count {
-            let messageDocument = messages[i]
-            guard let receiver = messageDocument.data()[FirebaseHelper.Keys.receiver.rawValue] as? String,
+            let messageDocuments = messages.filter({ $0.documentID == "\(i)" })
+            guard let messageDocument = messageDocuments.first,
+                let receiver = messageDocument.data()[FirebaseHelper.Keys.receiver.rawValue] as? String,
                 let body = messageDocument.data()[FirebaseHelper.Keys.body.rawValue] as? String,
                 let messageDate = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Date else {
                     return
