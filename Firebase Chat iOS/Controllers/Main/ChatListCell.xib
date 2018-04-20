@@ -24,7 +24,7 @@
                             <constraint firstAttribute="width" constant="204" id="KfX-jA-Y3j"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user" translatesAutoresizingMaskIntoConstraints="NO" id="upS-Ue-QFF">
@@ -41,7 +41,6 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                 </subviews>
-                <color key="backgroundColor" red="0.1678793728351593" green="0.1874183714389801" blue="0.23309910297393799" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="upS-Ue-QFF" firstAttribute="centerY" secondItem="sVl-7U-iHI" secondAttribute="centerY" id="FyY-tx-zTS"/>
                     <constraint firstItem="b6L-BF-qcX" firstAttribute="top" secondItem="sVl-7U-iHI" secondAttribute="top" constant="18" id="Mu0-iW-WFC"/>
