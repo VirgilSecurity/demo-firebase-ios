@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const express = require("express");
 const admin = require("firebase-admin");
-// import { JwtGenerator } from 'virgil-sdk';
-// import { createVirgilCrypto, VirgilAccessTokenSigner } from 'virgil-crypto';
+const virgil_sdk_1 = require("virgil-sdk");
+const virgil_crypto_1 = require("virgil-crypto");
 const app = express();
 admin.initializeApp();
 // // Start writing Firebase Functions
@@ -34,16 +34,15 @@ const validateFirebaseIdToken = (req, res, next) => {
 app.use(validateFirebaseIdToken);
 app.post('/generate_jwt', (req, res) => {
     const { appid, apikeyid, apiprivatekey } = functions.config().virgil;
-    // const crypto = createVirgilCrypto();
-    // const generator = new JwtGenerator({
-    //  appId: appid,
-    // 	apiKeyId: apikeyid,
-    // 	apiKey: crypto.importPrivateKey(apiprivatekey),
-    // 	accessTokenSigner: new VirgilAccessTokenSigner(crypto)
-    // })
-    // const virgilJwtToken = generator.generateToken(req.body.identity);
-    console.log('credentials:', appid, apikeyid, apiprivatekey);
-    res.json({ token: req.body.identity });
+    const crypto = new virgil_crypto_1.VirgilCrypto();
+    const generator = new virgil_sdk_1.JwtGenerator({
+        appId: appid,
+        apiKeyId: apikeyid,
+        apiKey: crypto.importPrivateKey(apiprivatekey),
+        accessTokenSigner: new virgil_crypto_1.VirgilAccessTokenSigner(crypto)
+    });
+    const virgilJwtToken = generator.generateToken(req.body.identity);
+    res.json({ token: virgilJwtToken.toString() });
 });
 // This HTTPS endpoint can only be accessed by your Firebase Users.
 // Requests need to be authorized by providing an `Authorization` HTTP header

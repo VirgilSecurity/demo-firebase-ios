@@ -1,21 +1,15 @@
 import * as functions from 'firebase-functions';
 import * as express from 'express';
 import * as admin from 'firebase-admin';
-// import { JwtGenerator } from 'virgil-sdk';
-// import { createVirgilCrypto, VirgilAccessTokenSigner } from 'virgil-crypto';
+import { JwtGenerator } from 'virgil-sdk';
+import { VirgilCrypto, VirgilAccessTokenSigner } from 'virgil-crypto';
+
 const app = express();
 admin.initializeApp();
 
 interface IRequestWithFirebaseUser extends express.Request {
     user: admin.auth.DecodedIdToken;
 }
-
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
 
 const validateFirebaseIdToken = (req: IRequestWithFirebaseUser, res: express.Response, next: express.NextFunction) => {
   console.log('Check if request is authorized with Firebase ID token');
@@ -43,16 +37,17 @@ const validateFirebaseIdToken = (req: IRequestWithFirebaseUser, res: express.Res
 app.use(validateFirebaseIdToken);
 app.post('/generate_jwt', (req: IRequestWithFirebaseUser, res: express.Response) => {
   const { appid, apikeyid, apiprivatekey } = functions.config().virgil;
-  // const crypto = createVirgilCrypto();
-  // const generator = new JwtGenerator({
-  //  appId: appid,
-	// 	apiKeyId: apikeyid,
-	// 	apiKey: crypto.importPrivateKey(apiprivatekey),
-	// 	accessTokenSigner: new VirgilAccessTokenSigner(crypto)
-  // })
-  // const virgilJwtToken = generator.generateToken(req.body.identity);
-  console.log('credentials:', appid, apikeyid, apiprivatekey);
-  res.json({ token: req.body.identity });
+  const crypto = new VirgilCrypto();
+  const generator = new JwtGenerator({
+    appId: appid,
+    apiKeyId: apikeyid,
+    apiKey: crypto.importPrivateKey(apiprivatekey),
+    accessTokenSigner: new VirgilAccessTokenSigner(crypto)
+  });
+  
+  const virgilJwtToken = generator.generateToken(req.body.identity);
+  
+  res.json({ token: virgilJwtToken.toString() });
 });
 
 // This HTTPS endpoint can only be accessed by your Firebase Users.
