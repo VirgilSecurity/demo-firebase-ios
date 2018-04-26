@@ -34,19 +34,19 @@ const validateFirebaseIdToken = (req: IRequestWithFirebaseUser, res: express.Res
   });
 };
 
+const crypto = new VirgilCrypto();
+const { appid, apikeyid, apiprivatekey } = functions.config().virgil;
+const generator = new JwtGenerator({
+  appId: appid,
+  apiKeyId: apikeyid,
+  apiKey: crypto.importPrivateKey(apiprivatekey),
+  accessTokenSigner: new VirgilAccessTokenSigner(crypto)
+});
+
 app.use(validateFirebaseIdToken);
 app.post('/generate_jwt', (req: IRequestWithFirebaseUser, res: express.Response) => {
-  const { appid, apikeyid, apiprivatekey } = functions.config().virgil;
-  const crypto = new VirgilCrypto();
-  const generator = new JwtGenerator({
-    appId: appid,
-    apiKeyId: apikeyid,
-    apiKey: crypto.importPrivateKey(apiprivatekey),
-    accessTokenSigner: new VirgilAccessTokenSigner(crypto)
-  });
-  
+  if (!req.body || !req.body.identity) res.status(400).send('identity param is required');
   const virgilJwtToken = generator.generateToken(req.body.identity);
-  
   res.json({ token: virgilJwtToken.toString() });
 });
 

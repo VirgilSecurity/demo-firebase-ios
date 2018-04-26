@@ -7,12 +7,6 @@ const virgil_sdk_1 = require("virgil-sdk");
 const virgil_crypto_1 = require("virgil-crypto");
 const app = express();
 admin.initializeApp();
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
 const validateFirebaseIdToken = (req, res, next) => {
     console.log('Check if request is authorized with Firebase ID token');
     if ((!req.headers.authorization || !req.headers.authorization.startsWith('Bearer '))) {
@@ -31,16 +25,18 @@ const validateFirebaseIdToken = (req, res, next) => {
         res.status(403).send('Unauthorized');
     });
 };
+const crypto = new virgil_crypto_1.VirgilCrypto();
+const { appid, apikeyid, apiprivatekey } = functions.config().virgil;
+const generator = new virgil_sdk_1.JwtGenerator({
+    appId: appid,
+    apiKeyId: apikeyid,
+    apiKey: crypto.importPrivateKey(apiprivatekey),
+    accessTokenSigner: new virgil_crypto_1.VirgilAccessTokenSigner(crypto)
+});
 app.use(validateFirebaseIdToken);
 app.post('/generate_jwt', (req, res) => {
-    const { appid, apikeyid, apiprivatekey } = functions.config().virgil;
-    const crypto = new virgil_crypto_1.VirgilCrypto();
-    const generator = new virgil_sdk_1.JwtGenerator({
-        appId: appid,
-        apiKeyId: apikeyid,
-        apiKey: crypto.importPrivateKey(apiprivatekey),
-        accessTokenSigner: new virgil_crypto_1.VirgilAccessTokenSigner(crypto)
-    });
+    if (!req.body || !req.body.identity)
+        res.status(400).send('identity param is required');
     const virgilJwtToken = generator.generateToken(req.body.identity);
     res.json({ token: virgilJwtToken.toString() });
 });
