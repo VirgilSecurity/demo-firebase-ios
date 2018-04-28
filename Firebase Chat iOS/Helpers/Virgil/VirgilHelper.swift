@@ -3,7 +3,7 @@
 //  Firebase Chat iOS
 //
 //  Created by Eugen Pivovarov on 4/13/18.
-//  Copyright © 2018 Eugen Pivovarov. All rights reserved.
+//  Copyright © 2018 Virgil Security. All rights reserved.
 //
 
 

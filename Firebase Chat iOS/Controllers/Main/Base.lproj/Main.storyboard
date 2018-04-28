@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -51,12 +52,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" image="icon-chats" id="hPa-Le-2OL"/>
                     <navigationItem key="navigationItem" title="Chats" id="0ec-JH-owV">
-                        <barButtonItem key="leftBarButtonItem" title="Sign Out" id="yuH-3N-xEi">
-                            <color key="tintColor" red="0.9763245558375635" green="0.22174888610904034" blue="0.20725183414273576" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <action selector="signOutTapped:" destination="YcV-1X-D93" id="naG-Ws-aez"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="kuc-CP-cE6">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -118,20 +113,59 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" red="0.56470588239999997" green="0.56862745100000001" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="gOn-DN-hN9" kind="relationship" relationship="viewControllers" id="Cd9-HU-sCt"/>
+                        <segue destination="DLc-xG-7on" kind="relationship" relationship="viewControllers" id="JPd-HW-VIv"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OBe-zY-rwS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1061" y="-786"/>
         </scene>
+        <!--Settings-->
+        <scene sceneID="xJ2-gX-Ody">
+            <objects>
+                <viewController id="DLc-xG-7on" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hBh-Yl-ON7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fCx-J3-UFc">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="668"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <segue destination="X1G-KY-OKF" kind="embed" id="qEa-HF-dkr"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="fCx-J3-UFc" firstAttribute="leading" secondItem="rSr-t8-o3W" secondAttribute="leading" id="TEj-aI-N8j"/>
+                            <constraint firstItem="fCx-J3-UFc" firstAttribute="trailing" secondItem="rSr-t8-o3W" secondAttribute="trailing" id="aAJ-xU-tcj"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="fCx-J3-UFc" secondAttribute="bottom" constant="-50" id="jZN-4D-fN8"/>
+                            <constraint firstItem="fCx-J3-UFc" firstAttribute="top" secondItem="hBh-Yl-ON7" secondAttribute="top" id="slD-S6-UkO"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="rSr-t8-o3W"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Settings" image="settings" selectedImage="settings" id="oC8-NL-Wgc"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F8O-3A-wtt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-175" y="-276"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="YqZ-cE-Fuh">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Settings" id="X1G-KY-OKF" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cvi-za-OcW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="638" y="-277"/>
+        </scene>
     </scenes>
     <resources>
         <image name="icon-chats" width="28" height="26"/>
+        <image name="settings" width="29" height="29"/>
         <image name="sign" width="29" height="29"/>
     </resources>
 </document>

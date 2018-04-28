@@ -1,9 +1,9 @@
 //
 //  CoreDataHelper.swift
-//  VirgilMessenger
+//  Firebase Chat iOS
 //
 //  Created by Eugen Pivovarov on 11/9/17.
-//  Copyright © 2017 VirgilSecurity. All rights reserved.
+//  Copyright © 2017 Virgil Security. All rights reserved.
 //
 
 import UIKit

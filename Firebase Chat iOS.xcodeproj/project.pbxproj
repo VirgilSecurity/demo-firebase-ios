@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		161A83A720951995005C7807 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161A83A520951995005C7807 /* Settings.storyboard */; };
+		161A83A820951995005C7807 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161A83A620951995005C7807 /* SettingsViewController.swift */; };
 		162469852084C14500001801 /* Data+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162469842084C14500001801 /* Data+hex.swift */; };
 		164D6975207E24FB00F3A368 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D6974207E24FB00F3A368 /* Log.swift */; };
 		164D697B207E25D600F3A368 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D6977207E25D600F3A368 /* Connection.swift */; };
@@ -55,6 +57,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		161A83A520951995005C7807 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		161A83A620951995005C7807 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		162469842084C14500001801 /* Data+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+hex.swift"; sourceTree = "<group>"; };
 		164D6974207E24FB00F3A368 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		164D6977207E25D600F3A368 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
@@ -119,6 +123,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		161A83A42095196A005C7807 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				161A83A520951995005C7807 /* Settings.storyboard */,
+				161A83A620951995005C7807 /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		164D6973207E24B500F3A368 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,6 +195,7 @@
 			children = (
 				16E6C71720862BC100FAE035 /* Main */,
 				16E6C71820862BCF00FAE035 /* Chat */,
+				161A83A42095196A005C7807 /* Settings */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -342,7 +356,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
 				LastUpgradeCheck = 0930;
-				ORGANIZATIONNAME = "Eugen Pivovarov";
+				ORGANIZATIONNAME = "Virgil Security";
 				TargetAttributes = {
 					16A5D61B207D004500DFAD6F = {
 						CreatedOnToolsVersion = 9.3;
@@ -383,6 +397,7 @@
 				16E6C73E20862C3900FAE035 /* Chat.storyboard in Resources */,
 				16A5D62A207D004700DFAD6F /* LaunchScreen.storyboard in Resources */,
 				16A5D632207D022300DFAD6F /* GoogleService-Info.plist in Resources */,
+				161A83A720951995005C7807 /* Settings.storyboard in Resources */,
 				16AF355A2080B5F100B441D0 /* ChatListCell.xib in Resources */,
 				16E6C72820862BE000FAE035 /* SendingStatusCollectionViewCell.xib in Resources */,
 				16A5D627207D004700DFAD6F /* Assets.xcassets in Resources */,
@@ -519,6 +534,7 @@
 				16E6C72F20862BEE00FAE035 /* DemoTextMessageHandler.swift in Sources */,
 				16AF35622080B81C00B441D0 /* UIColor+RGB.swift in Sources */,
 				16AF35802080F3CB00B441D0 /* VirgilHelper.swift in Sources */,
+				161A83A820951995005C7807 /* SettingsViewController.swift in Sources */,
 				16AF357D2080DE6B00B441D0 /* FirebaseHelper.swift in Sources */,
 				16E6C72920862BE000FAE035 /* ChatItemsDemoDecorator.swift in Sources */,
 				16E6C72320862BE000FAE035 /* TimeSeparatorModel.swift in Sources */,

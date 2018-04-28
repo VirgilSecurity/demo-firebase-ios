@@ -3,7 +3,7 @@
 //  Firebase Chat iOS
 //
 //  Created by Eugen Pivovarov on 4/12/18.
-//  Copyright © 2018 Eugen Pivovarov. All rights reserved.
+//  Copyright © 2018 Virgil Security. All rights reserved.
 //
 
 import Foundation
@@ -14,6 +14,7 @@ import VirgilCryptoApiImpl
 
 class MainController: ViewController, FUIAuthDelegate {
     private var authUI: FUIAuth?
+    private var tokenChangeListener: IDTokenDidChangeListenerHandle?
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -21,7 +22,7 @@ class MainController: ViewController, FUIAuthDelegate {
         self.authUI = FUIAuth.defaultAuthUI()
         self.authUI?.delegate = self
 
-        self.authUI?.auth?.addIDTokenDidChangeListener { auth, user in
+        self.tokenChangeListener = self.authUI?.auth?.addIDTokenDidChangeListener { auth, user in
             guard let user = user, let email = user.email else {
                 Log.error("Refresh token failed")
                 return
@@ -65,7 +66,9 @@ class MainController: ViewController, FUIAuthDelegate {
         VirgilHelper.sharedInstance.authenticate(email: email, authToken: authToken) { error in
             if let error = error {
                 self.alert(withTitle: error.localizedDescription)
-                self.signOutTapped(self)
+
+                self.reset()
+                self.authorize()
             }
             self.tableView.reloadData()
         }
@@ -94,16 +97,6 @@ class MainController: ViewController, FUIAuthDelegate {
                 }
             }
         }
-    }
-    
-    @IBAction func signOutTapped(_ sender: Any) {
-        try! self.authUI?.signOut()
-        VirgilHelper.sharedInstance.reset()
-        FirebaseHelper.sharedInstance.channelListListener?.remove()
-        FirebaseHelper.sharedInstance.channelListListener = nil
-        CoreDataHelper.sharedInstance.setCurrent(account: nil)
-        self.tableView.reloadData()
-        self.authorize()
     }
 
     @IBAction func addChannelTapped(_ sender: Any) {
@@ -169,6 +162,15 @@ class MainController: ViewController, FUIAuthDelegate {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+
+    private func reset() {
+        try? self.authUI?.signOut()
+        VirgilHelper.sharedInstance.reset()
+        FirebaseHelper.sharedInstance.channelListListener?.remove()
+        FirebaseHelper.sharedInstance.channelListListener = nil
+        CoreDataHelper.sharedInstance.setCurrent(account: nil)
+        self.tableView.reloadData()
     }
 }
 

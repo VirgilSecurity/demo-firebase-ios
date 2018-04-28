@@ -1,6 +1,6 @@
 //
 //  ChatListCell.swift
-//  VirgilMessenger
+//  Firebase Chat iOS
 //
 //  Created by Oleksandr Deundiak on 10/18/17.
 //  Copyright © 2017 VirgilSecurity. All rights reserved.
