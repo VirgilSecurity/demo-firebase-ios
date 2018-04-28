@@ -40,15 +40,15 @@ public class MessageSender {
     }
 
     public func sendMessage(_ message: DemoMessageModelProtocol) {
+        Log.debug("Sending message: \(message)")
         if let textMessage = message as? DemoTextMessageModel {
-        //FIXME
-//            VirgilHelper.sharedInstance.encrypt(message: textMessage.body) { encrypted in
-//                guard let encrypted = encrypted else {
-//                    return
-//                }
-//                self.messageStatus(ciphertext: encrypted, message: textMessage)
-//            }
-            self.messageStatus(ciphertext: textMessage.body, message: textMessage)
+            do {
+                let encrypted = try VirgilHelper.sharedInstance.encrypt(textMessage.body)
+
+                self.messageStatus(ciphertext: encrypted, message: textMessage)
+            } catch {
+                Log.error("Sending message failed with error: \(error.localizedDescription)")
+            }
         } else {
             Log.error("Unknown message model")
             return
@@ -71,7 +71,6 @@ public class MessageSender {
                 guard error == nil else {
                     Log.error("Sending message \"\(ciphertext)\" failed: \(error?.localizedDescription ?? "unknown error")")
                     self.updateMessage(message, status: .failed)
-//                    CoreDataHelper.sharedInstance.createTextMessage(withBody: message.body, isIncoming: false, date: message.date)
                     return
                 }
                 self.updateMessage(message, status: .success)

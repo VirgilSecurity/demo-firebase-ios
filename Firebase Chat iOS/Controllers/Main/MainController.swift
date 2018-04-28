@@ -9,14 +9,31 @@
 import Foundation
 import FirebaseAuthUI
 import FirebaseGoogleAuthUI
+import VirgilSDK
+import VirgilCryptoApiImpl
 
 class MainController: ViewController, FUIAuthDelegate {
-    var authUI: FUIAuth?
+    private var authUI: FUIAuth?
+
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
-        authUI = FUIAuth.defaultAuthUI()!
-        authUI?.delegate = self
+        self.authUI = FUIAuth.defaultAuthUI()
+        self.authUI?.delegate = self
+
+        self.authUI?.auth?.addIDTokenDidChangeListener { auth, user in
+            guard let user = user, let email = user.email else {
+                Log.error("Refresh token failed")
+                return
+            }
+            user.getIDToken { token, error in
+                guard error == nil, let token = token else {
+                    Log.error("get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
+                    return
+                }
+                self.updateUser(email: email, authToken: token)
+            }
+        }
 
         self.tableView.register(UINib(nibName: ChatListCell.name, bundle: Bundle.main),
                                 forCellReuseIdentifier: ChatListCell.name)
@@ -37,49 +54,25 @@ class MainController: ViewController, FUIAuthDelegate {
     }
 
     private func authorize() {
-        guard let user = authUI?.auth?.currentUser, let email = user.email else {
+        guard let user = authUI?.auth?.currentUser, user.email != nil else {
             authUI?.providers = [FUIGoogleAuth()]
             present(authUI!.authViewController(), animated: true, completion: nil)
             return
         }
-        self.updateUser(email: email)
     }
 
-    func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
-        guard let _ = user, error == nil, let email = user?.email else {
-            Log.error("Signing in failed: \(error?.localizedDescription ?? "unknown error")")
-            return
-        }
-        Log.debug("Signed in")
-        self.updateUser(email: email)
-    }
-
-    private func updateUser(email: String) {
-        if !CoreDataHelper.sharedInstance.loadAccount(withIdentity: email) {
-            CoreDataHelper.sharedInstance.createAccount(withIdentity: email, exportedCard: "FIXME") {}
-        }
-
-        FirebaseHelper.sharedInstance.doesUserExist(withUsername: email) { exist in
-            if !exist {
-                FirebaseHelper.sharedInstance.createUser(email: email) { error in
-                    guard error == nil else {
-                        Log.error("Firebase: creating user failedwith error: \(error?.localizedDescription ?? "unknown error")")
-                        self.alert(withTitle: "Creating user failed")
-                        return
-                    }
-                    FirebaseHelper.sharedInstance.setUpChannelListListener(email: email)
-                }
-            } else {
-                if FirebaseHelper.sharedInstance.channelListListener == nil {
-                    FirebaseHelper.sharedInstance.setUpChannelListListener(email: email)
-                }
-                self.tableView.reloadData()
+    private func updateUser(email: String, authToken: String) {
+        VirgilHelper.sharedInstance.authenticate(email: email, authToken: authToken) { error in
+            if let error = error {
+                self.alert(withTitle: error.localizedDescription)
+                self.signOutTapped(self)
             }
+            self.tableView.reloadData()
         }
     }
 
     @objc func updateCoreDataChannels(notification: Notification) {
-        guard  let userInfo = notification.userInfo,
+        guard let userInfo = notification.userInfo,
             let channels = userInfo[FirebaseHelper.NotificationKeys.channels.rawValue] as? [String] else {
                 Log.error("processing new channel failed")
                 return
@@ -96,7 +89,7 @@ class MainController: ViewController, FUIAuthDelegate {
                         Log.error("Getting channel members failed")
                         return
                     }
-                    _ = CoreDataHelper.sharedInstance.createChannel(withName: name, globalName: channel, card: "FIXME")
+                    _ = CoreDataHelper.sharedInstance.createChannel(withName: name, globalName: channel)
                     self.tableView.reloadData()
                 }
             }
@@ -104,7 +97,8 @@ class MainController: ViewController, FUIAuthDelegate {
     }
     
     @IBAction func signOutTapped(_ sender: Any) {
-        try! authUI?.signOut()
+        try! self.authUI?.signOut()
+        VirgilHelper.sharedInstance.reset()
         FirebaseHelper.sharedInstance.channelListListener?.remove()
         FirebaseHelper.sharedInstance.channelListListener = nil
         CoreDataHelper.sharedInstance.setCurrent(account: nil)
@@ -167,7 +161,7 @@ class MainController: ViewController, FUIAuthDelegate {
     }
 
     private func alert(withTitle: String) {
-        let alert = UIAlertController(title: title, message: withTitle, preferredStyle: .alert)
+        let alert = UIAlertController(title: self.title, message: withTitle, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 
         self.present(alert, animated: true)
@@ -185,7 +179,7 @@ extension MainController: UITableViewDataSource, UITableViewDelegate {
 
         guard let account = CoreDataHelper.sharedInstance.currentAccount,
             let channels = account.channels?.array as? [Channel] else {
-                Log.error("Can't form row: Core Data account or channels corrupted")
+                Log.debug("Can't form row: Core Data account or channels corrupted")
                 return cell
         }
         let count = channels.count
@@ -208,29 +202,24 @@ extension MainController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        cell.backgroundColor = .gray
-    }
+    }  
 }
 
 extension MainController: CellTapDelegate {
     func didTapOn(_ cell: UITableViewCell) {
         if let username = (cell as! ChatListCell).usernameLabel.text {
-            //TwilioHelper.sharedInstance.setChannel(withUsername: (username))
-
             guard CoreDataHelper.sharedInstance.loadChannel(withName: username)
-                //let channel = CoreDataHelper.sharedInstance.currentChannel
-                //let exportedCard = channel.card // FIXME
                 else {
                     Log.error("Channel do not exist in Core Data")
                     return
             }
 
-            // VirgilHelper.sharedInstance.setChannelCard(exportedCard)
-
-            self.performSegue(withIdentifier: "goToChat", sender: self)
+            VirgilHelper.sharedInstance.setChannelKeys(for: username) { error in
+                guard error == nil else {
+                    return
+                }
+                self.performSegue(withIdentifier: "goToChat", sender: self)
+            }
         }
     }
 

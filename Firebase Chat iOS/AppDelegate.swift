@@ -11,6 +11,7 @@ import Firebase
 import UserNotifications
 import FirebaseAuthUI
 import CoreData
+import VirgilSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -35,6 +36,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
 
         application.registerForRemoteNotifications()
+
+        if UserDefaults.standard.string(forKey: "first_launch")?.isEmpty ?? true {
+            try? KeyStorage().reset()
+            UserDefaults.standard.set("happened", forKey: "first_launch")
+            UserDefaults.standard.synchronize()
+        }
 
         CoreDataHelper.initialize()
 

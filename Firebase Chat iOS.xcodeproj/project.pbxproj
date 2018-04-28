@@ -30,6 +30,9 @@
 		16AF357A2080CD7E00B441D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF35792080CD7E00B441D0 /* Constants.swift */; };
 		16AF357D2080DE6B00B441D0 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF357C2080DE6B00B441D0 /* FirebaseHelper.swift */; };
 		16AF35802080F3CB00B441D0 /* VirgilHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */; };
+		16BAEBE72093274100AC4F87 /* VirgilHelper+Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAEBE62093274100AC4F87 /* VirgilHelper+Authentication.swift */; };
+		16BAEBE920932EE400AC4F87 /* FirebaseHelper+Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAEBE820932EE400AC4F87 /* FirebaseHelper+Channel.swift */; };
+		16BAEBEB20932FAE00AC4F87 /* FirebaseHelper+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAEBEA20932FAE00AC4F87 /* FirebaseHelper+User.swift */; };
 		16C1D3AC207F8E540087DF81 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C1D3AB207F8E540087DF81 /* MainController.swift */; };
 		16E6C72320862BE000FAE035 /* TimeSeparatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C71B20862BE000FAE035 /* TimeSeparatorModel.swift */; };
 		16E6C72420862BE000FAE035 /* TimeSeparatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C71C20862BE000FAE035 /* TimeSeparatorPresenter.swift */; };
@@ -78,6 +81,9 @@
 		16AF357C2080DE6B00B441D0 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		16AF357E2080EFB900B441D0 /* Firebase Chat iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Firebase Chat iOS.entitlements"; sourceTree = "<group>"; };
 		16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirgilHelper.swift; sourceTree = "<group>"; };
+		16BAEBE62093274100AC4F87 /* VirgilHelper+Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VirgilHelper+Authentication.swift"; sourceTree = "<group>"; };
+		16BAEBE820932EE400AC4F87 /* FirebaseHelper+Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseHelper+Channel.swift"; sourceTree = "<group>"; };
+		16BAEBEA20932FAE00AC4F87 /* FirebaseHelper+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseHelper+User.swift"; sourceTree = "<group>"; };
 		16C1D3AB207F8E540087DF81 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		16E6C71B20862BE000FAE035 /* TimeSeparatorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorModel.swift; sourceTree = "<group>"; };
 		16E6C71C20862BE000FAE035 /* TimeSeparatorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorPresenter.swift; sourceTree = "<group>"; };
@@ -206,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */,
+				16BAEBE62093274100AC4F87 /* VirgilHelper+Authentication.swift */,
 			);
 			path = Virgil;
 			sourceTree = "<group>";
@@ -214,6 +221,8 @@
 			isa = PBXGroup;
 			children = (
 				16AF357C2080DE6B00B441D0 /* FirebaseHelper.swift */,
+				16BAEBEA20932FAE00AC4F87 /* FirebaseHelper+User.swift */,
+				16BAEBE820932EE400AC4F87 /* FirebaseHelper+Channel.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -519,6 +528,7 @@
 				16AF35692080BBAA00B441D0 /* CoreDataHelper+Account.swift in Sources */,
 				164D697C207E25D600F3A368 /* ServiceRequest.swift in Sources */,
 				16A5D622207D004500DFAD6F /* ViewController.swift in Sources */,
+				16BAEBEB20932FAE00AC4F87 /* FirebaseHelper+User.swift in Sources */,
 				16AF355D2080B64700B441D0 /* ChatListCell.swift in Sources */,
 				16A5D620207D004500DFAD6F /* AppDelegate.swift in Sources */,
 				16E6C72720862BE000FAE035 /* SendingStatusCollectionViewCell.swift in Sources */,
@@ -529,8 +539,10 @@
 				16E6C73B20862C3900FAE035 /* MessageSender.swift in Sources */,
 				164D697E207E25D600F3A368 /* ServiceResponse.swift in Sources */,
 				16AF356A2080BBAA00B441D0 /* CoreDataHelper+Messages.swift in Sources */,
+				16BAEBE920932EE400AC4F87 /* FirebaseHelper+Channel.swift in Sources */,
 				16AF356E2080BCFB00B441D0 /* FirebaseChatModel.xcdatamodeld in Sources */,
 				16AF35682080BBAA00B441D0 /* CoreDataHelper.swift in Sources */,
+				16BAEBE72093274100AC4F87 /* VirgilHelper+Authentication.swift in Sources */,
 				164D6975207E24FB00F3A368 /* Log.swift in Sources */,
 				16AF356B2080BBAA00B441D0 /* CoreDataHelper+Channel.swift in Sources */,
 				16E6C73D20862C3900FAE035 /* ChatViewController.swift in Sources */,
@@ -615,7 +627,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -669,7 +681,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -687,6 +699,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MS3LY2W55D;
 				INFOPLIST_FILE = "Firebase Chat iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -707,6 +720,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MS3LY2W55D;
 				INFOPLIST_FILE = "Firebase Chat iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

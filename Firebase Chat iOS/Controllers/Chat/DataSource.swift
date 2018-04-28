@@ -68,26 +68,29 @@ class DataSource: ChatDataSourceProtocol {
                 let messageDate = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Date else {
                     return
             }
-            if receiver != currentUser {
-                let textMessageModel = MessageFactory.createTextMessageModel("\(self.nextMessageId)", text: body,
-                                                                             isIncoming: false, status: .success, date: messageDate)
-                CoreDataHelper.sharedInstance.createTextMessage(withBody: body, isIncoming: false, date: messageDate)
+            let isIncoming = receiver == currentUser ? true : false
+
+            do {
+                let decryptedBody = try VirgilHelper.sharedInstance.decrypt(body)
+
+                let textMessageModel = MessageFactory.createTextMessageModel("\(self.nextMessageId)", text: decryptedBody,
+                                                                             isIncoming: isIncoming, status: .success, date: messageDate)
+                CoreDataHelper.sharedInstance.createTextMessage(withBody: decryptedBody, isIncoming: isIncoming, date: messageDate)
                 self.countCore += 1
 
                 self.slidingWindow.insertItem(textMessageModel, position: .bottom)
                 self.nextMessageId += 1
-            } else {
-                Log.debug("Receiving " + body)
-
-                let textMessageModel = MessageFactory.createTextMessageModel("\(self.nextMessageId)", text: body,
-                                                                             isIncoming: true, status: .success, date: messageDate)
-
-                CoreDataHelper.sharedInstance.createTextMessage(withBody: body, isIncoming: true, date: messageDate)
+            } catch {
+                Log.error("Decrypting failed with error: \(error.localizedDescription)")
+                let textMessageModel = MessageFactory.createTextMessageModel("\(self.nextMessageId)", text: "Message encrypted",
+                                                                             isIncoming: isIncoming, status: .success, date: messageDate)
+                CoreDataHelper.sharedInstance.createTextMessage(withBody: "Message encrypted", isIncoming: isIncoming, date: messageDate)
                 self.countCore += 1
 
                 self.slidingWindow.insertItem(textMessageModel, position: .bottom)
                 self.nextMessageId += 1
             }
+
             self.delegate?.chatDataSourceDidUpdate(self)
         }
     }

@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 extension CoreDataHelper {
-    func createChannel(withName name: String, globalName: String, card: String) -> Channel? {
+    func createChannel(withName name: String, globalName: String) -> Channel? {
         guard let account = self.currentAccount else {
             Log.error("Core Data: nil account")
             return nil
@@ -24,7 +24,6 @@ extension CoreDataHelper {
         let channel = Channel(entity: entity, insertInto: self.managedContext)
 
         channel.name = name
-        channel.card = card
         channel.globalName = globalName
 
         let channels = account.mutableOrderedSetValue(forKey: Keys.channels.rawValue)
