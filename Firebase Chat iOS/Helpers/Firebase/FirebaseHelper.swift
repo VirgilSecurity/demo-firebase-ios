@@ -8,8 +8,6 @@
 
 import Foundation
 import Firebase
-import FirebaseAuthUI
-import FirebaseGoogleAuthUI
 
 class FirebaseHelper {
     static let sharedInstance = FirebaseHelper()

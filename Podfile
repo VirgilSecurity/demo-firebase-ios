@@ -7,8 +7,7 @@ target 'Firebase Chat iOS' do
 
   # Pods for Firebase Chat iOS
   pod 'Firebase/Core'
-  pod 'FirebaseUI'
-  pod 'Firebase/Messaging' 
+  pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
 
   pod 'VirgilCryptoApiImpl', '~> 3.0.0'
@@ -16,4 +15,6 @@ target 'Firebase Chat iOS' do
 
   pod 'Chatto'
   pod 'ChattoAdditions'
+
+  pod 'PKHUD', '~> 5.0'
 end

@@ -11,58 +11,9 @@ import VirgilSDK
 import VirgilCryptoApiImpl
 
 extension VirgilHelper {
-    func authenticate(email identity: String, authToken: String, completion: @escaping (Error?) -> ()) {
-        let accessTokenProvider = CallbackJwtProvider(getTokenCallback: {
-            tokenContext, completion in
-            if let cashedJwt = self.cashedJwt, !tokenContext.forceReload {
-                completion(cashedJwt, nil)
-            } else {
-                let jwtRequest = try? ServiceRequest(url: URL(string: self.jwtEndpoint)!,
-                                                     method: ServiceRequest.Method.post,
-                                                     headers: ["Content-Type": "application/json",
-                                                               "Authorization": "Bearer " + authToken],
-                                                     params: ["identity" : identity])
-                guard let request = jwtRequest,
-                    let jwtResponse = try? self.connection.send(request),
-                    let responseBody = jwtResponse.body,
-                    let json = try? JSONSerialization.jsonObject(with: responseBody, options: []) as? [String: Any],
-                    let jwtStr = json?["token"] as? String else {
-                        Log.error("Getting JWT failed")
-                        completion(nil, NSError())
-                        return
-                }
-                self.cashedJwt = jwtStr
-
-                completion(jwtStr, nil)
-            }
-        })
-        let cardCrypto = VirgilCardCrypto()
-        guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
-            Log.error("VirgilCardVerifier init failed")
-            return
-        }
-        let params = CardManagerParams(cardCrypto: cardCrypto,
-                                       accessTokenProvider: accessTokenProvider,
-                                       cardVerifier: verifier)
-        self.cardManager = CardManager(params: params)
-
-        if self.keyStorage.exists(withName: identity) {
-            self.signIn(identity) { error in
-                DispatchQueue.main.async {
-                    completion(error)
-                }
-            }
-        } else {
-            self.signUp(identity) { error in
-                DispatchQueue.main.async {
-                    completion(error)
-                }
-            }
-        }
-    }
-
-    private func signIn(_ identity: String, completion: @escaping (Error?) -> ()) {
+    func signIn(with identity: String, token: String, completion: @escaping (Error?) -> ()) {
         Log.debug("Signing in")
+        self.update(email: identity, authToken: token)
         do {
             guard let cardManager = self.cardManager else {
                 Log.error("Missing CardManager")
@@ -95,8 +46,6 @@ extension VirgilHelper {
                 }
                 self.selfKeys = virgilKeys
 
-                FirebaseHelper.sharedInstance.setUpChannelListListener(email: identity)
-
                 completion(nil)
             }
         } catch {
@@ -104,8 +53,9 @@ extension VirgilHelper {
         }
     }
 
-    private func signUp(_ identity: String, completion: @escaping (Error?) -> ()) {
+    func signUp(with identity: String, token: String, completion: @escaping (Error?) -> ()) {
         Log.debug("Signing up")
+        self.update(email: identity, authToken: token)
         do {
             let keyPair = try self.crypto.generateKeyPair()
             guard let cardManager = self.cardManager else {
@@ -163,10 +113,6 @@ extension VirgilHelper {
 
                     group.notify(queue: .main) {
                         if err == nil {
-                            if FirebaseHelper.sharedInstance.channelListListener == nil {
-                                FirebaseHelper.sharedInstance.setUpChannelListListener(email: identity)
-                            }
-
                             CoreDataHelper.sharedInstance.createAccount(withIdentity: identity, exportedCard: exportedCard) {
                                 completion(err)
                             }
@@ -181,5 +127,41 @@ extension VirgilHelper {
         } catch {
             completion(error)
         }
+    }
+
+    func update(email identity: String, authToken: String) {
+        let accessTokenProvider = CallbackJwtProvider(getTokenCallback: {
+            tokenContext, completion in
+            if let cashedJwt = self.cashedJwt, !tokenContext.forceReload {
+                completion(cashedJwt, nil)
+            } else {
+                let jwtRequest = try? ServiceRequest(url: URL(string: self.jwtEndpoint)!,
+                                                     method: ServiceRequest.Method.post,
+                                                     headers: ["Content-Type": "application/json",
+                                                               "Authorization": "Bearer " + authToken],
+                                                     params: ["identity" : identity])
+                guard let request = jwtRequest,
+                    let jwtResponse = try? self.connection.send(request),
+                    let responseBody = jwtResponse.body,
+                    let json = try? JSONSerialization.jsonObject(with: responseBody, options: []) as? [String: Any],
+                    let jwtStr = json?["token"] as? String else {
+                        Log.error("Getting JWT failed")
+                        completion(nil, NSError())
+                        return
+                }
+                self.cashedJwt = jwtStr
+
+                completion(jwtStr, nil)
+            }
+        })
+        let cardCrypto = VirgilCardCrypto()
+        guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
+            Log.error("VirgilCardVerifier init failed")
+            return
+        }
+        let params = CardManagerParams(cardCrypto: cardCrypto,
+                                       accessTokenProvider: accessTokenProvider,
+                                       cardVerifier: verifier)
+        self.cardManager = CardManager(params: params)
     }
 }

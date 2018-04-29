@@ -7,22 +7,22 @@
 //
 
 import Foundation
-import FirebaseAuthUI
-import FirebaseGoogleAuthUI
+import Firebase
 import VirgilSDK
 import VirgilCryptoApiImpl
 
-class MainController: ViewController, FUIAuthDelegate {
-    private var authUI: FUIAuth?
+class MainController: ViewController {
     private var tokenChangeListener: IDTokenDidChangeListenerHandle?
 
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
-        self.authUI = FUIAuth.defaultAuthUI()
-        self.authUI?.delegate = self
 
-        self.tokenChangeListener = self.authUI?.auth?.addIDTokenDidChangeListener { auth, user in
+        if let email = CoreDataHelper.sharedInstance.currentAccount?.identity,
+            FirebaseHelper.sharedInstance.channelListListener == nil {
+                FirebaseHelper.sharedInstance.setUpChannelListListener(email: email)
+        }
+        self.tokenChangeListener = Auth.auth().addIDTokenDidChangeListener { auth, user in
             guard let user = user, let email = user.email else {
                 Log.error("Refresh token failed")
                 return
@@ -32,7 +32,7 @@ class MainController: ViewController, FUIAuthDelegate {
                     Log.error("get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
                     return
                 }
-                self.updateUser(email: email, authToken: token)
+                 VirgilHelper.sharedInstance.update(email: email, authToken: token)
             }
         }
 
@@ -49,29 +49,8 @@ class MainController: ViewController, FUIAuthDelegate {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.authorize()
         FirebaseHelper.sharedInstance.channelListener?.remove()
         FirebaseHelper.sharedInstance.channelListener = nil
-    }
-
-    private func authorize() {
-        guard let user = authUI?.auth?.currentUser, user.email != nil else {
-            authUI?.providers = [FUIGoogleAuth()]
-            present(authUI!.authViewController(), animated: true, completion: nil)
-            return
-        }
-    }
-
-    private func updateUser(email: String, authToken: String) {
-        VirgilHelper.sharedInstance.authenticate(email: email, authToken: authToken) { error in
-            if let error = error {
-                self.alert(withTitle: error.localizedDescription)
-
-                self.reset()
-                self.authorize()
-            }
-            self.tableView.reloadData()
-        }
     }
 
     @objc func updateCoreDataChannels(notification: Notification) {
@@ -80,7 +59,7 @@ class MainController: ViewController, FUIAuthDelegate {
                 Log.error("processing new channel failed")
                 return
         }
-        guard let user = authUI?.auth?.currentUser, let email = user.email else {
+        guard let user = Auth.auth().currentUser, let email = user.email else {
             Log.error("get current user failed")
             return
         }
@@ -165,7 +144,6 @@ class MainController: ViewController, FUIAuthDelegate {
     }
 
     private func reset() {
-        try? self.authUI?.signOut()
         VirgilHelper.sharedInstance.reset()
         FirebaseHelper.sharedInstance.channelListListener?.remove()
         FirebaseHelper.sharedInstance.channelListListener = nil

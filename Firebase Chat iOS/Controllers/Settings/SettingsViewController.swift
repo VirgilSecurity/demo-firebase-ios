@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import FirebaseGoogleAuthUI
 
 class SettingsViewController: ViewController {
     @IBOutlet weak var letterLabel: UILabel!
@@ -39,14 +38,14 @@ extension SettingsViewController: UITableViewDelegate {
         if indexPath.section == 0 {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: "Logout", style: .destructive) { _ in
-                try? FUIAuth.defaultAuthUI()?.signOut()
+                UserDefaults.standard.set(nil, forKey: "last_username")
+
                 VirgilHelper.sharedInstance.reset()
                 FirebaseHelper.sharedInstance.channelListListener?.remove()
                 FirebaseHelper.sharedInstance.channelListListener = nil
                 CoreDataHelper.sharedInstance.setCurrent(account: nil)
 
-                let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! UINavigationController
-
+                let vc = UIStoryboard(name: "Authentication", bundle: Bundle.main).instantiateInitialViewController() as! UINavigationController
                 self.switchNavigationStack(to: vc)
             })
 
