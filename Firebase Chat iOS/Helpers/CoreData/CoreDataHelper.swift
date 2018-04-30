@@ -27,13 +27,13 @@ class CoreDataHelper {
     }
 
     enum Keys: String {
-        case account = "account"
-        case channels = "channels"
-        case messages = "messages"
-        case identity = "identity"
-        case name = "name"
-        case body = "body"
-        case isIncoming = "isIncoming"
+        case account
+        case channels
+        case messages
+        case identity
+        case name
+        case body
+        case isIncoming
     }
 
     static func initialize() {

@@ -29,11 +29,13 @@ extension FirebaseHelper {
             group.leave()
         }
 
+        group.enter()
         self.userCollection.document(currentUser).getDocument { snapshot, error in
-            guard let snapshot = snapshot, error == nil, var channels = snapshot.data()?[Keys.channels.rawValue] as? [String] else {
-                err = error ?? NSError()
-                group.leave()
-                return
+            guard let snapshot = snapshot, error == nil,
+                var channels = snapshot.data()?[Keys.channels.rawValue] as? [String] else {
+                    err = error ?? NSError()
+                    group.leave()
+                    return
             }
             channels.append(name)
             self.userCollection.document(currentUser).updateData([
@@ -46,10 +48,11 @@ extension FirebaseHelper {
 
         group.enter()
         self.userCollection.document(user).getDocument { snapshot, error in
-            guard let snapshot = snapshot, error == nil, var channels = snapshot.data()?[Keys.channels.rawValue] as? [String] else {
-                err = error ?? NSError()
-                group.leave()
-                return
+            guard let snapshot = snapshot, error == nil,
+                var channels = snapshot.data()?[Keys.channels.rawValue] as? [String] else {
+                    err = error ?? NSError()
+                    group.leave()
+                    return
             }
             channels.append(name)
             self.userCollection.document(user).updateData([
@@ -71,23 +74,24 @@ extension FirebaseHelper {
     func getChannels(of user: String, completion: @escaping ([String], Error?) -> ()) {
         let userReference = self.userCollection.document(user)
         userReference.getDocument { snapshot, error in
-            guard error == nil, let snapshot = snapshot, let channels = snapshot.get(Keys.channels.rawValue) as? [String] else {
-                Log.debug("Firebase: get channels failed")
-                completion([], error)
-                return
+            guard error == nil, let snapshot = snapshot,
+                let channels = snapshot.get(Keys.channels.rawValue) as? [String] else {
+                    Log.debug("Firebase: get channels failed")
+                    completion([], error)
+                    return
             }
             completion(channels, nil)
         }
     }
 
-
     func getChannelMembers(channel: String, completion: @escaping ([String], Error?) -> ()) {
         let channelReference = self.channelCollection.document(channel)
         channelReference.getDocument { snapshot, error in
-            guard error == nil, let snapshot = snapshot, let members = snapshot.get(Keys.members.rawValue) as? [String] else {
-                Log.debug("Firebase: get channel members failed")
-                completion([], error)
-                return
+            guard error == nil, let snapshot = snapshot,
+                let members = snapshot.get(Keys.members.rawValue) as? [String] else {
+                    Log.debug("Firebase: get channel members failed")
+                    completion([], error)
+                    return
             }
             completion(members, nil)
         }

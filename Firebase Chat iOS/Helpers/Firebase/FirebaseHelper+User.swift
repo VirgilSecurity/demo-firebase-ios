@@ -26,7 +26,7 @@ extension FirebaseHelper {
         }
     }
 
-    func doesUserExist(withUsername username: String, completion: @escaping (Bool)->()) {
+    func doesUserExist(withUsername username: String, completion: @escaping (Bool) -> ()) {
         let userReference = self.userCollection.document(username)
         userReference.getDocument { snapshot, error in
             if error != nil || snapshot == nil || !(snapshot?.exists)! {

@@ -17,13 +17,21 @@ class AuthenticationController: ViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        VirgilHelper.sharedInstance.reset()
         FirebaseHelper.sharedInstance.channelListListener?.remove()
         FirebaseHelper.sharedInstance.channelListListener = nil
+        CoreDataHelper.sharedInstance.setCurrent(account: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(AuthenticationController.keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(AuthenticationController.keyboardWillShow(notification:)),
+                                               name: Notification.Name.UIKeyboardWillShow,
+                                               object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(AuthenticationController.keyboardWillHide(notification:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(AuthenticationController.keyboardWillHide(notification:)),
+                                               name: Notification.Name.UIKeyboardWillHide,
+                                               object: nil)
     }
 
     @objc func keyboardWillShow(notification: Notification) {
@@ -67,7 +75,7 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+        Auth.auth().signIn(withEmail: email, password: password) { user, error in
             guard let user = user, error == nil else {
                 Log.error("Sign in failed with error: \(error?.localizedDescription ?? "unknown error")")
                 self.alert(error?.localizedDescription ?? "Something went wrong")
@@ -105,7 +113,7 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+        Auth.auth().createUser(withEmail: email, password: password) { user, error in
             guard let user = user, error == nil else {
                 Log.error("Creating user failed with error: \(error?.localizedDescription ?? "unknown error")")
                 self.alert(error?.localizedDescription ?? "Something went wrong")
@@ -132,9 +140,8 @@ class AuthenticationController: ViewController {
     private func goToChatList() {
         DispatchQueue.main.async {
             PKHUD.sharedHUD.hide(true) { _ in
-                NotificationCenter.default.removeObserver(self)
-
                 let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController() as! UINavigationController
+
                 self.switchNavigationStack(to: vc)
             }
         }
@@ -142,12 +149,16 @@ class AuthenticationController: ViewController {
 
     private func alert(_ message: String) {
         DispatchQueue.main.async {
-            PKHUD.sharedHUD.hide() { _ in
+            PKHUD.sharedHUD.hide { _ in
                 let controller = UIAlertController(title: self.title, message: message, preferredStyle: .alert)
                 controller.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(controller, animated: true)
             }
         }
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

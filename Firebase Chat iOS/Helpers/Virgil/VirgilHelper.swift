@@ -6,7 +6,6 @@
 //  Copyright © 2018 Virgil Security. All rights reserved.
 //
 
-
 import Foundation
 import VirgilSDK
 import VirgilCryptoApiImpl
@@ -15,7 +14,6 @@ class VirgilHelper {
     static let sharedInstance = VirgilHelper()
     let crypto: VirgilCrypto
     let keyStorage: PrivateKeyStorage
-    let queue: DispatchQueue
     let connection: ServiceConnection
 
     var cardManager: CardManager?
@@ -29,7 +27,6 @@ class VirgilHelper {
     private init() {
         self.crypto = VirgilCrypto()
         self.keyStorage = PrivateKeyStorage(privateKeyExporter: VirgilPrivateKeyExporter())
-        self.queue = DispatchQueue(label: "virgil-help-queue")
         self.connection = ServiceConnection()
         self.cardManager = nil
     }

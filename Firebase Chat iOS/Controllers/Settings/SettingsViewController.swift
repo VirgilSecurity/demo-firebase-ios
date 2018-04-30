@@ -40,11 +40,6 @@ extension SettingsViewController: UITableViewDelegate {
             alert.addAction(UIAlertAction(title: "Logout", style: .destructive) { _ in
                 UserDefaults.standard.set(nil, forKey: "last_username")
 
-                VirgilHelper.sharedInstance.reset()
-                FirebaseHelper.sharedInstance.channelListListener?.remove()
-                FirebaseHelper.sharedInstance.channelListListener = nil
-                CoreDataHelper.sharedInstance.setCurrent(account: nil)
-
                 let vc = UIStoryboard(name: "Authentication", bundle: Bundle.main).instantiateInitialViewController() as! UINavigationController
                 self.switchNavigationStack(to: vc)
             })

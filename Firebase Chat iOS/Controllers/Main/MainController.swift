@@ -17,7 +17,6 @@ class MainController: ViewController {
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
-
         if let email = CoreDataHelper.sharedInstance.currentAccount?.identity,
             FirebaseHelper.sharedInstance.channelListListener == nil {
                 FirebaseHelper.sharedInstance.setUpChannelListListener(email: email)
@@ -123,7 +122,7 @@ class MainController: ViewController {
 
             FirebaseHelper.sharedInstance.createChannel(currentUser: currentUser, user: username) { error in
                 guard error == nil else {
-                    Log.error("Firebse: creating channel failed with error: (\(error?.localizedDescription ?? "unknown error")")
+                    Log.error("Firebse: creating channel failed with error: (\(error!.localizedDescription)")
                     return
                 }
 
@@ -151,7 +150,6 @@ class MainController: ViewController {
         self.tableView.reloadData()
     }
 }
-
 
 extension MainController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -182,7 +180,7 @@ extension MainController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
-    }  
+    }
 }
 
 extension MainController: CellTapDelegate {

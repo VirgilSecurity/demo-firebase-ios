@@ -49,4 +49,3 @@ public extension Data {
         self = data
     }
 }
-

@@ -64,12 +64,12 @@ public class MessageSender {
             self.messageStatus(ciphertext: ciphertext, message: message)
         case .sending:
             guard let currentUser = CoreDataHelper.sharedInstance.currentAccount?.identity,
-            let receiver = CoreDataHelper.sharedInstance.currentChannel?.name else {
-                return
+                let receiver = CoreDataHelper.sharedInstance.currentChannel?.name else {
+                    return
             }
             FirebaseHelper.sharedInstance.send(message: ciphertext, to: receiver, from: currentUser) { error in
                 guard error == nil else {
-                    Log.error("Sending message \"\(ciphertext)\" failed: \(error?.localizedDescription ?? "unknown error")")
+                    Log.error("Sending message \"\(ciphertext)\" failed: \(error!.localizedDescription)")
                     self.updateMessage(message, status: .failed)
                     return
                 }

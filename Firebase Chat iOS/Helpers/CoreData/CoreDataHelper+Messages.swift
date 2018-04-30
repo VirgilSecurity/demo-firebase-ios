@@ -22,7 +22,8 @@ extension CoreDataHelper {
 
     func createTextMessage(forChannel channel: Channel, withBody body: String, isIncoming: Bool, date: Date) {
         self.queue.async {
-            guard let entity = NSEntityDescription.entity(forEntityName: Entities.message.rawValue, in: self.managedContext) else {
+            guard let entity = NSEntityDescription.entity(forEntityName: Entities.message.rawValue,
+                                                          in: self.managedContext) else {
                 Log.error("Core Data: entity not found: " + Entities.message.rawValue)
                 return
             }

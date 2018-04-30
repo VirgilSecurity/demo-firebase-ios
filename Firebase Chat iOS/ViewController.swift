@@ -25,4 +25,3 @@ class ViewController: UIViewController {
         return self.navigationController?.viewControllers.count ?? 1 == 1
     }
 }
-

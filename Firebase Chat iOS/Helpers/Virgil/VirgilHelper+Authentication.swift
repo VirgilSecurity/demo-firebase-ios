@@ -12,6 +12,13 @@ import VirgilCryptoApiImpl
 
 extension VirgilHelper {
     func signIn(with identity: String, token: String, completion: @escaping (Error?) -> ()) {
+        guard self.keyStorage.exists(withName: identity) else {
+            self.signUp(with: identity, token: token) { error in
+                completion(error)
+            }
+            return
+        }
+
         Log.debug("Signing in")
         self.update(email: identity, authToken: token)
         do {
@@ -64,7 +71,9 @@ extension VirgilHelper {
                 return
             }
 
-            cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey, identity: identity) { card, error in
+            cardManager.publishCard(privateKey: keyPair.privateKey,
+                                    publicKey: keyPair.publicKey,
+                                    identity: identity) { card, error in
                 guard let card = card, error == nil else {
                     Log.error("Failed to create card with error: \(error?.localizedDescription ?? "unknown error")")
                     completion(error)
@@ -130,8 +139,7 @@ extension VirgilHelper {
     }
 
     func update(email identity: String, authToken: String) {
-        let accessTokenProvider = CallbackJwtProvider(getTokenCallback: {
-            tokenContext, completion in
+        let accessTokenProvider = CallbackJwtProvider(getTokenCallback: { tokenContext, completion in
             if let cashedJwt = self.cashedJwt, !tokenContext.forceReload {
                 completion(cashedJwt, nil)
             } else {
@@ -139,7 +147,7 @@ extension VirgilHelper {
                                                      method: ServiceRequest.Method.post,
                                                      headers: ["Content-Type": "application/json",
                                                                "Authorization": "Bearer " + authToken],
-                                                     params: ["identity" : identity])
+                                                     params: ["identity": identity])
                 guard let request = jwtRequest,
                     let jwtResponse = try? self.connection.send(request),
                     let responseBody = jwtResponse.body,

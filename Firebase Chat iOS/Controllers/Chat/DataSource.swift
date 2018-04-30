@@ -74,7 +74,8 @@ class DataSource: ChatDataSourceProtocol {
                 let decryptedBody = try VirgilHelper.sharedInstance.decrypt(body)
 
                 let textMessageModel = MessageFactory.createTextMessageModel("\(self.nextMessageId)", text: decryptedBody,
-                                                                             isIncoming: isIncoming, status: .success, date: messageDate)
+                                                                             isIncoming: isIncoming, status: .success,
+                                                                             date: messageDate)
                 CoreDataHelper.sharedInstance.createTextMessage(withBody: decryptedBody, isIncoming: isIncoming, date: messageDate)
                 self.countCore += 1
 
@@ -83,8 +84,10 @@ class DataSource: ChatDataSourceProtocol {
             } catch {
                 Log.error("Decrypting failed with error: \(error.localizedDescription)")
                 let textMessageModel = MessageFactory.createTextMessageModel("\(self.nextMessageId)", text: "Message encrypted",
-                                                                             isIncoming: isIncoming, status: .success, date: messageDate)
-                CoreDataHelper.sharedInstance.createTextMessage(withBody: "Message encrypted", isIncoming: isIncoming, date: messageDate)
+                                                                             isIncoming: isIncoming, status: .success,
+                                                                             date: messageDate)
+                CoreDataHelper.sharedInstance.createTextMessage(withBody: "Message encrypted",
+                                                                isIncoming: isIncoming, date: messageDate)
                 self.countCore += 1
 
                 self.slidingWindow.insertItem(textMessageModel, position: .bottom)
@@ -135,12 +138,12 @@ class DataSource: ChatDataSourceProtocol {
         self.nextMessageId += 1
         let message = MessageFactory.createTextMessageModel(uid, text: text, isIncoming: false, status: .sending, date: Date())
         self.messageSender.sendMessage(message)
-        //self.slidingWindow.insertItem(message, position: .bottom)
         self.delegate?.chatDataSourceDidUpdate(self)
     }
 
     func adjustNumberOfMessages(preferredMaxCount: Int?, focusPosition: Double, completion:(_ didAdjust: Bool) -> ()) {
-        let didAdjust = self.slidingWindow.adjustWindow(focusPosition: focusPosition, maxWindowSize: preferredMaxCount ?? self.preferredMaxWindowSize)
+        let didAdjust = self.slidingWindow.adjustWindow(focusPosition: focusPosition,
+                                                        maxWindowSize: preferredMaxCount ?? self.preferredMaxWindowSize)
         completion(didAdjust)
     }
 
@@ -161,16 +164,13 @@ extension DataSource {
 
         for message in messages {
             guard let message = message as? Message,
-                let messageDate = message.date
-                else {
+                let messageDate = message.date else {
                     Log.error("retriving message from Core Data failed")
                     return result
             }
 
             let decryptedMessage: DemoMessageModelProtocol
             if let messageBody = message.body {
-                //let decryptedBody = try? VirgilHelper.sharedInstance.decrypt(text: messageBody) //FIXME
-
                 let model = MessageFactory.createMessageModel("\(self.nextMessageId)", isIncoming: message.isIncoming,
                                                               type: TextMessageModel<MessageModel>.chatItemType,
                                                               status: .success, date: messageDate)

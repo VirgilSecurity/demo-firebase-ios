@@ -24,13 +24,13 @@ class FirebaseHelper {
     }
 
     enum Keys: String {
-        case members = "members"
-        case channels = "channels"
-        case createdAt = "createdAt"
-        case count = "count"
-        case body = "body"
-        case sender = "sender"
-        case receiver = "receiver"
+        case members
+        case channels
+        case createdAt
+        case count
+        case body
+        case sender
+        case receiver
     }
 
     enum Notifications: String {
@@ -39,8 +39,8 @@ class FirebaseHelper {
     }
 
     enum NotificationKeys: String {
-        case channels = "channels"
-        case messages = "messages"
+        case channels
+        case messages
     }
 
     private init() {
@@ -66,7 +66,8 @@ class FirebaseHelper {
     }
 
     func setUpChannelListener(channel: String) {
-        self.channelListener = self.channelCollection.document(channel).collection(Collections.messages.rawValue).addSnapshotListener { snapshot, error in
+        let messageCollection = self.channelCollection.document(channel).collection(Collections.messages.rawValue)
+        self.channelListener = messageCollection.addSnapshotListener { snapshot, error in
             guard let messages = snapshot?.documents else {
                 print("Error fetching messages: \(error?.localizedDescription ?? "unknown error")")
                 return
