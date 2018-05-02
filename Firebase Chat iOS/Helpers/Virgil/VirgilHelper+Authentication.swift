@@ -11,6 +11,12 @@ import VirgilSDK
 import VirgilCryptoApiImpl
 
 extension VirgilHelper {
+    /// Loads users' Private Key and Public Keys, CoreData account
+    ///
+    /// - Parameters:
+    ///   - identity: users' identity
+    ///   - token: Firebase Auth token
+    ///   - completion: completion handler, called with error if failed
     func signIn(with identity: String, token: String, completion: @escaping (Error?) -> ()) {
         guard self.keyStorage.exists(withName: identity) else {
             self.signUp(with: identity, token: token) { error in
@@ -60,6 +66,12 @@ extension VirgilHelper {
         }
     }
 
+    /// Publishes new Card, creates CoreData and Firestore account
+    ///
+    /// - Parameters:
+    ///   - identity: users' identity
+    ///   - token: Firebase Auth token
+    ///   - completion: completion handler, called with error if failed
     func signUp(with identity: String, token: String, completion: @escaping (Error?) -> ()) {
         Log.debug("Signing up")
         self.update(email: identity, authToken: token)
@@ -138,6 +150,11 @@ extension VirgilHelper {
         }
     }
 
+    /// Updates CardManager instance
+    ///
+    /// - Parameters:
+    ///   - identity: new user's identity
+    ///   - authToken: Firebase Auth token
     func update(email identity: String, authToken: String) {
         let accessTokenProvider = CallbackJwtProvider(getTokenCallback: { tokenContext, completion in
             if let cashedJwt = self.cashedJwt, !tokenContext.forceReload {

@@ -10,6 +10,7 @@ import Foundation
 import VirgilSDK
 import VirgilCryptoApiImpl
 
+/// Provides usage of VirgilSDK and VirgilCrypto
 class VirgilHelper {
     static let sharedInstance = VirgilHelper()
     let crypto: VirgilCrypto
@@ -22,8 +23,11 @@ class VirgilHelper {
     var selfKeys: [VirgilPublicKey] = []
     var cashedJwt: String?
 
+    /// URL to your cloud function for getting JWT
+    /// - Important: change it to your own from [Firebase Console](https://console.firebase.google.com)
     let jwtEndpoint = "https://us-central1-fir-chat-ios-2c1d0.cloudfunctions.net/api/generate_jwt"
 
+    /// Initializer
     private init() {
         self.crypto = VirgilCrypto()
         self.keyStorage = PrivateKeyStorage(privateKeyExporter: VirgilPrivateKeyExporter())
@@ -31,13 +35,11 @@ class VirgilHelper {
         self.cardManager = nil
     }
 
-    func reset() {
-        self.privateKey = nil
-        self.cashedJwt = nil
-        self.channelKeys = []
-        self.selfKeys = []
-    }
-
+    /// Encrypts given String
+    ///
+    /// - Parameter text: String to encrypt
+    /// - Returns: encrypted String
+    /// - Throws: error if fails
     func encrypt(_ text: String) throws -> String {
         guard let data = text.data(using: .utf8)
             else {
@@ -48,6 +50,11 @@ class VirgilHelper {
         return try self.crypto.encrypt(data, for: self.channelKeys + self.selfKeys).base64EncodedString()
     }
 
+    /// Decrypts given String
+    ///
+    /// - Parameter encrypted: String to decrypt
+    /// - Returns: decrypted String
+    /// - Throws: error if fails
     func decrypt(_ encrypted: String) throws -> String {
         guard let privateKey = self.privateKey,
             let data = Data(base64Encoded: encrypted)
@@ -65,6 +72,11 @@ class VirgilHelper {
         return decrypted
     }
 
+    /// Searches and sets Public Keys to encrypt for
+    ///
+    /// - Parameters:
+    ///   - identity: identity of user
+    ///   - completion: completion handler, called with error if failed
     func setChannelKeys(for identity: String, completion: @escaping (Error?) -> ()) {
         Log.debug("Searching cards with identity: \(identity)")
         guard let cardManager = self.cardManager else {
@@ -101,11 +113,23 @@ class VirgilHelper {
         }
     }
 
+    /// Makes SHA256 hash
+    ///
+    /// - Parameter string: String, from which to make hash
+    /// - Returns: hex encoded String with SHA256 hash
     func makeHash(from string: String) -> String? {
         guard let data = string.data(using: .utf8) else {
             Log.error("string to data failed")
             return nil
         }
         return self.crypto.computeHash(for: data, using: .SHA256).hexEncodedString()
+    }
+
+    /// Resets variables
+    func reset() {
+        self.privateKey = nil
+        self.cashedJwt = nil
+        self.channelKeys = []
+        self.selfKeys = []
     }
 }
