@@ -10,7 +10,8 @@ import Foundation
 import Firebase
 
 class FirebaseHelper {
-    static let sharedInstance = FirebaseHelper()
+    static private(set) var sharedInstance: FirebaseHelper!
+    static var tokenChangeListener: IDTokenDidChangeListenerHandle? = nil
     let userCollection: CollectionReference
     let channelCollection: CollectionReference
 
@@ -43,11 +44,29 @@ class FirebaseHelper {
         case messages
     }
 
+    static func initialize() {
+        sharedInstance = FirebaseHelper()
+    }
+
     private init() {
         self.userCollection = Firestore.firestore().collection(Collections.users.rawValue)
         self.channelCollection = Firestore.firestore().collection(Collections.channels.rawValue)
         self.channelListListener = nil
         self.channelListener = nil
+
+        FirebaseHelper.tokenChangeListener = Auth.auth().addIDTokenDidChangeListener { auth, user in
+            guard let user = user, let email = user.email else {
+                Log.error("Refresh token failed")
+                return
+            }
+            user.getIDToken { token, error in
+                guard error == nil, let token = token else {
+                    Log.error("get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
+                    return
+                }
+                VirgilHelper.sharedInstance.update(email: email, authToken: token)
+            }
+        }
     }
 
     func setUpChannelListListener(email: String) {

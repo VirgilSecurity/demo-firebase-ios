@@ -27,12 +27,16 @@ extension CoreDataHelper {
         channel.globalName = globalName
 
         let channels = account.mutableOrderedSetValue(forKey: Keys.channels.rawValue)
-        channels.add(channel)
 
-        Log.debug("Core Data: new channel added. Count: \(channels.count)")
-        self.appDelegate.saveContext()
+        if !self.doesChannelExist(withGlobalName: globalName) {
+            channels.add(channel)
+            Log.debug("Core Data: new channel added. Count: \(channels.count)")
+            self.appDelegate.saveContext()
 
-        return channel
+            return channel
+        }
+
+        return nil
     }
 
     func loadChannel(withName username: String) -> Bool {

@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
 
         CoreDataHelper.initialize()
+        FirebaseHelper.initialize()
 
         return true
     }

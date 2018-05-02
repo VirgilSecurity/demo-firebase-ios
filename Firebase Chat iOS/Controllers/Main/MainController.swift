@@ -12,27 +12,12 @@ import VirgilSDK
 import VirgilCryptoApiImpl
 
 class MainController: ViewController {
-    private var tokenChangeListener: IDTokenDidChangeListenerHandle?
-
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
         if let email = CoreDataHelper.sharedInstance.currentAccount?.identity,
             FirebaseHelper.sharedInstance.channelListListener == nil {
                 FirebaseHelper.sharedInstance.setUpChannelListListener(email: email)
-        }
-        self.tokenChangeListener = Auth.auth().addIDTokenDidChangeListener { auth, user in
-            guard let user = user, let email = user.email else {
-                Log.error("Refresh token failed")
-                return
-            }
-            user.getIDToken { token, error in
-                guard error == nil, let token = token else {
-                    Log.error("get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
-                    return
-                }
-                 VirgilHelper.sharedInstance.update(email: email, authToken: token)
-            }
         }
 
         self.tableView.register(UINib(nibName: ChatListCell.name, bundle: Bundle.main),
@@ -140,14 +125,6 @@ class MainController: ViewController {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
-    }
-
-    private func reset() {
-        VirgilHelper.sharedInstance.reset()
-        FirebaseHelper.sharedInstance.channelListListener?.remove()
-        FirebaseHelper.sharedInstance.channelListListener = nil
-        CoreDataHelper.sharedInstance.setCurrent(account: nil)
-        self.tableView.reloadData()
     }
 }
 
