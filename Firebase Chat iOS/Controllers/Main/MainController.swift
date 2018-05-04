@@ -84,6 +84,10 @@ class MainController: ViewController {
     }
 
     private func addChat(withUsername username: String) {
+        guard !username.isEmpty else {
+            self.alert(withTitle: "There are no such user")
+            return
+        }
         let username = username.lowercased()
 
         guard let currentUser = CoreDataHelper.sharedInstance.currentAccount?.identity else {
@@ -163,9 +167,10 @@ extension MainController: UITableViewDataSource, UITableViewDelegate {
 extension MainController: CellTapDelegate {
     func didTapOn(_ cell: UITableViewCell) {
         if let username = (cell as! ChatListCell).usernameLabel.text {
-            guard CoreDataHelper.sharedInstance.loadChannel(withName: username)
-                else {
+            self.view.isUserInteractionEnabled = false
+            guard CoreDataHelper.sharedInstance.loadChannel(withName: username) else {
                     Log.error("Channel do not exist in Core Data")
+                    self.view.isUserInteractionEnabled = true
                     return
             }
 
@@ -174,6 +179,8 @@ extension MainController: CellTapDelegate {
                     return
                 }
                 self.performSegue(withIdentifier: "goToChat", sender: self)
+
+                defer { self.view.isUserInteractionEnabled = true }
             }
         }
     }
