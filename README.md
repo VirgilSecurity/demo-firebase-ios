@@ -37,6 +37,8 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 * Change bundleID of Xcode project to yours. 
 * Go to the [Firebase console](https://console.firebase.google.com) and create your own project.
 * Add this sample app to a Firebase project, use the bundleID from the Xcode project.
+* Select the **Auth** panel and then click the **Sign In Method** tab.
+* Click **Email/Password** and turn on the **Enable** switch, then click **Save**.
 * Download the generated GoogleService-Info.plist file, and copy it to the root directory of this sample.
 
 #### Cloud functions
