@@ -173,14 +173,34 @@ extension MainController: CellTapDelegate {
                     self.view.isUserInteractionEnabled = true
                     return
             }
-
-            VirgilHelper.sharedInstance.setChannelKeys(for: username) { error in
-                guard error == nil else {
+            guard let currentChannel = CoreDataHelper.sharedInstance.currentChannel,
+                let globalName = currentChannel.globalName else {
+                    Log.error("Get current channel failed")
                     return
-                }
-                self.performSegue(withIdentifier: "goToChat", sender: self)
+            }
 
-                defer { self.view.isUserInteractionEnabled = true }
+            let group = DispatchGroup()
+            var err: Error?
+
+            group.enter()
+            VirgilHelper.sharedInstance.setChannelKeys(for: username) { error in
+                err = error
+                group.leave()
+            }
+
+            group.enter()
+            FirebaseHelper.sharedInstance.updateMessages(of: globalName) { error in
+                err = error
+                group.leave()
+            }
+
+            group.notify(queue: .main) {
+                if let error = err {
+                    Log.error(error.localizedDescription)
+                } else {
+                    self.performSegue(withIdentifier: "goToChat", sender: self)
+                }
+                self.view.isUserInteractionEnabled = true
             }
         }
     }

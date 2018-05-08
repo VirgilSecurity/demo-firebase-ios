@@ -37,13 +37,19 @@ class DataSource: ChatDataSourceProtocol {
     init(pageSize: Int) {
         self.slidingWindow = SlidingDataSource(pageSize: pageSize)
         self.pageSize = pageSize
-        self.countCore = self.getCoreDataLastMessages().count
 
         guard let currentChannel = CoreDataHelper.sharedInstance.currentChannel,
             let globalName = currentChannel.globalName else {
                 Log.error("Get current channel failed")
                 return
         }
+        guard let count = CoreDataHelper.sharedInstance.currentChannel?.messages?.count else {
+            Log.error("Getting messeges count Core Data failed")
+            return
+        }
+        self.countCore = count
+        self.showMessages()
+        self.delegate?.chatDataSourceDidUpdate(self, updateType: .reload)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(DataSource.processMessage(notification:)),
                                                name: Notification.Name(rawValue: FirebaseHelper.Notifications.MessageAdded.rawValue),
@@ -60,41 +66,37 @@ class DataSource: ChatDataSourceProtocol {
             return
         }
 
-        for i in self.countCore..<messages.count {
-            let messageDocuments = messages.filter({ $0.documentID == "\(i)" })
-            guard let messageDocument = messageDocuments.first,
-                let receiver = messageDocument.data()[FirebaseHelper.Keys.receiver.rawValue] as? String,
-                let body = messageDocument.data()[FirebaseHelper.Keys.body.rawValue] as? String,
-                let messageDate = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Date else {
-                    return
-            }
-            let isIncoming = receiver == currentUser ? true : false
+        if (self.countCore < messages.count) {
+            for i in self.countCore..<messages.count {
+                let messageDocuments = messages.filter({ $0.documentID == "\(i)" })
+                guard let messageDocument = messageDocuments.first,
+                    let receiver = messageDocument.data()[FirebaseHelper.Keys.receiver.rawValue] as? String,
+                    let body = messageDocument.data()[FirebaseHelper.Keys.body.rawValue] as? String,
+                    let messageDate = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Date else {
+                        return
+                }
+                let isIncoming = receiver == currentUser ? true : false
 
-            do {
-                let decryptedBody = try VirgilHelper.sharedInstance.decrypt(body)
+                var decryptedBody: String?
+                do {
+                    decryptedBody = try VirgilHelper.sharedInstance.decrypt(body)
+                } catch {
+                    Log.error("Decrypting failed with error: \(error.localizedDescription)")
+                }
 
-                let textMessageModel = MessageFactory.createTextMessageModel("\(self.nextMessageId)", text: decryptedBody,
+                let decryptedMessage = MessageFactory.createTextMessageModel("\(self.nextMessageId)",
+                                                                             text: decryptedBody ?? "Message encrypted",
                                                                              isIncoming: isIncoming, status: .success,
                                                                              date: messageDate)
-                CoreDataHelper.sharedInstance.createTextMessage(withBody: decryptedBody, isIncoming: isIncoming, date: messageDate)
-                self.countCore += 1
-
-                self.slidingWindow.insertItem(textMessageModel, position: .bottom)
-                self.nextMessageId += 1
-            } catch {
-                Log.error("Decrypting failed with error: \(error.localizedDescription)")
-                let textMessageModel = MessageFactory.createTextMessageModel("\(self.nextMessageId)", text: "Message encrypted",
-                                                                             isIncoming: isIncoming, status: .success,
-                                                                             date: messageDate)
-                CoreDataHelper.sharedInstance.createTextMessage(withBody: "Message encrypted",
+                CoreDataHelper.sharedInstance.createTextMessage(withBody: decryptedBody ?? "Message encrypted",
                                                                 isIncoming: isIncoming, date: messageDate)
+
                 self.countCore += 1
-
-                self.slidingWindow.insertItem(textMessageModel, position: .bottom)
+                self.slidingWindow.insertItem(decryptedMessage, position: .bottom)
                 self.nextMessageId += 1
-            }
 
-            self.delegate?.chatDataSourceDidUpdate(self)
+                self.delegate?.chatDataSourceDidUpdate(self)
+            }
         }
     }
 
@@ -153,40 +155,25 @@ class DataSource: ChatDataSourceProtocol {
 }
 
 extension DataSource {
-    private func getCoreDataLastMessages() -> [DemoMessageModelProtocol] {
-        var result: [DemoMessageModelProtocol] = []
-
+    private func showMessages() {
         guard let channel = CoreDataHelper.sharedInstance.currentChannel,
             let messages = channel.messages else {
                 Log.error("Can't get last messages: channel not found in Core Data")
-                return result
+                return
         }
 
         for message in messages {
             guard let message = message as? Message,
                 let messageDate = message.date else {
-                    Log.error("retriving message from Core Data failed")
-                    return result
+                    Log.error("Retriving message from Core Data failed")
+                    return
             }
-
-            let decryptedMessage: DemoMessageModelProtocol
-            if let messageBody = message.body {
-                let model = MessageFactory.createMessageModel("\(self.nextMessageId)", isIncoming: message.isIncoming,
-                                                              type: TextMessageModel<MessageModel>.chatItemType,
-                                                              status: .success, date: messageDate)
-                decryptedMessage = DemoTextMessageModel(messageModel: model, text: messageBody)
-            } else {
-                let model = MessageFactory.createMessageModel("\(self.nextMessageId)", isIncoming: message.isIncoming,
-                                                              type: TextMessageModel<MessageModel>.chatItemType,
-                                                              status: .failed, date: messageDate)
-                decryptedMessage =  DemoTextMessageModel(messageModel: model, text: "Corrupted Message")
-            }
-            self.slidingWindow.insertItem(decryptedMessage, position: .bottom)
+            let resultMessage = MessageFactory.createTextMessageModel("\(self.nextMessageId)",
+                                                                      text: message.body ?? "Corrupted Message",
+                                                                      isIncoming: message.isIncoming,
+                                                                      status: .success, date: messageDate)
+            self.slidingWindow.insertItem(resultMessage, position: .bottom)
             self.nextMessageId += 1
-
-            result.append(decryptedMessage)
         }
-
-        return result
     }
 }

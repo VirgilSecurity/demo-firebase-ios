@@ -88,7 +88,7 @@ class FirebaseHelper {
         let messageCollection = self.channelCollection.document(channel).collection(Collections.messages.rawValue)
         self.channelListener = messageCollection.addSnapshotListener { snapshot, error in
             guard let messages = snapshot?.documents else {
-                print("Error fetching messages: \(error?.localizedDescription ?? "unknown error")")
+                Log.error("Error fetching messages: \(error?.localizedDescription ?? "unknown error")")
                 return
             }
             NotificationCenter.default.post(
@@ -97,40 +97,6 @@ class FirebaseHelper {
                 userInfo: [
                     NotificationKeys.messages.rawValue: messages
                 ])
-        }
-    }
-
-    func send(message: String, to receiver: String, from currentUser: String, completion: @escaping (Error?) -> ()) {
-        guard let channel = FirebaseHelper.makeChannelName(currentUser, receiver) else {
-            return
-        }
-        let channelReference = self.channelCollection.document(channel)
-        let messagesCollection = channelReference.collection(Collections.messages.rawValue)
-
-        channelReference.getDocument { snapshot, error in
-            guard let snapshot = snapshot, error == nil else {
-                Log.error("Firestore: get user document failed with error: (\(error?.localizedDescription ?? "unknown error")")
-                completion(error)
-                return
-            }
-            let count = (snapshot.data()?[Keys.count.rawValue] as? Int) ?? 0
-
-            messagesCollection.document("\(count)").setData([
-                Keys.body.rawValue: message,
-                Keys.sender.rawValue: currentUser,
-                Keys.receiver.rawValue: receiver,
-                Keys.createdAt.rawValue: Date()
-            ]) { error in
-                guard error == nil else {
-                    completion(error)
-                    return
-                }
-                channelReference.updateData([
-                    Keys.count.rawValue: count + 1
-                ]) { error in
-                     completion(error)
-                }
-            }
         }
     }
 }
