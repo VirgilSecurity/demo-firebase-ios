@@ -63,6 +63,7 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 firebase functions:config:set virgil.appid="YOUR_APP_ID" virgil.apikeyid="YOUR_API_KEY_ID" virgil.apiprivatekey="YOUR_API_PRIVATE_KEY"
 ```
 * Run `firebase deploy --only functions`.
+* Go to the Firebase console -> Functions tab and copy your function url in Event column
 * Go to the VirgilHelper.swift and change variable jwtEndpoint to:
 ```
 https://YOUR_FUNCTION_URL.cloudfunctions.net/api/generate_jwt.
