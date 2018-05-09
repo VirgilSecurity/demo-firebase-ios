@@ -43,6 +43,7 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 
 #### Cloud functions
 * Install node if you don't have one. Firebase recommend to use v6.14.0 at the moment of the demo creation.
+* Run ` firebase login` to loggin to your firebase account.
 * Open your terminal app and run `npm install -g firebase-tools` if you don't have it.
 * After instal run `firebase init` in the project root.
 * Select `Functions: Configure and deploy Cloud Functions` with a space.
@@ -59,7 +60,7 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 ```
 * Insert your configuration data from Virgil Dashboard and run command:
 ```
-functions:config:set virgil.appid="YOUR_APP_ID" virgil.apikeyid="YOUR_API_KEY_ID" virgil.apiprivatekey="YOUR_API_PRIVATE_KEY"
+firebase functions:config:set virgil.appid="YOUR_APP_ID" virgil.apikeyid="YOUR_API_KEY_ID" virgil.apiprivatekey="YOUR_API_PRIVATE_KEY"
 ```
 * Run `firebase deploy --only functions`.
 * Go to the VirgilHelper.swift and change variable jwtEndpoint to:
