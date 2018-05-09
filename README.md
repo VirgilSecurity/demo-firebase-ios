@@ -58,7 +58,7 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 ? File functions/src/index.ts already exists. Overwrite? No
 ? Do you want to install dependencies with npm now? Yes
 ```
-* Insert your configuration data from Virgil Dashboard and run command:
+* Insert your configuration data from [Virgil Dashboard](https://dashboard.virgilsecurity.com/) and run command:
 ```
 firebase functions:config:set virgil.appid="YOUR_APP_ID" virgil.apikeyid="YOUR_API_KEY_ID" virgil.apiprivatekey="YOUR_API_PRIVATE_KEY"
 ```
