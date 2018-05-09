@@ -42,10 +42,10 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 * Download the generated GoogleService-Info.plist file, and copy it to the root directory of this sample.
 
 #### Cloud functions
-* Install node if you don't have one. Firebase recommend to use v6.14.0 on the moment of the demo crea
-* Open your terminal app and run `npm install -g firebase-tools` if you dont have it
-* After instal run `firebase init` in the project root
-* Select `Functions: Configure and deploy Cloud Functions` with a space
+* Install node if you don't have one. Firebase recommend to use v6.14.0 at the moment of the demo creation.
+* Open your terminal app and run `npm install -g firebase-tools` if you don't have it.
+* After instal run `firebase init` in the project root.
+* Select `Functions: Configure and deploy Cloud Functions` with a space.
 * Select default firebase project if not selected.
 * Select this answers:
 ```
@@ -61,8 +61,8 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 ```
 functions:config:set virgil.appid="YOUR_APP_ID" virgil.apikeyid="YOUR_API_KEY_ID" virgil.apiprivatekey="YOUR_API_PRIVATE_KEY"
 ```
-* Run `firebase deploy --only functions`
-* Go to the VirgilHelper.swift and change variable jwtEndpoint to
+* Run `firebase deploy --only functions`.
+* Go to the VirgilHelper.swift and change variable jwtEndpoint to:
 ```
 https://YOUR_FUNCTION_URL.cloudfunctions.net/api/generate_jwt.
 ```
