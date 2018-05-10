@@ -36,6 +36,10 @@ class CoreDataHelper {
         case isIncoming
     }
 
+    enum CoreDataHelperError: String, Error {
+        case missingAccount = "Missing Core Data Account"
+    }
+
     static func initialize() {
         sharedInstance = CoreDataHelper()
     }

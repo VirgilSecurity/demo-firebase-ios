@@ -23,6 +23,21 @@ class VirgilHelper {
     var selfKeys: [VirgilPublicKey] = []
     var cashedJwt: String?
 
+    /// Declares error types and codes
+    ///
+    /// - keyIsNotVirgil: Converting Public or Private Key to Virgil one failed
+    /// - missingCardManager: Card Manager is not initialized
+    /// - gettingJwtFailed: Failed getting Jwt from server
+    /// - strToDataFailed: Converting utf8 string to data failed
+    /// - strFromDataFailed: Building string from data failed
+    enum VirgilHelperError: String, Error {
+        case keyIsNotVirgil = "Converting Public or Private Key to Virgil one failed"
+        case missingCardManager = "Missing Card Manager"
+        case gettingJwtFailed = "Getting JWT failed"
+        case strToDataFailed = "Converting utf8 string to data failed"
+        case strFromDataFailed = "Building string from data failed"
+    }
+
     /// URL to your cloud function for getting JWT
     /// - Important: change it to your own from [Firebase Console](https://console.firebase.google.com)
     let jwtEndpoint = "https://us-central1-fir-chat-ios-2c1d0.cloudfunctions.net/api/generate_jwt"
@@ -43,8 +58,7 @@ class VirgilHelper {
     func encrypt(_ text: String) throws -> String {
         guard let data = text.data(using: .utf8)
             else {
-                Log.error("Encrypting failed")
-                throw NSError()
+                throw VirgilHelperError.strToDataFailed
         }
 
         return try self.crypto.encrypt(data, for: self.channelKeys + self.selfKeys).base64EncodedString()
@@ -59,14 +73,13 @@ class VirgilHelper {
         guard let privateKey = self.privateKey,
             let data = Data(base64Encoded: encrypted)
             else {
-                Log.error("Decrypting failed")
-                throw NSError()
+                throw VirgilHelperError.strToDataFailed
         }
         let decryptedData = try self.crypto.decrypt(data, with: privateKey)
 
         guard let decrypted = String(data: decryptedData, encoding: .utf8) else {
             Log.error("Building string from data failed")
-            throw NSError()
+            throw VirgilHelperError.strFromDataFailed
         }
 
         return decrypted
@@ -82,7 +95,7 @@ class VirgilHelper {
         guard let cardManager = self.cardManager else {
             Log.error("Missing CardManager")
             DispatchQueue.main.async {
-                completion(NSError())
+                completion(VirgilHelperError.missingCardManager)
             }
             return
         }
@@ -93,7 +106,7 @@ class VirgilHelper {
             guard error == nil, let cards = cards else {
                 Log.error("Search self cards failed with error: \(error?.localizedDescription ?? "unknown error")")
                 DispatchQueue.main.async {
-                    completion(NSError())
+                    completion(error)
                 }
                 return
             }
@@ -101,7 +114,7 @@ class VirgilHelper {
             guard let virgilKeys = keys as? [VirgilPublicKey] else {
                 Log.error("Converting keys to Virgil failed")
                 DispatchQueue.main.async {
-                    completion(NSError())
+                    completion(VirgilHelperError.keyIsNotVirgil)
                 }
                 return
             }
@@ -119,7 +132,7 @@ class VirgilHelper {
     /// - Returns: hex encoded String with SHA256 hash
     func makeHash(from string: String) -> String? {
         guard let data = string.data(using: .utf8) else {
-            Log.error("string to data failed")
+            Log.error("String to data failed")
             return nil
         }
         return self.crypto.computeHash(for: data, using: .SHA256).hexEncodedString()

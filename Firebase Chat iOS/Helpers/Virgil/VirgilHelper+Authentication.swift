@@ -29,19 +29,14 @@ extension VirgilHelper {
         self.update(email: identity, authToken: token)
         do {
             guard let cardManager = self.cardManager else {
-                Log.error("Missing CardManager")
-                throw NSError()
+                throw VirgilHelperError.missingCardManager
             }
-            guard CoreDataHelper.sharedInstance.loadAccount(withIdentity: identity) else {
-                Log.error("Missing account")
-                throw NSError()
-            }
+            try CoreDataHelper.sharedInstance.loadAccount(withIdentity: identity)
 
             let keyEntry = try self.keyStorage.load(withName: identity)
 
             guard let privateKey = keyEntry.privateKey as? VirgilPrivateKey else {
-                Log.error("Converting private key to Virgil failed")
-                throw NSError()
+                throw VirgilHelperError.keyIsNotVirgil
             }
             self.privateKey = privateKey
 
@@ -53,8 +48,7 @@ extension VirgilHelper {
                 }
                 let keys = cards.map { $0.publicKey }
                 guard let virgilKeys = keys as? [VirgilPublicKey] else {
-                    Log.error("Converting keys to Virgil failed")
-                    completion(NSError())
+                    completion(VirgilHelperError.keyIsNotVirgil)
                     return
                 }
                 self.selfKeys = virgilKeys
@@ -78,8 +72,7 @@ extension VirgilHelper {
         do {
             let keyPair = try self.crypto.generateKeyPair()
             guard let cardManager = self.cardManager else {
-                Log.error("Missing CardManager")
-                completion(NSError())
+                completion(VirgilHelperError.missingCardManager)
                 return
             }
 
@@ -171,7 +164,7 @@ extension VirgilHelper {
                     let json = try? JSONSerialization.jsonObject(with: responseBody, options: []) as? [String: Any],
                     let jwtStr = json?["token"] as? String else {
                         Log.error("Getting JWT failed")
-                        completion(nil, NSError())
+                        completion(nil, VirgilHelperError.gettingJwtFailed)
                         return
                 }
                 self.cashedJwt = jwtStr

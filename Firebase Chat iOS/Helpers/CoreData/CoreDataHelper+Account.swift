@@ -32,7 +32,7 @@ extension CoreDataHelper {
         }
     }
 
-    func loadAccount(withIdentity username: String) -> Bool {
+    func loadAccount(withIdentity username: String) throws {
         Log.debug("Core Data: Search for " + username)
         for account in self.accounts {
             if let identity = account.identity, identity == username {
@@ -40,11 +40,11 @@ extension CoreDataHelper {
                 Log.debug("Core Data: found account: " + identity)
                 let channels = account.channels
                 Log.debug("Core Data: it has " + String(describing: channels?.count) + " channels")
-                return true
+                return
             }
         }
         Log.debug("Core Data: Searching for account ended")
-        return false
+        throw CoreDataHelperError.missingAccount
     }
 
     func getAccount(withIdentity username: String) -> Account? {
