@@ -30,7 +30,7 @@ const validateFirebaseIdToken = (req: IRequestWithFirebaseUser, res: express.Res
     next();
   }).catch((error) => {
     console.error('Error while verifying Firebase ID token:', error);
-    res.status(403).send('Unauthorized');
+    res.status(401).send('Unauthorized');
   });
 };
 
