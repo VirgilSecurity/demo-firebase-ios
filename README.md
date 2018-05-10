@@ -36,10 +36,22 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 ### Firebase set up
 * Change bundleID of Xcode project to yours. 
 * Go to the [Firebase console](https://console.firebase.google.com) and create your own project.
-* Add this sample app to a Firebase project, use the bundleID from the Xcode project.
-* Select the **Auth** panel and then click the **Sign In Method** tab.
-* Click **Email/Password** and turn on the **Enable** switch, then click **Save**.
-* Download the generated GoogleService-Info.plist file, and copy it to the root directory of this sample.
+* Add this sample app to a Firebase project, using the bundleID from the Xcode project.
+* Select the **Authentication** panel and then click the **Sign In Method** tab.
+  *  Click **Email/Password** and turn on the **Enable** switch, then click **Save**.
+* Select the **Database** panel and then enable **Cloud Firestore**.
+  * Click **Rules** and paste:
+  ```
+  service cloud.firestore {
+    match /databases/{database}/documents {
+      match /{document=**} {
+        allow read, write: if request.auth.uid != null;
+      }
+    }
+  }
+  ```
+  * Click **PUBLISH**.
+* Download the generated GoogleService-Info.plist file from Project Settings and copy it to the root directory of this sample.
 
 #### Cloud functions
 * Install node if you don't have one. Firebase recommend to use v6.14.0 at the moment of the demo creation.
