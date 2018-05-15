@@ -75,13 +75,13 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Auth.auth().signIn(withEmail: email, password: password) { user, error in
-            guard let user = user, error == nil else {
+        Auth.auth().signIn(withEmail: email, password: password) { authDataResult, error in
+            guard let authDataResult = authDataResult, error == nil else {
                 Log.error("Sign in failed with error: \(error?.localizedDescription ?? "unknown error")")
                 self.alert(error?.localizedDescription ?? "Something went wrong")
                 return
             }
-            user.getIDToken { token, error in
+            authDataResult.user.getIDToken { token, error in
                 guard error == nil, let token = token else {
                     Log.error("Get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
                     self.alert(error?.localizedDescription ?? "Something went wrong")
@@ -113,13 +113,13 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Auth.auth().createUser(withEmail: email, password: password) { user, error in
-            guard let user = user, error == nil else {
+        Auth.auth().createUser(withEmail: email, password: password) { authDataResult, error in
+            guard let authDataResult = authDataResult, error == nil else {
                 Log.error("Creating user failed with error: \(error?.localizedDescription ?? "unknown error")")
                 self.alert(error?.localizedDescription ?? "Something went wrong")
                 return
             }
-            user.getIDToken { token, error in
+            authDataResult.user.getIDToken { token, error in
                 guard error == nil, let token = token else {
                     Log.error("Get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
                     self.alert(error?.localizedDescription ?? "Something went wrong")
