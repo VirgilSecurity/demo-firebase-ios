@@ -89,6 +89,7 @@ https://YOUR_FUNCTION_URL.cloudfunctions.net/api/generate_jwt
 
 ## Build and Run
 At this point you are ready to build and run the application on your iPhone or Simulator.
+You will surely want to try your new chat app with 2 users. Not sure how to run 2 simulators? Check out (How to run multiple simulators on Xcode 9?)[https://stackoverflow.com/questions/44384677/how-to-run-multiple-simulators-on-xcode-9]
 
 ## Credentials
 
