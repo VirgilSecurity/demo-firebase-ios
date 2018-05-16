@@ -3,7 +3,7 @@ A simple iOS application that demonstrates how the end-to-end encryption works. 
 
 ## Getting Started
 
-Start with cloning repository to your PC. Open *terminal*, navigate to the folder where you want to store the application and execute
+Start with cloning repository to your computer. Open *terminal*, navigate to the folder where you want to store the application and execute
 ```bash
 $ git clone https://github.com/VirgilSecurity/demo-firebase-ios -b develop
 
@@ -36,7 +36,6 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 ### Firebase set up
 * Change bundleID of Xcode project to yours. 
 * Go to the [Firebase console](https://console.firebase.google.com) and create your own project.
-* Add this sample app to a Firebase project, using the bundleID from the Xcode project.
 * Select the **Authentication** panel and then click the **Sign In Method** tab.
   *  Click **Email/Password** and turn on the **Enable** switch, then click **Save**.
 * Select the **Database** panel and then enable **Cloud Firestore**.
@@ -51,16 +50,16 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
   }
   ```
   * Click **PUBLISH**.
+* Go to the Project settings and add your iOS app's bundleID.
 * Download the generated GoogleService-Info.plist file from Project Settings and copy it to the root directory of this sample.
 
 #### Cloud functions
 * Install node if you don't have one. Firebase recommend to use v6.14.0 at the moment of the demo creation.
-* Run ` firebase login` to loggin to your firebase account.
-* Open your terminal app and run `npm install -g firebase-tools` if you don't have it.
-* After instal run `firebase init` in the project root.
-* Select `Functions: Configure and deploy Cloud Functions` with a space.
-* Select default firebase project if not selected.
-* Select this answers:
+* Run `firebase login` to login to your firebase account. Open your terminal app and run `npm install -g firebase-tools` if you don't have it.
+* After installed, run `firebase init` in the project root.
+* Select `Functions: Configure and deploy Cloud Functions` with the SPACEBAR, then hit ENTER
+* Select your firebase project from the list, ENTER.
+* Select the following answers:
 ```
 ? What language would you like to use to write Cloud Functions? TypeScript
 ? Do you want to use TSLint to catch probable bugs and enforce style? Yes
@@ -70,23 +69,28 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 ? File functions/src/index.ts already exists. Overwrite? No
 ? Do you want to install dependencies with npm now? Yes
 ```
-* Insert your configuration data from [Virgil Dashboard](https://dashboard.virgilsecurity.com/) and run command:
+
+* We'll now run this Firebase cli command, but first replace the parameters with data from you Virgil dashboard:
 ```
 firebase functions:config:set virgil.apiprivatekey="YOUR_API_PRIVATE_KEY" virgil.appid="YOUR_APP_ID" virgil.apikeyid="YOUR_API_KEY_ID"
 ```
+* Log back to the [Virgil Dashboard](https://dashboard.virgilsecurity.com/),
+* Create an API key: the private key will be copied on your clipboard. Paste this API key and your API Key's ID into the cli command
+* Go back to the dashboard, create an application and paste the Application ID into the cli command. Run it.
+
 * Run `firebase deploy --only functions`.
-* Go to the Firebase console -> Functions tab and copy your function url in Event column
-* Go to the VirgilHelper.swift and change variable jwtEndpoint to:
+* Go to the Firebase console -> Functions tab and copy your function url from the Event column
+* Go to Xcode -> Firebase Chat iOS/Helpers/Virgil/VirgilHelper.swift and change variable jwtEndpoint to:
 ```
 https://YOUR_FUNCTION_URL.cloudfunctions.net/api/generate_jwt
 ```
 
 ## Build and Run
-At this point you are ready to build and run the application on iPhone and/or Simulator.
+At this point you are ready to build and run the application on your iPhone or Simulator.
 
 ## Credentials
 
-To build this sample were used next third-party frameworks
+To build this sample we used the following third-party frameworks:
 
 * [Cloud Firestore](https://firebase.google.com/docs/firestore/) - as a database for messages, users and channels.
 * [Cloud Functions](https://firebase.google.com/docs/functions/) - getting jwt.
