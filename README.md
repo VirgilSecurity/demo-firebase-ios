@@ -72,7 +72,7 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 ```
 * Insert your configuration data from [Virgil Dashboard](https://dashboard.virgilsecurity.com/) and run command:
 ```
-firebase functions:config:set virgil.appid="YOUR_APP_ID" virgil.apikeyid="YOUR_API_KEY_ID" virgil.apiprivatekey="YOUR_API_PRIVATE_KEY"
+firebase functions:config:set virgil.apiprivatekey="YOUR_API_PRIVATE_KEY" virgil.appid="YOUR_APP_ID" virgil.apikeyid="YOUR_API_KEY_ID"
 ```
 * Run `firebase deploy --only functions`.
 * Go to the Firebase console -> Functions tab and copy your function url in Event column

@@ -22,7 +22,7 @@ const validateFirebaseIdToken = (req, res, next) => {
         next();
     }).catch((error) => {
         console.error('Error while verifying Firebase ID token:', error);
-        res.status(403).send('Unauthorized');
+        res.status(401).send('Unauthorized');
     });
 };
 const crypto = new virgil_crypto_1.VirgilCrypto();
