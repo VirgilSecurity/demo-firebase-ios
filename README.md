@@ -51,7 +51,7 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
   ```
   * Click **PUBLISH**.
 * Go to the Project settings and add your iOS app's bundleID.
-* Download the generated GoogleService-Info.plist file from Project Settings and copy it to the root directory of this sample.
+* Download the generated GoogleService-Info.plist file from Project Settings and copy it to the **Firebase Chat iOS** directory of this sample.
 
 #### Cloud functions
 * Install node if you don't have one. Firebase recommend to use v6.14.0 at the moment of the demo creation.
@@ -79,6 +79,8 @@ firebase functions:config:set virgil.apiprivatekey="YOUR_API_PRIVATE_KEY" virgil
 * Go back to the dashboard, create an application and paste the Application ID into the cli command. Run it.
 
 * Run `firebase deploy --only functions`.
+*Note: While Cloud Functions are in Beta, this command may fail with an unexpected error (HTTP 503 "The service is currently unavailable" in the log file), in which case, simply try running it again.*
+
 * Go to the Firebase console -> Functions tab and copy your function url from the Event column
 * Go to Xcode -> Firebase Chat iOS/Helpers/Virgil/VirgilHelper.swift and change variable jwtEndpoint to:
 ```
