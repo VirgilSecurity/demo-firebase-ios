@@ -72,9 +72,10 @@ extension FirebaseHelper {
                     guard let messageDocument = messageDocuments.first,
                         let receiver = messageDocument.data()[FirebaseHelper.Keys.receiver.rawValue] as? String,
                         let body = messageDocument.data()[FirebaseHelper.Keys.body.rawValue] as? String,
-                        let messageDate = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Date else {
+                        let timestamp = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Timestamp else {
                             break
                     }
+                    let messageDate = timestamp.dateValue()
                     let isIncoming = receiver == currentUser ? true : false
 
                     var decryptedBody: String?
