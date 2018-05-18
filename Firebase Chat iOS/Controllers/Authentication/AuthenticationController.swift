@@ -62,7 +62,7 @@ class AuthenticationController: ViewController {
     }
 
     @IBAction func signInButtonPressed(_ sender: Any) {
-        guard let email = self.emailTextField.text else {
+        guard let email = self.emailTextField.text?.lowercased() else {
             self.emailTextField.becomeFirstResponder()
             return
         }
@@ -100,7 +100,7 @@ class AuthenticationController: ViewController {
     }
 
     @IBAction func signUpButtonPressed(_ sender: Any) {
-        guard let email = self.emailTextField.text else {
+        guard let email = self.emailTextField.text?.lowercased() else {
             self.emailTextField.becomeFirstResponder()
             return
         }
