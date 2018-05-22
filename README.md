@@ -1,5 +1,5 @@
 # demo-firebase-ios
-A simple iOS application that demonstrates how the end-to-end encryption works with firebase as a backend service for authentication and chat messaging.
+A simple iOS application that demonstrates how end-to-end encryption works with firebase as a backend service for authentication and chat messaging. While this is a chat app, you can reuse it in any other apps to protect user data, documents, images.
 
 ## Getting Started
 
