@@ -28,7 +28,6 @@ $ brew install cocoapods
 This example already has Pod file with all required dependencies. All you need to do is to go to the project folder and update these dependencies.
 
 ```bash 
-$ cd PathToProjectFolder/demo-firebase-ios
 $ pod install
 $ open Firebase\ Chat\ iOS.xcworkspace/
 ```
