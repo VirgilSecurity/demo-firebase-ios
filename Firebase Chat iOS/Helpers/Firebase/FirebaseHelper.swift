@@ -64,7 +64,7 @@ class FirebaseHelper {
                     Log.error("get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
                     return
                 }
-                VirgilHelper.sharedInstance.update(email: email, authToken: token)
+                VirgilHelper.sharedInstance.setCardManager(email: email, authToken: token)
             }
         }
     }
