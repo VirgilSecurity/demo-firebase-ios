@@ -1,11 +1,11 @@
 # demo-firebase-ios
-A simple iOS application that demonstrates how the end-to-end encryption works. The application uses firebase as a backend service for authentication and chat messaging.
+A simple iOS application that demonstrates how end-to-end encryption works with firebase as a backend service for authentication and chat messaging. While this is a chat app, you can reuse it in any other apps to protect user data, documents, images.
 
 ## Getting Started
 
 Start with cloning repository to your computer. Open *terminal*, navigate to the folder where you want to store the application and execute
 ```bash
-$ git clone https://github.com/VirgilSecurity/demo-firebase-ios -b develop
+$ git clone https://github.com/VirgilSecurity/demo-firebase-ios
 
 $ cd demo-firebase-ios
 ```
@@ -28,7 +28,6 @@ $ brew install cocoapods
 This example already has Pod file with all required dependencies. All you need to do is to go to the project folder and update these dependencies.
 
 ```bash 
-$ cd PathToProjectFolder/demo-firebase-ios
 $ pod install
 $ open Firebase\ Chat\ iOS.xcworkspace/
 ```

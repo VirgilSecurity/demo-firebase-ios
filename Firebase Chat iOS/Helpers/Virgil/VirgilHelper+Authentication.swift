@@ -18,6 +18,9 @@ extension VirgilHelper {
     ///   - token: Firebase Auth token
     ///   - completion: completion handler, called with error if failed
     func signIn(with identity: String, token: String, completion: @escaping (Error?) -> ()) {
+        Log.debug("Signing in")
+        self.setCardManager(email: identity, authToken: token)
+
         guard self.keyStorage.exists(withName: identity) else {
             self.signUp(with: identity, token: token) { error in
                 completion(error)
@@ -25,8 +28,6 @@ extension VirgilHelper {
             return
         }
 
-        Log.debug("Signing in")
-        self.update(email: identity, authToken: token)
         do {
             guard let cardManager = self.cardManager else {
                 throw VirgilHelperError.missingCardManager
@@ -40,20 +41,8 @@ extension VirgilHelper {
             }
             self.privateKey = privateKey
 
-            cardManager.searchCards(identity: identity) { cards, error in
-                guard error == nil, let cards = cards else {
-                    Log.error("Search self cards failed with error: \(error?.localizedDescription ?? "unknown error")")
-                    completion(error)
-                    return
-                }
-                let keys = cards.map { $0.publicKey }
-                guard let virgilKeys = keys as? [VirgilPublicKey] else {
-                    completion(VirgilHelperError.keyIsNotVirgil)
-                    return
-                }
-                self.selfKeys = virgilKeys
-
-                completion(nil)
+            self.setSelfKeys(identity: identity, cardManager: cardManager) { error in
+                completion(error)
             }
         } catch {
             completion(error)
@@ -68,7 +57,7 @@ extension VirgilHelper {
     ///   - completion: completion handler, called with error if failed
     func signUp(with identity: String, token: String, completion: @escaping (Error?) -> ()) {
         Log.debug("Signing up")
-        self.update(email: identity, authToken: token)
+        self.setCardManager(email: identity, authToken: token)
         do {
             let keyPair = try self.crypto.generateKeyPair()
             guard let cardManager = self.cardManager else {
@@ -95,21 +84,9 @@ extension VirgilHelper {
                     var err: Error?
 
                     group.enter()
-                    cardManager.searchCards(identity: identity) { cards, error in
-                        guard error == nil, let cards = cards else {
-                            Log.error("Search self cards failed with error: \(error?.localizedDescription ?? "unknown error")")
-                            err = error
-                            return
-                        }
-                        let keys = cards.map { $0.publicKey }
-                        guard let virgilKeys = keys as? [VirgilPublicKey] else {
-                            Log.error("Converting keys to Virgil failed")
-                            err = NSError()
-                            return
-                        }
-                        self.selfKeys = virgilKeys
-
-                        defer { group.leave() }
+                    self.setSelfKeys(identity: identity, cardManager: cardManager) { error in
+                        err = error
+                        group.leave()
                     }
 
                     group.enter()
@@ -148,7 +125,7 @@ extension VirgilHelper {
     /// - Parameters:
     ///   - identity: new user's identity
     ///   - authToken: Firebase Auth token
-    func update(email identity: String, authToken: String) {
+    func setCardManager(email identity: String, authToken: String) {
         let accessTokenProvider = CallbackJwtProvider(getTokenCallback: { tokenContext, completion in
             if let cashedJwt = self.cashedJwt, !tokenContext.forceReload {
                 completion(cashedJwt, nil)

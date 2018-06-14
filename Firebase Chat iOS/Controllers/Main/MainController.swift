@@ -8,8 +8,6 @@
 
 import Foundation
 import Firebase
-import VirgilSDK
-import VirgilCryptoApiImpl
 
 class MainController: ViewController {
     @IBOutlet weak var tableView: UITableView!

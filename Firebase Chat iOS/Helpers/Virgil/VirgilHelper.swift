@@ -126,6 +126,31 @@ class VirgilHelper {
         }
     }
 
+
+    /// Searches and sets self Public Keys to encrypt for
+    ///
+    /// - Parameters:
+    ///   - identity: self identity
+    ///   - cardManager: Card Manager instance
+    ///   - completion: completion handler, called with error if failed
+    func setSelfKeys(identity: String, cardManager: CardManager, completion: @escaping (Error?) -> ()) {
+        cardManager.searchCards(identity: identity) { cards, error in
+            guard error == nil, let cards = cards else {
+                Log.error("Search self cards failed with error: \(error?.localizedDescription ?? "unknown error")")
+                completion(error)
+                return
+            }
+            let keys = cards.map { $0.publicKey }
+            guard let virgilKeys = keys as? [VirgilPublicKey] else {
+                completion(VirgilHelperError.keyIsNotVirgil)
+                return
+            }
+            self.selfKeys = virgilKeys
+
+            completion(nil)
+        }
+    }
+
     /// Makes SHA256 hash
     ///
     /// - Parameter string: String, from which to make hash
