@@ -91,6 +91,7 @@ class FirebaseHelper {
                 Log.error("Error fetching messages: \(error?.localizedDescription ?? "unknown error")")
                 return
             }
+
             NotificationCenter.default.post(
                 name: Notification.Name(rawValue: FirebaseHelper.Notifications.MessageAdded.rawValue),
                 object: self,

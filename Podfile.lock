@@ -92,7 +92,7 @@ DEPENDENCIES:
   - VirgilSDK (~> 5.0.0)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - BoringSSL
     - Chatto
     - ChattoAdditions
@@ -144,4 +144,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 608ddc955f816ef94adb5b24b0500eeebee69a79
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3
