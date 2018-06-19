@@ -13,9 +13,9 @@ class MainController: ViewController {
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
-        if let email = CoreDataHelper.sharedInstance.currentAccount?.identity,
+        if let id = CoreDataHelper.sharedInstance.currentAccount?.identity,
             FirebaseHelper.sharedInstance.channelListListener == nil {
-                FirebaseHelper.sharedInstance.setUpChannelListListener(email: email)
+                FirebaseHelper.sharedInstance.setUpChannelListListener(for: id)
         }
 
         self.tableView.register(UINib(nibName: ChatListCell.name, bundle: Bundle.main),
@@ -41,14 +41,14 @@ class MainController: ViewController {
                 Log.error("processing new channel failed")
                 return
         }
-        guard let user = Auth.auth().currentUser, let email = user.email else {
-            Log.error("get current user failed")
+        guard let id = CoreDataHelper.sharedInstance.currentAccount?.identity else {
+            Log.error("Getting current user id from Core Data failed")
             return
         }
         for channel in channels {
             if !CoreDataHelper.sharedInstance.doesChannelExist(withGlobalName: channel) {
                 FirebaseHelper.sharedInstance.getChannelMembers(channel: channel) { members, error in
-                    let newChannelName = members.filter { $0 != email }.first
+                    let newChannelName = members.filter { $0 != id }.first
                     guard error == nil, let name = newChannelName else {
                         Log.error("Getting channel members failed")
                         return
@@ -83,27 +83,27 @@ class MainController: ViewController {
 
     private func addChat(withUsername username: String) {
         guard !username.isEmpty else {
-            self.alert(withTitle: "There are no such user")
+            self.alert("There are no such user")
             return
         }
         let username = username.lowercased()
 
         guard let currentUser = CoreDataHelper.sharedInstance.currentAccount?.identity else {
-            self.alert(withTitle: "Seems like your profile corrupted")
+            self.alert("Seems like your profile corrupted")
             return
         }
         guard username != currentUser else {
-            self.alert(withTitle: "You need to communicate with other people :)")
+            self.alert("You need to communicate with other people :)")
             return
         }
         guard !CoreDataHelper.sharedInstance.doesChannelExist(withName: username) else {
-            self.alert(withTitle: "You already have this channel")
+            self.alert("You already have this channel")
             return
         }
 
         FirebaseHelper.sharedInstance.doesUserExist(withUsername: username) { exist in
             guard exist else {
-                self.alert(withTitle: "There are no such user")
+                self.alert("There are no such user")
                 return
             }
 
@@ -116,13 +116,6 @@ class MainController: ViewController {
                 self.tableView.reloadData()
             }
         }
-    }
-
-    private func alert(withTitle: String) {
-        let alert = UIAlertController(title: self.title, message: withTitle, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-
-        self.present(alert, animated: true)
     }
 
     deinit {
@@ -214,17 +207,5 @@ extension MainController: CellTapDelegate {
             chatController.dataSource = dataSource
             chatController.messageSender = dataSource.messageSender
         }
-    }
-}
-
-extension MainController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let text = textField.text else { return true }
-        if string.rangeOfCharacter(from: ChatConstants.characterSet.inverted) != nil {
-            Log.debug("string contains special characters")
-            return false
-        }
-        let newLength = text.count + string.count - range.length
-        return newLength <= ChatConstants.limitLength
     }
 }

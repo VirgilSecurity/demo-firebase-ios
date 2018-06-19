@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     deinit {
         Log.debug(self.description)
     }
@@ -23,5 +23,22 @@ class ViewController: UIViewController {
 
     var isRootViewController: Bool {
         return self.navigationController?.viewControllers.count ?? 1 == 1
+    }
+
+    func alert(_ message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+
+        self.present(alert, animated: true)
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        if string.rangeOfCharacter(from: ChatConstants.characterSet.inverted) != nil {
+            Log.debug("string contains special characters")
+            return false
+        }
+        let newLength = text.count + string.count - range.length
+        return newLength <= ChatConstants.limitLength
     }
 }

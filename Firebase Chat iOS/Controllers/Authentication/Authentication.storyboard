@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bD1-ji-dcc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bD1-ji-dcc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -37,7 +37,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="otV-OF-Xdw">
                                 <rect key="frame" x="8" y="264.5" width="359" height="158"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jHS-IW-Yyr">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jHS-IW-Yyr">
                                         <rect key="frame" x="0.0" y="0.0" width="359" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="z56-iv-gbG"/>
@@ -115,7 +115,7 @@
                     <navigationItem key="navigationItem" id="cUp-BE-Ya2"/>
                     <connections>
                         <outlet property="bottomConstraint" destination="LCc-iS-82C" id="BM1-gF-vpa"/>
-                        <outlet property="emailTextField" destination="jHS-IW-Yyr" id="R3a-YF-2ir"/>
+                        <outlet property="idTextField" destination="jHS-IW-Yyr" id="6fh-9f-uXa"/>
                         <outlet property="passwordTextField" destination="Gq4-hB-8fE" id="Zrf-vn-MUO"/>
                     </connections>
                 </viewController>

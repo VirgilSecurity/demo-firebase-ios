@@ -62,8 +62,9 @@ class DataSource: ChatDataSourceProtocol {
         Log.debug("processing message")
         guard  let userInfo = notification.userInfo,
             let messages = userInfo[FirebaseHelper.NotificationKeys.messages.rawValue] as? [QueryDocumentSnapshot],
-            let currentUser = CoreDataHelper.sharedInstance.currentAccount?.identity else {
-            return
+            let currentUser = CoreDataHelper.sharedInstance.currentAccount?.identity,
+            let channel = CoreDataHelper.sharedInstance.currentChannel?.globalName else {
+                return
         }
 
         if (self.countCore < messages.count) {
@@ -91,6 +92,8 @@ class DataSource: ChatDataSourceProtocol {
                                                                              date: messageDate)
                 CoreDataHelper.sharedInstance.createTextMessage(withBody: decryptedBody ?? "Message encrypted",
                                                                 isIncoming: isIncoming, date: messageDate)
+                FirebaseHelper.sharedInstance.blindMessageBody(messageNumber: "\(i)", channel: channel, currentUser: currentUser,
+                                                               receiver: receiver, date: messageDate)
 
                 self.countCore += 1
                 self.slidingWindow.insertItem(decryptedMessage, position: .bottom)
