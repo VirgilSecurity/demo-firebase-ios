@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         settings.areTimestampsInSnapshotsEnabled = true
         db.settings = settings
 
-        UIApplication.shared.delegate?.window??.rootViewController = UIStoryboard(name: "Authentication", bundle: Bundle.main).instantiateInitialViewController()!
+        UIApplication.shared.delegate?.window??.rootViewController = UIStoryboard(name: "Start", bundle: Bundle.main).instantiateInitialViewController()!
 
         if UserDefaults.standard.string(forKey: "first_launch")?.isEmpty ?? true {
             try? KeyStorage().reset()

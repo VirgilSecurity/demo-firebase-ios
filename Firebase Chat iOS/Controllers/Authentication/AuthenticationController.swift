@@ -154,30 +154,7 @@ class AuthenticationController: ViewController {
         }
     }
 
-    private func alert(_ message: String) {
-        DispatchQueue.main.async {
-            PKHUD.sharedHUD.hide { _ in
-                let controller = UIAlertController(title: self.title, message: message, preferredStyle: .alert)
-                controller.addAction(UIAlertAction(title: "OK", style: .default))
-                self.present(controller, animated: true)
-            }
-        }
-    }
-
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
 }
-
-extension AuthenticationController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let text = textField.text else { return true }
-        if string.rangeOfCharacter(from: ChatConstants.characterSet.inverted) != nil {
-            Log.debug("String contains special characters")
-            return false
-        }
-        let newLength = text.count + string.count - range.length
-        return newLength <= ChatConstants.limitLength
-    }
-}
-
