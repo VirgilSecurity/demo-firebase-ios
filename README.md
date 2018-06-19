@@ -5,7 +5,7 @@ A simple iOS application that demonstrates how end-to-end encryption works with 
 
 Start with cloning repository to your computer. Open *terminal*, navigate to the folder where you want to store the application and execute
 ```bash
-$ git clone https://github.com/VirgilSecurity/demo-firebase-ios -b develop
+$ git clone https://github.com/VirgilSecurity/demo-firebase-ios -b move-functions
 
 $ cd demo-firebase-ios
 ```
