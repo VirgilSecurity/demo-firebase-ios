@@ -63,7 +63,7 @@ class DataSource: ChatDataSourceProtocol {
         guard  let userInfo = notification.userInfo,
             let messages = userInfo[FirebaseHelper.NotificationKeys.messages.rawValue] as? [QueryDocumentSnapshot],
             let currentUser = CoreDataHelper.sharedInstance.currentAccount?.identity,
-            let channel = CoreDataHelper.sharedInstance.currentChannel?.name else {
+            let channel = CoreDataHelper.sharedInstance.currentChannel?.globalName else {
                 return
         }
 

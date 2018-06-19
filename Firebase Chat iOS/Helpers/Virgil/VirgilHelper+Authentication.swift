@@ -19,7 +19,7 @@ extension VirgilHelper {
     ///   - completion: completion handler, called with error if failed
     func signIn(with identity: String, token: String, completion: @escaping (Error?) -> ()) {
         Log.debug("Signing in")
-        self.setCardManager(email: identity, authToken: token)
+        self.setCardManager(identity: identity, authToken: token)
 
         guard self.keyStorage.exists(withName: identity) else {
             self.signUp(with: identity, token: token) { error in
@@ -57,7 +57,7 @@ extension VirgilHelper {
     ///   - completion: completion handler, called with error if failed
     func signUp(with identity: String, token: String, completion: @escaping (Error?) -> ()) {
         Log.debug("Signing up")
-        self.setCardManager(email: identity, authToken: token)
+        self.setCardManager(identity: identity, authToken: token)
         do {
             let keyPair = try self.crypto.generateKeyPair()
             guard let cardManager = self.cardManager else {
@@ -92,7 +92,7 @@ extension VirgilHelper {
                     group.enter()
                     FirebaseHelper.sharedInstance.doesUserExist(withUsername: identity) { exist in
                         if !exist {
-                            FirebaseHelper.sharedInstance.createUser(email: identity) { error in
+                            FirebaseHelper.sharedInstance.createUser(identity: identity) { error in
                                 if let error = error {
                                     Log.error("Firebase: creating user failed with error: \(error.localizedDescription)")
                                     err = error
@@ -125,7 +125,7 @@ extension VirgilHelper {
     /// - Parameters:
     ///   - identity: new user's identity
     ///   - authToken: Firebase Auth token
-    func setCardManager(email identity: String, authToken: String) {
+    func setCardManager(identity: String, authToken: String) {
         let accessTokenProvider = CallbackJwtProvider(getTokenCallback: { tokenContext, completion in
             if let cashedJwt = self.cashedJwt, !tokenContext.forceReload {
                 completion(cashedJwt, nil)

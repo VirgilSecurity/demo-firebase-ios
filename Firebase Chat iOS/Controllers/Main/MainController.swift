@@ -13,9 +13,9 @@ class MainController: ViewController {
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
-        if let email = CoreDataHelper.sharedInstance.currentAccount?.identity,
+        if let id = CoreDataHelper.sharedInstance.currentAccount?.identity,
             FirebaseHelper.sharedInstance.channelListListener == nil {
-                FirebaseHelper.sharedInstance.setUpChannelListListener(email: email)
+                FirebaseHelper.sharedInstance.setUpChannelListListener(for: id)
         }
 
         self.tableView.register(UINib(nibName: ChatListCell.name, bundle: Bundle.main),
@@ -41,14 +41,14 @@ class MainController: ViewController {
                 Log.error("processing new channel failed")
                 return
         }
-        guard let user = Auth.auth().currentUser, let email = user.email else {
-            Log.error("get current user failed")
+        guard let id = CoreDataHelper.sharedInstance.currentAccount?.identity else {
+            Log.error("Getting current user id from Core Data failed")
             return
         }
         for channel in channels {
             if !CoreDataHelper.sharedInstance.doesChannelExist(withGlobalName: channel) {
                 FirebaseHelper.sharedInstance.getChannelMembers(channel: channel) { members, error in
-                    let newChannelName = members.filter { $0 != email }.first
+                    let newChannelName = members.filter { $0 != id }.first
                     guard error == nil, let name = newChannelName else {
                         Log.error("Getting channel members failed")
                         return

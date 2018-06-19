@@ -55,7 +55,7 @@ class FirebaseHelper {
         self.channelListener = nil
 
         FirebaseHelper.tokenChangeListener = Auth.auth().addIDTokenDidChangeListener { auth, user in
-            guard let user = user, let email = user.email else {
+            guard let user = user, let id = CoreDataHelper.sharedInstance.currentAccount?.identity else {
                 Log.error("Refresh token failed")
                 return
             }
@@ -64,13 +64,13 @@ class FirebaseHelper {
                     Log.error("get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
                     return
                 }
-                VirgilHelper.sharedInstance.setCardManager(email: email, authToken: token)
+                VirgilHelper.sharedInstance.setCardManager(identity: id, authToken: token)
             }
         }
     }
 
-    func setUpChannelListListener(email: String) {
-        self.channelListListener = self.userCollection.document(email).addSnapshotListener { documentSnapshot, error in
+    func setUpChannelListListener(for id: String) {
+        self.channelListListener = self.userCollection.document(id).addSnapshotListener { documentSnapshot, error in
             guard let channels = documentSnapshot?.get("channels") as? [String] else {
                 print("Error fetching document: \(error?.localizedDescription ?? "unknown error")")
                 return

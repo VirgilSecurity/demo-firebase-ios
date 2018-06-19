@@ -11,7 +11,7 @@ import Firebase
 import PKHUD
 
 class AuthenticationController: ViewController {
-    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var idTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
@@ -22,6 +22,8 @@ class AuthenticationController: ViewController {
         FirebaseHelper.sharedInstance.channelListListener?.remove()
         FirebaseHelper.sharedInstance.channelListListener = nil
         CoreDataHelper.sharedInstance.setCurrent(account: nil)
+        self.idTextField.delegate = self
+        self.passwordTextField.delegate = self
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(AuthenticationController.keyboardWillShow(notification:)),
@@ -62,8 +64,8 @@ class AuthenticationController: ViewController {
     }
 
     @IBAction func signInButtonPressed(_ sender: Any) {
-        guard let email = self.emailTextField.text?.lowercased() else {
-            self.emailTextField.becomeFirstResponder()
+        guard let id = self.idTextField.text?.lowercased() else {
+            self.idTextField.becomeFirstResponder()
             return
         }
         guard let password = self.passwordTextField.text else {
@@ -75,7 +77,7 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Auth.auth().signIn(withEmail: email, password: password) { authDataResult, error in
+        Auth.auth().signIn(withEmail: self.makeFakeEmail(from: id), password: password) { authDataResult, error in
             guard let authDataResult = authDataResult, error == nil else {
                 Log.error("Sign in failed with error: \(error?.localizedDescription ?? "unknown error")")
                 self.alert(error?.localizedDescription ?? "Something went wrong")
@@ -87,7 +89,7 @@ class AuthenticationController: ViewController {
                     self.alert(error?.localizedDescription ?? "Something went wrong")
                     return
                 }
-                VirgilHelper.sharedInstance.signIn(with: email, token: token) { error in
+                VirgilHelper.sharedInstance.signIn(with: id, token: token) { error in
                     guard error == nil else {
                         Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
                         self.alert(error!.localizedDescription)
@@ -100,10 +102,11 @@ class AuthenticationController: ViewController {
     }
 
     @IBAction func signUpButtonPressed(_ sender: Any) {
-        guard let email = self.emailTextField.text?.lowercased() else {
-            self.emailTextField.becomeFirstResponder()
+        guard let id = self.idTextField.text?.lowercased() else {
+            self.idTextField.becomeFirstResponder()
             return
         }
+
         guard let password = self.passwordTextField.text else {
             self.passwordTextField.becomeFirstResponder()
             return
@@ -113,7 +116,7 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Auth.auth().createUser(withEmail: email, password: password) { authDataResult, error in
+        Auth.auth().createUser(withEmail: self.makeFakeEmail(from: id), password: password) { authDataResult, error in
             guard let authDataResult = authDataResult, error == nil else {
                 Log.error("Creating user failed with error: \(error?.localizedDescription ?? "unknown error")")
                 self.alert(error?.localizedDescription ?? "Something went wrong")
@@ -125,7 +128,7 @@ class AuthenticationController: ViewController {
                     self.alert(error?.localizedDescription ?? "Something went wrong")
                     return
                 }
-                VirgilHelper.sharedInstance.signUp(with: email, token: token) { error in
+                VirgilHelper.sharedInstance.signUp(with: id, token: token) { error in
                     guard error == nil else {
                         Log.error("Virgil sign in failed with error: \(error!.localizedDescription)")
                         self.alert(error!.localizedDescription)
@@ -135,6 +138,10 @@ class AuthenticationController: ViewController {
                 }
             }
         }
+    }
+
+    private func makeFakeEmail(from id: String) -> String {
+        return id + "@virgilfirebase.com"
     }
 
     private func goToChatList() {
