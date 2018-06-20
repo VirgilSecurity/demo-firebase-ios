@@ -17,6 +17,8 @@
 		164D697E207E25D600F3A368 /* ServiceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D697A207E25D600F3A368 /* ServiceResponse.swift */; };
 		168980E92095EAE800BA8E08 /* Authentication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168980E82095EAE800BA8E08 /* Authentication.storyboard */; };
 		168980EB2095F03F00BA8E08 /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168980EA2095F03F00BA8E08 /* AuthenticationController.swift */; };
+		169E792820D8FE1C00AF0A33 /* StartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169E792720D8FE1C00AF0A33 /* StartController.swift */; };
+		169E792A20D8FE2600AF0A33 /* Start.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 169E792920D8FE2600AF0A33 /* Start.storyboard */; };
 		16A5D620207D004500DFAD6F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A5D61F207D004500DFAD6F /* AppDelegate.swift */; };
 		16A5D622207D004500DFAD6F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A5D621207D004500DFAD6F /* ViewController.swift */; };
 		16A5D625207D004500DFAD6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A5D623207D004500DFAD6F /* Main.storyboard */; };
@@ -70,6 +72,8 @@
 		164D697A207E25D600F3A368 /* ServiceResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceResponse.swift; sourceTree = "<group>"; };
 		168980E82095EAE800BA8E08 /* Authentication.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Authentication.storyboard; sourceTree = "<group>"; };
 		168980EA2095F03F00BA8E08 /* AuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationController.swift; sourceTree = "<group>"; };
+		169E792720D8FE1C00AF0A33 /* StartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartController.swift; sourceTree = "<group>"; };
+		169E792920D8FE2600AF0A33 /* Start.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Start.storyboard; sourceTree = "<group>"; };
 		16A5D61C207D004500DFAD6F /* Firebase Chat iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Firebase Chat iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16A5D61F207D004500DFAD6F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		16A5D621207D004500DFAD6F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +169,8 @@
 			children = (
 				168980E82095EAE800BA8E08 /* Authentication.storyboard */,
 				168980EA2095F03F00BA8E08 /* AuthenticationController.swift */,
+				169E792920D8FE2600AF0A33 /* Start.storyboard */,
+				169E792720D8FE1C00AF0A33 /* StartController.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -417,6 +423,7 @@
 				16AF355A2080B5F100B441D0 /* ChatListCell.xib in Resources */,
 				16E6C72820862BE000FAE035 /* SendingStatusCollectionViewCell.xib in Resources */,
 				168980E92095EAE800BA8E08 /* Authentication.storyboard in Resources */,
+				169E792A20D8FE2600AF0A33 /* Start.storyboard in Resources */,
 				16A5D627207D004700DFAD6F /* Assets.xcassets in Resources */,
 				16A5D625207D004500DFAD6F /* Main.storyboard in Resources */,
 			);
@@ -521,6 +528,7 @@
 				16BAEBEB20932FAE00AC4F87 /* FirebaseHelper+User.swift in Sources */,
 				16AF355D2080B64700B441D0 /* ChatListCell.swift in Sources */,
 				168980EB2095F03F00BA8E08 /* AuthenticationController.swift in Sources */,
+				169E792820D8FE1C00AF0A33 /* StartController.swift in Sources */,
 				16A5D620207D004500DFAD6F /* AppDelegate.swift in Sources */,
 				16E6C72720862BE000FAE035 /* SendingStatusCollectionViewCell.swift in Sources */,
 				16AF357A2080CD7E00B441D0 /* Constants.swift in Sources */,

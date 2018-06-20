@@ -10,8 +10,8 @@ import Foundation
 import Firebase
 
 extension FirebaseHelper {
-    func createUser(email: String, completion: @escaping (Error?) -> ()) {
-        let userReference = self.userCollection.document(email)
+    func createUser(identity: String, completion: @escaping (Error?) -> ()) {
+        let userReference = self.userCollection.document(identity)
         userReference.setData([
             Keys.createdAt.rawValue: Date(),
             Keys.channels.rawValue: []

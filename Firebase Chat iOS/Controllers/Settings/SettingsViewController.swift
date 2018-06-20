@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class SettingsViewController: ViewController {
     @IBOutlet weak var letterLabel: UILabel!
@@ -38,8 +39,7 @@ extension SettingsViewController: UITableViewDelegate {
         if indexPath.section == 0 {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: "Logout", style: .destructive) { _ in
-                UserDefaults.standard.set(nil, forKey: "last_username")
-
+                try? Auth.auth().signOut()
                 let vc = UIStoryboard(name: "Authentication", bundle: Bundle.main).instantiateInitialViewController() as! UINavigationController
                 self.switchNavigationStack(to: vc)
             })
