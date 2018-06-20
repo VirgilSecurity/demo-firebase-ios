@@ -169,8 +169,8 @@
 			children = (
 				168980E82095EAE800BA8E08 /* Authentication.storyboard */,
 				168980EA2095F03F00BA8E08 /* AuthenticationController.swift */,
-				169E792720D8FE1C00AF0A33 /* StartController.swift */,
 				169E792920D8FE2600AF0A33 /* Start.storyboard */,
+				169E792720D8FE1C00AF0A33 /* StartController.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";

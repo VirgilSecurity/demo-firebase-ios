@@ -37,7 +37,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="otV-OF-Xdw">
                                 <rect key="frame" x="8" y="264.5" width="359" height="158"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jHS-IW-Yyr">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Create ID (e.g. Alice_123)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jHS-IW-Yyr">
                                         <rect key="frame" x="0.0" y="0.0" width="359" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="z56-iv-gbG"/>
