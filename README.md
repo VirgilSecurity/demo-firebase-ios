@@ -1,5 +1,6 @@
 # demo-firebase-ios
 A simple iOS application that demonstrates how end-to-end encryption works with firebase as a backend service for authentication and chat messaging. While this is a chat app, you can reuse it in any other apps to protect user data, documents, images.
+You can also watch [this YouTube video](https://www.youtube.com/watch?v=6zpzbcm_3I8) to see the whole tutorial.
 
 ## Getting Started
 
@@ -65,6 +66,7 @@ At this point you are ready to build and run the application on your iPhone or S
 * You will surely want to try your new chat app with 2 users. Not sure how to run 2 simulators? Check out [How to run multiple simulators on Xcode 9?](https://stackoverflow.com/questions/44384677/how-to-run-multiple-simulators-on-xcode-9)
 * Check out what Firebase sees from your users' chats: Firebase dashboard -> Database -> Channels -> click on the thread -> Messages. This is what the rest of the world is seeing from the chat, without having access to the users' private keys (which we store on their devices).
 * Would you like to "zero knowledge" save the user private keys, in case they switch/lose devices? [Sign up for our Private Key Backup preview service](http://eepurl.com/ddbAif)
+* To see the whole tutorial done, watch [this YouTube video](https://www.youtube.com/watch?v=6zpzbcm_3I8).
 
 ## Credentials
 
