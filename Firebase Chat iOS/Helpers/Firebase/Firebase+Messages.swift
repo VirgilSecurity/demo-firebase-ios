@@ -45,14 +45,14 @@ extension FirebaseHelper {
         }
     }
 
-    func blindMessageBody(messageNumber: String, channel: String, currentUser: String,
+    func blindMessageBody(messageNumber: String, channel: String, sender: String,
                           receiver: String, date: Date) {
         let channelReference = self.channelCollection.document(channel)
         let messagesCollection = channelReference.collection(Collections.messages.rawValue)
 
         messagesCollection.document("\(messageNumber)").setData([
             Keys.body.rawValue: "",
-            Keys.sender.rawValue: currentUser,
+            Keys.sender.rawValue: sender,
             Keys.receiver.rawValue: receiver,
             Keys.createdAt.rawValue: date
         ]) { error in
@@ -91,6 +91,7 @@ extension FirebaseHelper {
                     let messageDocuments = messages.filter({ $0.documentID == "\(i)" })
                     guard let messageDocument = messageDocuments.first,
                         let receiver = messageDocument.data()[FirebaseHelper.Keys.receiver.rawValue] as? String,
+                        let sender = messageDocument.data()[FirebaseHelper.Keys.sender.rawValue] as? String,
                         let body = messageDocument.data()[FirebaseHelper.Keys.body.rawValue] as? String,
                         let timestamp = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Timestamp else {
                             break
@@ -111,7 +112,7 @@ extension FirebaseHelper {
                     CoreDataHelper.sharedInstance.createTextMessage(withBody: decryptedBody ?? "Message encrypted",
                                                                     isIncoming: isIncoming, date: messageDate)
                     if isIncoming {
-                        FirebaseHelper.sharedInstance.blindMessageBody(messageNumber: "\(i)", channel: channel, currentUser: currentUser,
+                        FirebaseHelper.sharedInstance.blindMessageBody(messageNumber: "\(i)", channel: channel, sender: sender,
                                                                        receiver: receiver, date: messageDate)
                     }
                     count += 1
