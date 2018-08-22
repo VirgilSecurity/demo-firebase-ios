@@ -53,8 +53,8 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
 * Download the generated GoogleService-Info.plist file from Project Settings and copy it to the **Firebase Chat iOS** directory of this sample.
 
 #### Cloud functions
-* To set up cloud functions for Virgil JWT generation follow the instructions [here](https://github.com/VirgilSecurity/demo-firebase-func)
-* Go to the Firebase console -> Functions tab and copy your function url from the Event column
+* In order for the mobile app to work, you need to deploy a Firebase cloud function that generates JWT tokens for Virgil's APIs. [Follow setup instructions here](https://github.com/VirgilSecurity/demo-firebase-func)
+* Once the function is successfully created, go to the Firebase console -> Functions tab and copy your function url from the Event column
 * Go to Xcode -> Firebase Chat iOS/Helpers/Virgil/VirgilHelper.swift and change variable jwtEndpoint to:
 ```
 https://YOUR_FUNCTION_URL.cloudfunctions.net/api/generate_jwt
