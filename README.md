@@ -1,14 +1,15 @@
 # demo-firebase-ios
-A simple iOS application that demonstrates how end-to-end encryption works with firebase as a backend service for authentication and chat messaging. While this is a chat app, you can reuse it in any other apps to protect user data, documents, images.
-You can also [click here](https://www.youtube.com/watch?v=6zpzbcm_3I8) to watch the whole tutorial on YouTube.
+End-to-end encrypted, HIPAA-compliant iOS chat sample app for Firebase. While this is a chat app, you can reuse it in any other apps to protect user data, documents, images using Virgil's end-to-end encryption. Only HIPAA-compliant for chat use-cases.
 
-## Getting Started
+[Watch setup tutorial on YouTube](https://www.youtube.com/watch?v=6zpzbcm_3I8)
+
+## Clone project
 
 Start with cloning repository to your computer. Open *terminal*, navigate to the folder where you want to store the application and execute
 ```bash
-$ git clone https://github.com/VirgilSecurity/demo-firebase-ios
+git clone https://github.com/VirgilSecurity/demo-firebase-ios
 
-$ cd demo-firebase-ios
+cd demo-firebase-ios
 ```
 
 ## Prerequisites
@@ -21,23 +22,23 @@ $ cd demo-firebase-ios
 You can install Cocoapods with [Homebrew](http://brew.sh/) using the following command:
 
 ```bash
-$ brew update
-$ brew install cocoapods
+brew update
+brew install cocoapods
 ```
 
-#### Updating dependencies
+#### Update dependencies
 This example already has Pod file with all required dependencies. All you need to do is to go to the project folder and update these dependencies.
 
 ```bash 
-$ pod install
-$ open Firebase\ Chat\ iOS.xcworkspace/
+pod install
+open Firebase\ Chat\ iOS.xcworkspace/
 ```
 
-### Firebase set up
-* Change bundleID of Xcode project to yours. 
-* Go to the [Firebase console](https://console.firebase.google.com) and create your own project.
+### Create Firebase project
+Go to the [Firebase console](https://console.firebase.google.com) and if you haven't created a project yet, create one now. If you already have one that you want to use, open it and skip to the **Firebase app setup**
+
 * Select the **Authentication** panel and then click the **Sign In Method** tab.
-  *  Click **Email/Password** and turn on the **Enable** switch, then click **Save**.
+*  Click **Email/Password** and turn on the **Enable** switch, then click **Save**.
 * Select the **Database** panel and then enable **Cloud Firestore**.
   * Click **Rules** and paste:
   ```
@@ -49,13 +50,20 @@ $ open Firebase\ Chat\ iOS.xcworkspace/
     }
   }
   ```
-  * Click **PUBLISH**.
-* Go to the Project settings and add your iOS app's bundleID.
-* Download the generated GoogleService-Info.plist file from Project Settings and copy it to the **Firebase Chat iOS** directory of this sample.
+* Click **PUBLISH**.
 
-#### Cloud functions
-* In order for the mobile app to work, you need to deploy a Firebase cloud function that generates JWT tokens for Virgil's APIs. [Follow setup instructions here](https://github.com/VirgilSecurity/demo-firebase-func)
-* Once the function is successfully created, go to the Firebase console -> Functions tab and copy your function url from the Event column
+### Firebase iOS app setup
+* In your Firebase project (on the Firebase console), click the **gear icon** -> **Project settings**
+* Click**Add app** and choose **Add Firebase to your iOS app**
+* Change the bundle ID to your own (or make one up).
+* Download the **GoogleService-Info.plist** file from the Project Settings and copy it to the **Firebase Chat iOS** directory of this sample.
+
+#### Firebase cloud functions setup
+
+> In order for the app to work, you need to deploy a Firebase function that creates JWT tokens for your authenticated users. If you already deployed this function for either the iOS or Android apps, you don't need to do it again.
+
+* Otherwise, [follow the instructions here](https://github.com/VirgilSecurity/demo-firebase-func)
+* Once the function is successfully created, go to the Firebase console -> Functions tab and copy your function's url
 * Go to Xcode -> Firebase Chat iOS/Helpers/Virgil/VirgilHelper.swift and change variable jwtEndpoint to:
 ```
 https://YOUR_FUNCTION_URL.cloudfunctions.net/api/generate_jwt
