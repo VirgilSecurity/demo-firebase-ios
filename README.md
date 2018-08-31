@@ -15,7 +15,7 @@ cd demo-firebase-ios
 ## Prerequisites
 **demo-firebase-ios** uses several modules, including **Virgil SDK** and **Firebase Firestore**. These packages are distributed via CocoaPods.
 
-### Cocoapods
+## Cocoapods
 
 [Cocoapods](https://github.com/CocoaPods/CocoaPods) manages dependencies for your Xcode projects.
 
@@ -26,7 +26,7 @@ brew update
 brew install cocoapods
 ```
 
-#### Update dependencies
+## Update dependencies
 This example already has Pod file with all required dependencies. All you need to do is to go to the project folder and update these dependencies.
 
 ```bash 
@@ -34,7 +34,7 @@ pod install
 open Firebase\ Chat\ iOS.xcworkspace/
 ```
 
-### Create Firebase project
+## Create Firebase project
 Go to the [Firebase console](https://console.firebase.google.com) and if you haven't created a project yet, create one now. If you already have one that you want to use, open it and skip to the **Firebase app setup**
 
 * Select the **Authentication** panel and then click the **Sign In Method** tab.
@@ -52,13 +52,13 @@ Go to the [Firebase console](https://console.firebase.google.com) and if you hav
   ```
 * Click **PUBLISH**.
 
-### Firebase iOS app setup
+## Firebase iOS app setup
 * In your Firebase project (on the Firebase console), click the **gear icon** -> **Project settings**
 * Click**Add app** and choose **Add Firebase to your iOS app**
 * Change the bundle ID to your own (or make one up).
 * Download the **GoogleService-Info.plist** file from the Project Settings and copy it to the **Firebase Chat iOS** directory of this sample.
 
-#### Firebase cloud functions setup
+## Firebase cloud functions setup
 
 > In order for the app to work, you need to deploy a Firebase function that creates JWT tokens for your authenticated users. If you already deployed this function for either the iOS or Android apps, you don't need to do it again.
 
