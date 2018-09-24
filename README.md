@@ -22,9 +22,9 @@ In order for the app to work, you need to deploy a Firebase function that gives 
 
 * **Copy your new Firebase function's URL**: go to the Firebase console -> your project -> Functions tab and copy your new function's url
 * **Go to Xcode -> Firebase Chat iOS/Helpers/Virgil/VirgilHelper.swift and change variable jwtEndpoint to**:
- ```
- https://YOUR_FUNCTION_URL.cloudfunctions.net/api/generate_jwt
- ```
+  ```
+  https://YOUR_FUNCTION_URL.cloudfunctions.net/api/generate_jwt
+  ```
 * Go back to your project's page in Firebase console, click the **gear icon** -> **Project settings**
 * Click **Add app** and choose **"iOS: Add Firebase to your iOS app"**
 * Change the bundle ID to your own (or make one up), click **Register app**
