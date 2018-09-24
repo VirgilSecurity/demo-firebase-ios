@@ -34,10 +34,10 @@ In order for the app to work, you need to deploy a Firebase function that gives 
 The sample app uses several modules, including Virgil SDK and Firebase Firestore.
 
 > **Cocoapods** manages dependencies for your Xcode projects. If you don't have it, install it with [Homebrew](http://brew.sh/):
- ```bash
- brew update
- brew install cocoapods
- ```
+   ```bash
+   brew update
+   brew install cocoapods
+   ```
 
 * **Update dependencies**
 The sample already has a Pod file with all required dependencies: run the following commands to update these dependencies:
