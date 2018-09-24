@@ -41,10 +41,10 @@ The sample app uses several modules, including Virgil SDK and Firebase Firestore
 
 * **Update dependencies**
 The sample already has a Pod file with all required dependencies: run the following commands to update these dependencies:
-```bash 
-pod install
-open Firebase\ Chat\ iOS.xcworkspace/
-```
+  ```bash 
+  pod install
+  open Firebase\ Chat\ iOS.xcworkspace/
+  ```
 
 ## Build and Run
 At this point you are ready to build and run the application on your iPhone or Simulator.
