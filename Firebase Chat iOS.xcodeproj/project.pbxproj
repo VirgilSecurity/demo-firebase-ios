@@ -92,7 +92,6 @@
 		16AF356D2080BCFB00B441D0 /* FirebaseChatModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FirebaseChatModel.xcdatamodel; sourceTree = "<group>"; };
 		16AF35792080CD7E00B441D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		16AF357C2080DE6B00B441D0 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
-		16AF357E2080EFB900B441D0 /* Firebase Chat iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Firebase Chat iOS.entitlements"; sourceTree = "<group>"; };
 		16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirgilHelper.swift; sourceTree = "<group>"; };
 		16BAEBE62093274100AC4F87 /* VirgilHelper+Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VirgilHelper+Authentication.swift"; sourceTree = "<group>"; };
 		16BAEBE820932EE400AC4F87 /* FirebaseHelper+Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseHelper+Channel.swift"; sourceTree = "<group>"; };
@@ -225,7 +224,6 @@
 				16A5D626207D004700DFAD6F /* Assets.xcassets */,
 				16A5D62B207D004700DFAD6F /* Info.plist */,
 				16A5D631207D022300DFAD6F /* GoogleService-Info.plist */,
-				16AF357E2080EFB900B441D0 /* Firebase Chat iOS.entitlements */,
 			);
 			path = "Firebase Chat iOS";
 			sourceTree = "<group>";
