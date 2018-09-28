@@ -101,6 +101,14 @@ class AuthenticationController: ViewController {
         }
     }
 
+    override func alert(_ message: String) {
+        DispatchQueue.main.async {
+            PKHUD.sharedHUD.hide(true) { _ in
+                super.alert(message)
+            }
+        }
+    }
+
     @IBAction func signUpButtonPressed(_ sender: Any) {
         guard let id = self.idTextField.text?.lowercased() else {
             self.idTextField.becomeFirstResponder()

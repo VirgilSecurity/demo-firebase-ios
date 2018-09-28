@@ -72,6 +72,7 @@ class DataSource: ChatDataSourceProtocol {
                 let messageDocuments = messages.filter({ $0.documentID == "\(i)" })
                 guard let messageDocument = messageDocuments.first,
                     let receiver = messageDocument.data()[FirebaseHelper.Keys.receiver.rawValue] as? String,
+                    let sender = messageDocument.data()[FirebaseHelper.Keys.sender.rawValue] as? String,
                     let body = messageDocument.data()[FirebaseHelper.Keys.body.rawValue] as? String,
                     let timestamp = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Timestamp else {
                         return
@@ -92,8 +93,10 @@ class DataSource: ChatDataSourceProtocol {
                                                                              date: messageDate)
                 CoreDataHelper.sharedInstance.createTextMessage(withBody: decryptedBody ?? "Message encrypted",
                                                                 isIncoming: isIncoming, date: messageDate)
-                FirebaseHelper.sharedInstance.blindMessageBody(messageNumber: "\(i)", channel: channel, currentUser: currentUser,
-                                                               receiver: receiver, date: messageDate)
+                if isIncoming {
+                    FirebaseHelper.sharedInstance.blindMessageBody(messageNumber: "\(i)", channel: channel, sender: sender,
+                                                                   receiver: receiver, date: messageDate)
+                }
 
                 self.countCore += 1
                 self.slidingWindow.insertItem(decryptedMessage, position: .bottom)
