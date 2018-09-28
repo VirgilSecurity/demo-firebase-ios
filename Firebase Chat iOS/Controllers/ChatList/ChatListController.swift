@@ -1,5 +1,5 @@
 //
-//  MainController.swift
+//  ChatListController.swift
 //  Firebase Chat iOS
 //
 //  Created by Eugen Pivovarov on 4/12/18.
@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-class MainController: ViewController {
+class ChatListController: ViewController {
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
@@ -25,7 +25,7 @@ class MainController: ViewController {
         self.tableView.dataSource = self
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(MainController.updateCoreDataChannels(notification:)),
+                                               selector: #selector(ChatListController.updateCoreDataChannels(notification:)),
                                                name: Notification.Name(rawValue: FirebaseHelper.Notifications.ChannelAdded.rawValue),
                                                object: nil)
     }
@@ -123,7 +123,7 @@ class MainController: ViewController {
     }
 }
 
-extension MainController: UITableViewDataSource, UITableViewDelegate {
+extension ChatListController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatListCell.name) as! ChatListCell
 
@@ -155,7 +155,7 @@ extension MainController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension MainController: CellTapDelegate {
+extension ChatListController: CellTapDelegate {
     func didTapOn(_ cell: UITableViewCell) {
         if let username = (cell as! ChatListCell).usernameLabel.text {
             self.view.isUserInteractionEnabled = false
