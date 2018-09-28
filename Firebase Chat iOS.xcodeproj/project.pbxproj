@@ -133,14 +133,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		161A83A42095196A005C7807 /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				161A83A620951995005C7807 /* SettingsViewController.swift */,
-			);
-			path = Settings;
-			sourceTree = "<group>";
-		};
 		164D6973207E24B500F3A368 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,15 +153,6 @@
 				164D697A207E25D600F3A368 /* ServiceResponse.swift */,
 			);
 			path = Networking;
-			sourceTree = "<group>";
-		};
-		168980E72095E89C00BA8E08 /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				168980EA2095F03F00BA8E08 /* AuthenticationController.swift */,
-				169E792720D8FE1C00AF0A33 /* StartController.swift */,
-			);
-			path = Authentication;
 			sourceTree = "<group>";
 		};
 		169EBDD0215E64D40057C7F9 /* Views */ = {
@@ -203,6 +186,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		169EBDD6215E6A380057C7F9 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				16AF355C2080B64700B441D0 /* ChatListCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		16A5D613207D004500DFAD6F = {
 			isa = PBXGroup;
 			children = (
@@ -224,16 +215,17 @@
 		16A5D61E207D004500DFAD6F /* Firebase Chat iOS */ = {
 			isa = PBXGroup;
 			children = (
-				16AF357E2080EFB900B441D0 /* Firebase Chat iOS.entitlements */,
 				16AF35632080BB9B00B441D0 /* Helpers */,
 				169EBDD0215E64D40057C7F9 /* Views */,
 				16AF355E2080B65300B441D0 /* Controllers */,
+				16E6C71820862BCF00FAE035 /* Chat */,
 				164D6973207E24B500F3A368 /* Utils */,
 				16A5D61F207D004500DFAD6F /* AppDelegate.swift */,
 				16A5D621207D004500DFAD6F /* ViewController.swift */,
 				16A5D626207D004700DFAD6F /* Assets.xcassets */,
 				16A5D62B207D004700DFAD6F /* Info.plist */,
 				16A5D631207D022300DFAD6F /* GoogleService-Info.plist */,
+				16AF357E2080EFB900B441D0 /* Firebase Chat iOS.entitlements */,
 			);
 			path = "Firebase Chat iOS";
 			sourceTree = "<group>";
@@ -241,10 +233,12 @@
 		16AF355E2080B65300B441D0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				168980E72095E89C00BA8E08 /* Authentication */,
-				16E6C71720862BC100FAE035 /* ChatList */,
-				16E6C71820862BCF00FAE035 /* Chat */,
-				161A83A42095196A005C7807 /* Settings */,
+				169EBDD6215E6A380057C7F9 /* Cells */,
+				168980EA2095F03F00BA8E08 /* AuthenticationController.swift */,
+				169E792720D8FE1C00AF0A33 /* StartController.swift */,
+				16C1D3AB207F8E540087DF81 /* ChatListController.swift */,
+				16E6C73620862C3900FAE035 /* ChatViewController.swift */,
+				161A83A620951995005C7807 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -291,22 +285,12 @@
 			path = Firebase;
 			sourceTree = "<group>";
 		};
-		16E6C71720862BC100FAE035 /* ChatList */ = {
-			isa = PBXGroup;
-			children = (
-				16C1D3AB207F8E540087DF81 /* ChatListController.swift */,
-				16AF355C2080B64700B441D0 /* ChatListCell.swift */,
-			);
-			path = ChatList;
-			sourceTree = "<group>";
-		};
 		16E6C71820862BCF00FAE035 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
 				16E6C71920862BE000FAE035 /* Decorations */,
 				16E6C72A20862BEE00FAE035 /* TextMessage */,
 				16E6C73320862C3900FAE035 /* BaseMessageHandler.swift */,
-				16E6C73620862C3900FAE035 /* ChatViewController.swift */,
 				16E6C73520862C3900FAE035 /* DataSource.swift */,
 				16E6C73120862C3900FAE035 /* MessageFactory.swift */,
 				16E6C73420862C3900FAE035 /* MessageSender.swift */,
