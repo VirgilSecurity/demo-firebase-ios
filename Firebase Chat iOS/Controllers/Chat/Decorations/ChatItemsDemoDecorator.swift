@@ -73,13 +73,18 @@ final class ChatItemsDemoDecorator: ChatItemsDecoratorProtocol {
                 }
             }
 
+            let messageDecorationAttributes = BaseMessageDecorationAttributes(canShowFailedIcon: true,
+                                                                              isShowingTail: showsTail,
+                                                                              isShowingAvatar: showsTail,
+                                                                              isShowingSelectionIndicator: false,
+                                                                              isSelected: false)
+            let decorationAttributes = ChatItemDecorationAttributes(bottomMargin: bottomMargin,
+                                                                    messageDecorationAttributes: messageDecorationAttributes)
+
             decoratedChatItems.append(
                 DecoratedChatItem(
                     chatItem: chatItem,
-                    decorationAttributes: ChatItemDecorationAttributes(bottomMargin: bottomMargin,
-                                                                       canShowTail: showsTail,
-                                                                       canShowAvatar: showsTail,
-                                                                       canShowFailedIcon: true)
+                    decorationAttributes: decorationAttributes
                 )
             )
             decoratedChatItems.append(contentsOf: additionalItems)
