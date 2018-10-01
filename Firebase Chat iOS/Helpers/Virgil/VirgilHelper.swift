@@ -13,15 +13,14 @@ import VirgilCryptoApiImpl
 /// Provides usage of VirgilSDK and VirgilCrypto
 class VirgilHelper {
     static let sharedInstance = VirgilHelper()
+
     let crypto: VirgilCrypto
     let keyStorage: PrivateKeyStorage
     let connection: ServiceConnection
 
     var cardManager: CardManager?
-    var privateKey: VirgilPrivateKey?
+    var keyPair: VirgilKeyPair?
     var channelKeys: [VirgilPublicKey] = []
-    var selfKeys: [VirgilPublicKey] = []
-    var cashedJwt: String?
 
     /// Declares error types and codes
     ///
@@ -60,8 +59,9 @@ class VirgilHelper {
             else {
                 throw VirgilHelperError.strToDataFailed
         }
+        let selfKeys = self.keyPair == nil ? [] : [self.keyPair!.publicKey]
 
-        return try self.crypto.encrypt(data, for: self.channelKeys + self.selfKeys).base64EncodedString()
+        return try self.crypto.encrypt(data, for: self.channelKeys + selfKeys).base64EncodedString()
     }
 
     /// Decrypts given String
@@ -70,7 +70,7 @@ class VirgilHelper {
     /// - Returns: decrypted String
     /// - Throws: error if fails
     func decrypt(_ encrypted: String) throws -> String {
-        guard let privateKey = self.privateKey,
+        guard let privateKey = self.keyPair?.privateKey,
             let data = Data(base64Encoded: encrypted)
             else {
                 throw VirgilHelperError.strToDataFailed
@@ -126,31 +126,6 @@ class VirgilHelper {
         }
     }
 
-
-    /// Searches and sets self Public Keys to encrypt for
-    ///
-    /// - Parameters:
-    ///   - identity: self identity
-    ///   - cardManager: Card Manager instance
-    ///   - completion: completion handler, called with error if failed
-    func setSelfKeys(identity: String, cardManager: CardManager, completion: @escaping (Error?) -> ()) {
-        cardManager.searchCards(identity: identity) { cards, error in
-            guard error == nil, let cards = cards else {
-                Log.error("Search self cards failed with error: \(error?.localizedDescription ?? "unknown error")")
-                completion(error)
-                return
-            }
-            let keys = cards.map { $0.publicKey }
-            guard let virgilKeys = keys as? [VirgilPublicKey] else {
-                completion(VirgilHelperError.keyIsNotVirgil)
-                return
-            }
-            self.selfKeys = virgilKeys
-
-            completion(nil)
-        }
-    }
-
     /// Makes SHA256 hash
     ///
     /// - Parameter string: String, from which to make hash
@@ -165,9 +140,7 @@ class VirgilHelper {
 
     /// Resets variables
     func reset() {
-        self.privateKey = nil
-        self.cashedJwt = nil
+        self.keyPair = nil
         self.channelKeys = []
-        self.selfKeys = []
     }
 }

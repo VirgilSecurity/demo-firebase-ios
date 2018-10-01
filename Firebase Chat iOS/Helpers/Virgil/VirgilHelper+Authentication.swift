@@ -39,11 +39,10 @@ extension VirgilHelper {
             guard let privateKey = keyEntry.privateKey as? VirgilPrivateKey else {
                 throw VirgilHelperError.keyIsNotVirgil
             }
-            self.privateKey = privateKey
+            let publicKey = try self.crypto.extractPublicKey(from: privateKey)
+            self.keyPair = VirgilKeyPair(privateKey: privateKey, publicKey: publicKey)
 
-            self.setSelfKeys(identity: identity, cardManager: cardManager) { error in
-                completion(error)
-            }
+            completion(nil)
         } catch {
             completion(error)
         }
@@ -78,16 +77,10 @@ extension VirgilHelper {
                     try self.keyStorage.store(privateKey: keyPair.privateKey, name: identity, meta: nil)
 
                     let exportedCard = try cardManager.exportCardAsBase64EncodedString(card)
-                    self.privateKey = keyPair.privateKey
+                    self.keyPair = keyPair
 
                     let group = DispatchGroup()
                     var err: Error?
-
-                    group.enter()
-                    self.setSelfKeys(identity: identity, cardManager: cardManager) { error in
-                        err = error
-                        group.leave()
-                    }
 
                     group.enter()
                     FirebaseHelper.sharedInstance.doesUserExist(withUsername: identity) { exist in
@@ -126,28 +119,23 @@ extension VirgilHelper {
     ///   - identity: new user's identity
     ///   - authToken: Firebase Auth token
     func setCardManager(identity: String, authToken: String) {
-        let accessTokenProvider = CallbackJwtProvider(getTokenCallback: { tokenContext, completion in
-            if let cashedJwt = self.cashedJwt, !tokenContext.forceReload {
-                completion(cashedJwt, nil)
-            } else {
-                let jwtRequest = try? ServiceRequest(url: URL(string: self.jwtEndpoint)!,
-                                                     method: ServiceRequest.Method.post,
-                                                     headers: ["Content-Type": "application/json",
-                                                               "Authorization": "Bearer " + authToken],
-                                                     params: ["identity": identity])
-                guard let request = jwtRequest,
-                    let jwtResponse = try? self.connection.send(request),
-                    let responseBody = jwtResponse.body,
-                    let json = try? JSONSerialization.jsonObject(with: responseBody, options: []) as? [String: Any],
-                    let jwtStr = json?["token"] as? String else {
-                        Log.error("Getting JWT failed")
-                        completion(nil, VirgilHelperError.gettingJwtFailed)
-                        return
-                }
-                self.cashedJwt = jwtStr
-
-                completion(jwtStr, nil)
+        let accessTokenProvider = CachingJwtProvider(renewTokenCallback: { tokenContext, completion in
+            let jwtRequest = try? ServiceRequest(url: URL(string: self.jwtEndpoint)!,
+                                                 method: ServiceRequest.Method.post,
+                                                 headers: ["Content-Type": "application/json",
+                                                           "Authorization": "Bearer " + authToken],
+                                                 params: ["identity": identity])
+            guard let request = jwtRequest,
+                let jwtResponse = try? self.connection.send(request),
+                let responseBody = jwtResponse.body,
+                let json = try? JSONSerialization.jsonObject(with: responseBody, options: []) as? [String: Any],
+                let jwtStr = json?["token"] as? String else {
+                    Log.error("Getting JWT failed")
+                    completion(nil, VirgilHelperError.gettingJwtFailed)
+                    return
             }
+
+            completion(jwtStr, nil)
         })
         let cardCrypto = VirgilCardCrypto()
         guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
