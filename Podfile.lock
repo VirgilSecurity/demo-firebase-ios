@@ -124,6 +124,12 @@ PODS:
   - VirgilCryptoApiImpl (3.1.5):
     - VirgilCrypto (= 3.1.5)
     - VirgilCryptoAPI (= 1.0.2)
+  - VirgilKeyknox (0.1.0):
+    - VirgilCryptoApiImpl (~> 3.1.2)
+    - VirgilSDK (~> 5.3.0)
+  - VirgilPythia (0.2.0):
+    - VirgilCryptoApiImpl (~> 3.1.2)
+    - VirgilSDK (~> 5.3.0)
   - VirgilSDK (5.3.0):
     - VirgilCryptoAPI (~> 1.0.0)
 
@@ -135,7 +141,8 @@ DEPENDENCIES:
   - Firebase/Firestore
   - PKHUD (~> 5.0)
   - VirgilCryptoApiImpl (~> 3.0)
-  - VirgilSDK (~> 5.0)
+  - VirgilKeyknox (~> 0.1.0)
+  - VirgilPythia (from `https://github.com/Ogerets/pythia-x.git`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -164,7 +171,17 @@ SPEC REPOS:
     - VirgilCrypto
     - VirgilCryptoAPI
     - VirgilCryptoApiImpl
+    - VirgilKeyknox
     - VirgilSDK
+
+EXTERNAL SOURCES:
+  VirgilPythia:
+    :git: https://github.com/Ogerets/pythia-x.git
+
+CHECKOUT OPTIONS:
+  VirgilPythia:
+    :commit: 5c2cba7789b4398219782581f74ec0d0e9e29b46
+    :git: https://github.com/Ogerets/pythia-x.git
 
 SPEC CHECKSUMS:
   BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
@@ -192,8 +209,10 @@ SPEC CHECKSUMS:
   VirgilCrypto: 26047b40e9532e8c0c7d62f9b6a66835caa86f60
   VirgilCryptoAPI: e844010f0279227148e0e956b9b9650d4763c918
   VirgilCryptoApiImpl: 6aa86bcf997f9082b92ac8c9d89db4e41b5676f4
+  VirgilKeyknox: 96e81f8d345472ba4b4205e51bf76b432971f971
+  VirgilPythia: f4bb36de7747f9fb13aae3517469468004bb0191
   VirgilSDK: 4abc5718929008cdf58aef67675c0c7d30d51de6
 
-PODFILE CHECKSUM: 7fe8fb63ef10ffefdf6a7be36669e0ed45b8db5f
+PODFILE CHECKSUM: 32d0447030a8b74592bf19e7013440582b76f142
 
 COCOAPODS: 1.5.3

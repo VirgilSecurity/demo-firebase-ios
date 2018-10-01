@@ -10,26 +10,22 @@ import Foundation
 import CoreData
 
 extension CoreDataHelper {
-    func createAccount(withIdentity identity: String, exportedCard: String, completion: @escaping () -> ()) {
-        self.queue.async {
-            guard let entity = NSEntityDescription.entity(forEntityName: Entities.account.rawValue, in: self.managedContext) else {
-                Log.error("Core Data: entity not found: " + Entities.account.rawValue)
-                return
-            }
-
-            let account = Account(entity: entity, insertInto: self.managedContext)
-            account.identity = identity
-            account.card = exportedCard
-
-            self.append(account: account)
-            self.setCurrent(account: account)
-
-            Log.debug("Core Data: account created")
-
-            self.appDelegate.saveContext()
-
-            completion()
+    func createAccount(withIdentity identity: String, exportedCard: String) {
+        guard let entity = NSEntityDescription.entity(forEntityName: Entities.account.rawValue, in: self.managedContext) else {
+            Log.error("Core Data: entity not found: " + Entities.account.rawValue)
+            return
         }
+
+        let account = Account(entity: entity, insertInto: self.managedContext)
+        account.identity = identity
+        account.card = exportedCard
+
+        self.append(account: account)
+        self.setCurrent(account: account)
+
+        Log.debug("Core Data: account created")
+
+        self.appDelegate.saveContext()
     }
 
     func loadAccount(withIdentity username: String) throws {

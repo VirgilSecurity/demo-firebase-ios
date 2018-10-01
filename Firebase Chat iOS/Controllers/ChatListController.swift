@@ -174,7 +174,7 @@ extension ChatListController: CellTapDelegate {
             var err: Error?
 
             group.enter()
-            VirgilHelper.sharedInstance.setChannelKeys(for: username) { error in
+            VirgilHelper.sharedInstance.setChannelKey(for: username) { error in
                 err = error
                 group.leave()
             }

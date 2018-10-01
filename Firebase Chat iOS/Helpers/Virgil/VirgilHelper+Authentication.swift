@@ -8,6 +8,8 @@
 
 import Foundation
 import VirgilSDK
+import VirgilKeyknox
+import VirgilPythia
 import VirgilCryptoApiImpl
 
 extension VirgilHelper {
@@ -21,20 +23,20 @@ extension VirgilHelper {
         Log.debug("Signing in")
         self.setCardManager(identity: identity, authToken: token)
 
-        guard self.keyStorage.exists(withName: identity) else {
-            self.signUp(with: identity, token: token) { error in
-                completion(error)
-            }
-            return
-        }
-
         do {
+            guard try self.keychainStorage.existsEntry(withName: identity) else {
+                //            self.signUp(with: identity, token: token) { error in
+                //                completion(error)
+                //            }
+                return
+            }
+
             guard let cardManager = self.cardManager else {
                 throw VirgilHelperError.missingCardManager
             }
             try CoreDataHelper.sharedInstance.loadAccount(withIdentity: identity)
 
-            let keyEntry = try self.keyStorage.load(withName: identity)
+            let keyEntry = try self.keychainStorage.retrieveEntry(withName: identity)
 
             guard let privateKey = keyEntry.privateKey as? VirgilPrivateKey else {
                 throw VirgilHelperError.keyIsNotVirgil
@@ -54,62 +56,89 @@ extension VirgilHelper {
     ///   - identity: users' identity
     ///   - token: Firebase Auth token
     ///   - completion: completion handler, called with error if failed
-    func signUp(with identity: String, token: String, completion: @escaping (Error?) -> ()) {
+    func signUp(with identity: String, token: String, password: String, completion: @escaping (String?, Error?) -> ()) {
         Log.debug("Signing up")
         self.setCardManager(identity: identity, authToken: token)
         do {
-            let keyPair = try self.crypto.generateKeyPair()
+            let historyKeyPair = try self.crypto.generateKeyPair()
             guard let cardManager = self.cardManager else {
-                completion(VirgilHelperError.missingCardManager)
-                return
+                throw VirgilHelperError.missingCardManager
             }
 
-            cardManager.publishCard(privateKey: keyPair.privateKey,
-                                    publicKey: keyPair.publicKey,
-                                    identity: identity) { card, error in
+            let group = DispatchGroup()
+            var err: Error?
+            var exportedCard: String?
+
+            try? keychainStorage.deleteEntry(withName: identity)
+
+            group.enter()
+            self.publishCard(keyPair: historyKeyPair, identity: identity, cardManager: cardManager) { card, error in
+                err = error
+                exportedCard = card
+                group.leave()
+            }
+
+            group.enter()
+            self.publishToKeyknox(key: historyKeyPair.privateKey, usingPassword: password, identity: identity, cardManager: cardManager) { error in
+                err = error
+                group.leave()
+            }
+
+            group.notify(queue: .main) {
+                if err == nil {
+                    self.historyKeyPair = historyKeyPair
+
+                    completion(exportedCard, nil)
+                } else {
+                    completion(nil, err)
+                }
+            }
+        } catch {
+            completion(nil, error)
+        }
+    }
+
+    private func publishCard(keyPair: VirgilKeyPair, identity: String, cardManager: CardManager, completion: @escaping (String?, Error?) -> ()) {
+        cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey, identity: identity) { card, error in
+            do {
                 guard let card = card, error == nil else {
-                    Log.error("Failed to create card with error: \(error?.localizedDescription ?? "unknown error")")
+                    throw error!
+                }
+                let exportedCard = try cardManager.exportCardAsBase64EncodedString(card)
+
+                completion(exportedCard, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    private func publishToKeyknox(key: VirgilPrivateKey, usingPassword password: String, identity: String,
+                                  cardManager: CardManager, completion: @escaping (Error?) -> ()) {
+        let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: cardManager.accessTokenProvider)
+        let brainKey = BrainKey(context: brainKeyContext)
+
+        do {
+            let brainKeyPair = try brainKey.generateKeyPair(password: password).startSync().getResult()
+
+            let exportedHistoryKey = try self.privateKeyExporter.exportPrivateKey(privateKey: key)
+
+            let cloudKeyStorage = try CloudKeyStorage(accessTokenProvider: cardManager.accessTokenProvider,
+                                                      publicKeys: [brainKeyPair.publicKey], privateKey: brainKeyPair.privateKey)
+            let syncKeyStorage = SyncKeyStorage(identity: identity, keychainStorage: self.keychainStorage,
+                                                cloudKeyStorage: cloudKeyStorage)
+
+            syncKeyStorage.sync { error in
+                guard error == nil else {
                     completion(error)
                     return
                 }
-                do {
-                    try? self.keyStorage.delete(withName: identity)
-                    try self.keyStorage.store(privateKey: keyPair.privateKey, name: identity, meta: nil)
-
-                    let exportedCard = try cardManager.exportCardAsBase64EncodedString(card)
-                    self.keyPair = keyPair
-
-                    let group = DispatchGroup()
-                    var err: Error?
-
-                    group.enter()
-                    FirebaseHelper.sharedInstance.doesUserExist(withUsername: identity) { exist in
-                        if !exist {
-                            FirebaseHelper.sharedInstance.createUser(identity: identity) { error in
-                                if let error = error {
-                                    Log.error("Firebase: creating user failed with error: \(error.localizedDescription)")
-                                    err = error
-                                }
-                                group.leave()
-                            }
-                        } else { group.leave() }
-                    }
-
-                    group.notify(queue: .main) {
-                        if err == nil {
-                            CoreDataHelper.sharedInstance.createAccount(withIdentity: identity, exportedCard: exportedCard) {
-                                completion(err)
-                            }
-                        } else {
-                            completion(err)
-                        }
-                    }
-                } catch {
+                syncKeyStorage.storeEntry(withName: identity, data: exportedHistoryKey) { _, error in
                     completion(error)
                 }
             }
         } catch {
-            completion(error)
+
         }
     }
 

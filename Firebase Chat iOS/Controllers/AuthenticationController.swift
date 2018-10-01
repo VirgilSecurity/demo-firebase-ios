@@ -128,13 +128,27 @@ class AuthenticationController: ViewController {
                     self.alert(error?.localizedDescription ?? "Something went wrong")
                     return
                 }
-                VirgilHelper.sharedInstance.signUp(with: id, token: token) { error in
-                    guard error == nil else {
+                VirgilHelper.sharedInstance.signUp(with: id, token: token, password: password) { exportedCard, error in
+                    guard let exportedCard = exportedCard, error == nil else {
                         Log.error("Virgil sign in failed with error: \(error!.localizedDescription)")
-                        self.alert(error!.localizedDescription)
+                        self.alert(error?.localizedDescription ?? "Something went wrong")
                         return
                     }
-                    self.goToChatList()
+
+                    CoreDataHelper.sharedInstance.createAccount(withIdentity: id, exportedCard: exportedCard)
+                    FirebaseHelper.sharedInstance.doesUserExist(withUsername: id) { exist in
+                        if !exist {
+                            FirebaseHelper.sharedInstance.createUser(identity: id) { error in
+                                guard error == nil else {
+                                    Log.error("Firebase: creating user failed with error: \(error?.localizedDescription ?? "unknown error")")
+                                    self.alert(error?.localizedDescription ?? "Something went wrong")
+                                    return
+                                }
+
+                                self.goToChatList()
+                            }
+                        }
+                    }
                 }
             }
         }
