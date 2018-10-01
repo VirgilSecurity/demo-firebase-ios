@@ -9,8 +9,8 @@ git clone https://github.com/VirgilSecurity/demo-firebase-ios
 cd demo-firebase-ios
 ```
 
-## Set up your Firebase account for the app
-In order for the app to work, you need to deploy a Firebase function that gives out JWT tokens for your authenticated users. You'll also need to create a Firestore database with a specific rule set.
+## Connect your Virgil and Firebase accounts
+In order for the app to work, you need to deploy a Firebase function that gives out Virgil JWT tokens for your authenticated users. You'll also need to create a Firestore database with a specific rule set.
 
 * **[Follow instructions here](https://github.com/VirgilSecurity/demo-firebase-func)**
 
