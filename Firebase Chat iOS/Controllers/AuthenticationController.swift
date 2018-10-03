@@ -89,12 +89,14 @@ class AuthenticationController: ViewController {
                     self.alert(error?.localizedDescription ?? "Something went wrong")
                     return
                 }
-                VirgilHelper.sharedInstance.signIn(with: id, token: token) { error in
+                VirgilHelper.sharedInstance.signIn(with: id, token: token, password: password) { error in
                     guard error == nil else {
                         Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
                         self.alert(error!.localizedDescription)
                         return
                     }
+                    
+                    CoreDataHelper.sharedInstance.setUpAccount(withIdentity: id)
                     self.goToChatList()
                 }
             }
@@ -128,14 +130,15 @@ class AuthenticationController: ViewController {
                     self.alert(error?.localizedDescription ?? "Something went wrong")
                     return
                 }
-                VirgilHelper.sharedInstance.signUp(with: id, token: token, password: password) { exportedCard, error in
-                    guard let exportedCard = exportedCard, error == nil else {
-                        Log.error("Virgil sign in failed with error: \(error!.localizedDescription)")
-                        self.alert(error?.localizedDescription ?? "Something went wrong")
+                VirgilHelper.sharedInstance.signUp(with: id, token: token, password: password) { error in
+                    guard error == nil else {
+                        Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
+                        self.alert(error!.localizedDescription)
+                        authDataResult.user.delete { _ in }
                         return
                     }
 
-                    CoreDataHelper.sharedInstance.createAccount(withIdentity: id, exportedCard: exportedCard)
+                    CoreDataHelper.sharedInstance.createAccount(withIdentity: id)
                     FirebaseHelper.sharedInstance.doesUserExist(withUsername: id) { exist in
                         if !exist {
                             FirebaseHelper.sharedInstance.createUser(identity: id) { error in

@@ -25,15 +25,16 @@ class StartViewController: ViewController {
                 user.getIDToken { token, error in
                     guard error == nil, let token = token else {
                         Log.error("Get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
-                        self.alert(error?.localizedDescription ?? "Something went wrong")
+                        self.goToLogin()
                         return
                     }
                     VirgilHelper.sharedInstance.signIn(with: id, token: token) { error in
                         guard error == nil else {
                             Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
-                            self.alert(error!.localizedDescription)
+                            self.goToLogin()
                             return
                         }
+                        CoreDataHelper.sharedInstance.setUpAccount(withIdentity: id)
                         self.goToChatList()
                     }
                 }
