@@ -1,7 +1,9 @@
 # End-to-end encrypted, HIPAA-compliant iOS chat app for Firebase.
-You can reuse this sample in any projects where you want to end-to-end protect user data, documents, images using Virgil's end-to-end encryption. [HIPAA whitepaper](https://virgilsecurity.com/wp-content/uploads/2018/07/Firebase-HIPAA-Chat-Whitepaper-Virgil-Security.pdf).
+You can reuse this sample in any Firebase project where you want to end-to-end protect user data, documents, images using Virgil's end-to-end encryption. [If you're working on a project that needs to be HIPAA-compliant, see our whitepaper for more technical and legal details ](https://virgilsecurity.com/wp-content/uploads/2018/07/Firebase-HIPAA-Chat-Whitepaper-Virgil-Security.pdf).
 
-[Watch iOS setup tutorial on YouTube](https://www.youtube.com/watch?v=6zpzbcm_3I8)
+To learn more about how Virgil Security's tech works in your Firebase app, [check out our tutorial on the Virgil blog](https://virgilsecurity.com/hipaa-firebase/).
+
+[Also, we've created a helpful video on YouTube to walks you through the steps below and explains what you'll be doing for the next 10 minutes or so. Popcorn not included](https://www.youtube.com/watch?v=6zpzbcm_3I8).
 
 ## Clone project
 ```bash
@@ -14,7 +16,7 @@ In order for the app to work, you need to deploy a Firebase function that gives 
 
 * **[Follow instructions here](https://github.com/VirgilSecurity/demo-firebase-func)**
 
-> You only need to do this once - if you did it already earlier or for your Android or JavaScript clients, don't need to do it again.
+> You only need to do this once - if you already did it earlier or for your Android or JavaScript clients, you don't need to do it again.
 
 ## Add your Firebase function URL and Firebase project config to your app
 
@@ -47,6 +49,6 @@ The sample already has a Pod file with all required dependencies: run the follow
 ## Build and Run
 At this point you are ready to build and run the application on your iPhone or Simulator.
 
-> You will surely want to try your new chat app with 2 users. Not sure how to run 2 simulators? Check out [How to run multiple simulators on Xcode 9?](https://stackoverflow.com/questions/44384677/how-to-run-multiple-simulators-on-xcode-9)
+> You will want to try your new chat app with 2 users. Not sure how to run 2 simulators? Check out [How to run multiple simulators on Xcode 9?](https://stackoverflow.com/questions/44384677/how-to-run-multiple-simulators-on-xcode-9)
 
 > Remember, the app deletes messages right after delivery (it's a HIPAA requirement to meet the conduit exception). If you want to see encrypted messages in your Firestore database, run only 1 app instance, send a message to your chat partner and check Firestore DB's contents before opening the other user's app to receive the message. If you don't want to implement this behavior in your own app, you can remove it from this sample.
