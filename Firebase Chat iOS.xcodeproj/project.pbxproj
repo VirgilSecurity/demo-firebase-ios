@@ -15,6 +15,7 @@
 		164D697C207E25D600F3A368 /* ServiceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D6978207E25D600F3A368 /* ServiceRequest.swift */; };
 		164D697D207E25D600F3A368 /* ServiceConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D6979207E25D600F3A368 /* ServiceConnection.swift */; };
 		164D697E207E25D600F3A368 /* ServiceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D697A207E25D600F3A368 /* ServiceResponse.swift */; };
+		1659F07C2166259C00F13CB7 /* VirgilHelper+Keyknox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1659F07B2166259C00F13CB7 /* VirgilHelper+Keyknox.swift */; };
 		167AC85D4714B783CACB4BCE /* Pods_Firebase_Chat_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDCAA97DC26798ECD735E5E8 /* Pods_Firebase_Chat_iOS.framework */; };
 		168980E92095EAE800BA8E08 /* Authentication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168980E82095EAE800BA8E08 /* Authentication.storyboard */; };
 		168980EB2095F03F00BA8E08 /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168980EA2095F03F00BA8E08 /* AuthenticationController.swift */; };
@@ -71,6 +72,7 @@
 		164D6978207E25D600F3A368 /* ServiceRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceRequest.swift; sourceTree = "<group>"; };
 		164D6979207E25D600F3A368 /* ServiceConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceConnection.swift; sourceTree = "<group>"; };
 		164D697A207E25D600F3A368 /* ServiceResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceResponse.swift; sourceTree = "<group>"; };
+		1659F07B2166259C00F13CB7 /* VirgilHelper+Keyknox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VirgilHelper+Keyknox.swift"; sourceTree = "<group>"; };
 		168980E82095EAE800BA8E08 /* Authentication.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Authentication.storyboard; sourceTree = "<group>"; };
 		168980EA2095F03F00BA8E08 /* AuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationController.swift; sourceTree = "<group>"; };
 		169E792720D8FE1C00AF0A33 /* StartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartController.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 			children = (
 				16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */,
 				16BAEBE62093274100AC4F87 /* VirgilHelper+Authentication.swift */,
+				1659F07B2166259C00F13CB7 /* VirgilHelper+Keyknox.swift */,
 			);
 			path = Virgil;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 				16E6C73820862C3900FAE035 /* MessageFactory.swift in Sources */,
 				16E6C73920862C3900FAE035 /* SlidingDatasSource.swift in Sources */,
 				164D697B207E25D600F3A368 /* Connection.swift in Sources */,
+				1659F07C2166259C00F13CB7 /* VirgilHelper+Keyknox.swift in Sources */,
 				162469852084C14500001801 /* Data+hex.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

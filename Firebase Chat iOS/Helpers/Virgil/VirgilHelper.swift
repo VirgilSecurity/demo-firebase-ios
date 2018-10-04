@@ -99,7 +99,7 @@ class VirgilHelper {
         return decrypted
     }
 
-    /// Searches and sets Public Keys to encrypt for
+    /// Searches and sets Public Key to encrypt for
     ///
     /// - Parameters:
     ///   - identity: identity of user
