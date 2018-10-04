@@ -9,48 +9,57 @@
 import Foundation
 import VirgilSDK
 import VirgilCryptoApiImpl
+import VirgilCryptoAPI
 
 /// Provides usage of VirgilSDK and VirgilCrypto
 class VirgilHelper {
-    static let sharedInstance = VirgilHelper()
+    static private(set) var sharedInstance: VirgilHelper!
 
     let crypto: VirgilCrypto
     let keychainStorage: KeychainStorage
-    let connection: ServiceConnection
-    let privateKeyExporter: VirgilPrivateKeyExporter
+    let privateKeyExporter: PrivateKeyExporter
+    let cardManager: CardManager
 
-    var cardManager: CardManager?
     var historyKeyPair: VirgilKeyPair?
     var channelKey: VirgilPublicKey?
 
     /// Declares error types and codes
     ///
     /// - keyIsNotVirgil: Converting Public or Private Key to Virgil one failed
-    /// - missingCardManager: Card Manager is not initialized
     /// - gettingJwtFailed: Failed getting Jwt from server
     /// - strToDataFailed: Converting utf8 string to data failed
     /// - strFromDataFailed: Building string from data failed
     enum VirgilHelperError: String, Error {
         case keyIsNotVirgil = "Converting Public or Private Key to Virgil one failed"
-        case missingCardManager = "Missing Card Manager"
         case missingKeys = "Missing channel or self public key"
         case gettingJwtFailed = "Getting JWT failed"
         case strToDataFailed = "Converting utf8 string to data failed"
         case strFromDataFailed = "Building string from data failed"
     }
 
-    /// URL to your cloud function for getting JWT
-    /// - Important: change it to your own from [Firebase Console](https://console.firebase.google.com)
-    let jwtEndpoint = "https://us-central1-fir-chat-ios-2c1d0.cloudfunctions.net/api/generate_jwt"
+    public static func initialize(tokenCallback: @escaping CachingJwtProvider.RenewJwtCallback) {
+        let accessTokenProvider = CachingJwtProvider(renewTokenCallback: tokenCallback)
+        let cardCrypto = VirgilCardCrypto()
+        guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
+            Log.error("VirgilCardVerifier init failed")
+            return
+        }
+        let params = CardManagerParams(cardCrypto: cardCrypto,
+                                       accessTokenProvider: accessTokenProvider,
+                                       cardVerifier: verifier)
+        let cardManager = CardManager(params: params)
+
+        VirgilHelper.sharedInstance = VirgilHelper(cardManager: cardManager)
+    }
 
     /// Initializer
-    private init() {
-        self.crypto = VirgilCrypto()
-        self.privateKeyExporter = VirgilPrivateKeyExporter()
-        let keychainStorageParams = try! KeychainStorageParams.makeKeychainStorageParams()
+    private init(cardManager: CardManager, crypto: VirgilCrypto? = nil, privateKeyExporter: PrivateKeyExporter? = nil,
+                 keychainStorageParams: KeychainStorageParams? = nil) {
+        self.crypto = crypto ?? VirgilCrypto()
+        self.privateKeyExporter = privateKeyExporter ?? VirgilPrivateKeyExporter()
+        let keychainStorageParams = try! keychainStorageParams ?? KeychainStorageParams.makeKeychainStorageParams()
         self.keychainStorage = KeychainStorage(storageParams: keychainStorageParams)
-        self.connection = ServiceConnection()
-        self.cardManager = nil
+        self.cardManager = cardManager
     }
 
     /// Encrypts given String
@@ -97,13 +106,6 @@ class VirgilHelper {
     ///   - completion: completion handler, called with error if failed
     func setChannelKey(for identity: String, completion: @escaping (Error?) -> ()) {
         Log.debug("Searching cards with identity: \(identity)")
-        guard let cardManager = self.cardManager else {
-            Log.error("Missing CardManager")
-            DispatchQueue.main.async {
-                completion(VirgilHelperError.missingCardManager)
-            }
-            return
-        }
 
         cardManager.searchCards(identity: identity) { cards, error in
             guard error == nil, let cards = cards else {

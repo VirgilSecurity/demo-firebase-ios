@@ -89,6 +89,8 @@ class AuthenticationController: ViewController {
                     self.alert(error?.localizedDescription ?? "Something went wrong")
                     return
                 }
+                
+                VirgilHelper.initialize(tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token))
                 VirgilHelper.sharedInstance.signIn(with: id, token: token, password: password) { error in
                     guard error == nil else {
                         Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
@@ -128,8 +130,11 @@ class AuthenticationController: ViewController {
                 guard error == nil, let token = token else {
                     Log.error("Get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
                     self.alert(error?.localizedDescription ?? "Something went wrong")
+                    authDataResult.user.delete { _ in }
                     return
                 }
+
+                VirgilHelper.initialize(tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token))
                 VirgilHelper.sharedInstance.signUp(with: id, token: token, password: password) { error in
                     guard error == nil else {
                         Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")

@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import VirgilSDK
 
 class FirebaseHelper {
     static private(set) var sharedInstance: FirebaseHelper!
@@ -64,7 +65,8 @@ class FirebaseHelper {
                     Log.error("get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
                     return
                 }
-                VirgilHelper.sharedInstance.setCardManager(identity: id, authToken: token)
+                // FIXME
+//                VirgilHelper.sharedInstance.setCardManager(identity: id, authToken: token)
             }
         }
     }
@@ -99,5 +101,29 @@ class FirebaseHelper {
                     NotificationKeys.messages.rawValue: messages
                 ])
         }
+    }
+
+    static func makeTokenCallback(id: String, firebaseToken token: String) -> CachingJwtProvider.RenewJwtCallback {
+        let tokenCallback: CachingJwtProvider.RenewJwtCallback = { tokenContext, completion in
+            let connection = ServiceConnection()
+            let jwtRequest = try? ServiceRequest(url: URL(string: AppDelegate.jwtEndpoint)!,
+                                                 method: ServiceRequest.Method.post,
+                                                 headers: ["Content-Type": "application/json",
+                                                           "Authorization": "Bearer " + token],
+                                                 params: ["identity": id])
+            guard let request = jwtRequest,
+                let jwtResponse = try? connection.send(request),
+                let responseBody = jwtResponse.body,
+                let json = try? JSONSerialization.jsonObject(with: responseBody, options: []) as? [String: Any],
+                let jwtStr = json?["token"] as? String else {
+                    Log.error("Getting JWT failed")
+                    completion(nil, VirgilHelper.VirgilHelperError.gettingJwtFailed)
+                    return
+            }
+
+            completion(jwtStr, nil)
+        }
+
+        return tokenCallback
     }
 }
