@@ -27,18 +27,18 @@ class AuthenticationController: ViewController {
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(AuthenticationController.keyboardWillShow(notification:)),
-                                               name: Notification.Name.UIKeyboardWillShow,
+                                               name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(AuthenticationController.keyboardWillHide(notification:)),
-                                               name: Notification.Name.UIKeyboardWillHide,
+                                               name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
 
     @objc func keyboardWillShow(notification: Notification) {
-        guard let rect = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            let time = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else {
+        guard let rect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            let time = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else {
                 return
         }
 
@@ -49,7 +49,7 @@ class AuthenticationController: ViewController {
     }
 
     @objc func keyboardWillHide(notification: Notification) {
-        guard let time = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else {
+        guard let time = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue else {
             return
         }
 
