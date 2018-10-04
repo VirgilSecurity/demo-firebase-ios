@@ -18,7 +18,7 @@ class AuthenticationController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        VirgilHelper.sharedInstance.reset()
+        VirgilHelper.sharedInstance?.reset()
         FirebaseHelper.sharedInstance.channelListListener?.remove()
         FirebaseHelper.sharedInstance.channelListListener = nil
         CoreDataHelper.sharedInstance.setCurrent(account: nil)
