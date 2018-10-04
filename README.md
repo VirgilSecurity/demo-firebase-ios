@@ -1,9 +1,7 @@
 # End-to-end encrypted, HIPAA-compliant iOS chat app for Firebase.
 You can reuse this sample in any Firebase project where you want to end-to-end protect user data, documents, images using Virgil's end-to-end encryption. [If you're working on a project that needs to be HIPAA-compliant, see our whitepaper for more technical and legal details ](https://virgilsecurity.com/wp-content/uploads/2018/07/Firebase-HIPAA-Chat-Whitepaper-Virgil-Security.pdf).
 
-To learn more about how Virgil Security's tech works in your Firebase app, [check out our tutorial on the Virgil blog](https://virgilsecurity.com/hipaa-firebase/).
-
-[Also, we've created a helpful video on YouTube to walks you through the steps below and explains what you'll be doing for the next 10 minutes or so. Popcorn not included](https://www.youtube.com/watch?v=6zpzbcm_3I8).
+[Also, we've created a helpful video on YouTube to walk you through the steps below and explains what you'll be doing for the next 10 minutes or so. Popcorn not included](https://www.youtube.com/watch?v=6zpzbcm_3I8).
 
 ## Clone project
 ```bash
