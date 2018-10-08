@@ -70,20 +70,47 @@ extension VirgilHelper {
     }
 
     func changeKeyknoxPassword(from oldPassword: String, to newPassword: String, completion: @escaping (Error?) -> ()) {
-        guard let historyKey = self.historyKeyPair?.privateKey else {
-            completion(VirgilHelperError.missingKeys)
-            return
-        }
-
-        self.deleteKeyknoxEntry(password: oldPassword) { error in
-            guard error == nil else {
+        self.setUpSyncKeyStorage(password: oldPassword) { syncKeyStorage, error in
+            guard let syncKeyStorage = syncKeyStorage, error == nil else {
                 completion(error)
                 return
             }
 
-            self.publishToKeyknox(key: historyKey, usingPassword: newPassword) { error in
-                completion(error)
+            self.generateBrainKey(password: newPassword) { brainKeyPair, error in
+                guard let brainKeyPair = brainKeyPair, error == nil else {
+                    completion(error)
+                    return
+                }
+                syncKeyStorage.updateRecipients(newPublicKeys: [brainKeyPair.publicKey], newPrivateKey: brainKeyPair.privateKey) { error in
+
+                }
             }
+        }
+    }
+
+    func rotateHistoryKey(password: String, completion: @escaping (Error?) -> ()) {
+        do {
+            let newHistoryKeyPair = try self.crypto.generateKeyPair()
+            let newHistoryKey = newHistoryKeyPair.privateKey
+
+            self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
+                guard let syncKeyStorage = syncKeyStorage, error == nil else {
+                    completion(error)
+                    return
+                }
+                do {
+                    let exportedNewHistoryKey = try self.privateKeyExporter.exportPrivateKey(privateKey: newHistoryKey)
+
+                    syncKeyStorage.updateEntry(withName: self.identity, data: exportedNewHistoryKey, meta: nil) { error in
+                        self.historyKeyPair = newHistoryKeyPair
+                        completion(error)
+                    }
+                } catch {
+                    completion(error)
+                }
+            }
+        } catch {
+            completion(error)
         }
     }
 
