@@ -90,16 +90,22 @@ class AuthenticationController: ViewController {
                     return
                 }
                 
-                VirgilHelper.initialize(identity: id, tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token))
-                VirgilHelper.sharedInstance.signIn(token: token, password: password) { error in
+                VirgilHelper.initialize(tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token)) { error in
                     guard error == nil else {
-                        Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
+                        Log.error("Virgil init with error: \(error!.localizedDescription)")
                         self.alert(error!.localizedDescription)
                         return
                     }
-                    
-                    CoreDataHelper.sharedInstance.setUpAccount(withIdentity: id)
-                    self.goToChatList()
+                    VirgilHelper.sharedInstance.signIn(token: token, password: password) { error in
+                        guard error == nil else {
+                            Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
+                            self.alert(error!.localizedDescription)
+                            return
+                        }
+
+                        CoreDataHelper.sharedInstance.setUpAccount(withIdentity: id)
+                        self.goToChatList()
+                    }
                 }
             }
         }
@@ -134,26 +140,34 @@ class AuthenticationController: ViewController {
                     return
                 }
 
-                VirgilHelper.initialize(identity: id, tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token))
-                VirgilHelper.sharedInstance.signUp(token: token, password: password) { error in
+                VirgilHelper.initialize(tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token)) { error in
                     guard error == nil else {
-                        Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
+                        Log.error("Virgil init up failed with error: \(error!.localizedDescription)")
                         self.alert(error!.localizedDescription)
                         authDataResult.user.delete { _ in }
                         return
                     }
 
-                    CoreDataHelper.sharedInstance.createAccount(withIdentity: id)
-                    FirebaseHelper.sharedInstance.doesUserExist(withUsername: id) { exist in
-                        if !exist {
-                            FirebaseHelper.sharedInstance.createUser(identity: id) { error in
-                                guard error == nil else {
-                                    Log.error("Firebase: creating user failed with error: \(error?.localizedDescription ?? "unknown error")")
-                                    self.alert(error?.localizedDescription ?? "Something went wrong")
-                                    return
-                                }
+                    VirgilHelper.sharedInstance.signUp(token: token, password: password) { error in
+                        guard error == nil else {
+                            Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
+                            self.alert(error!.localizedDescription)
+                            authDataResult.user.delete { _ in }
+                            return
+                        }
 
-                                self.goToChatList()
+                        CoreDataHelper.sharedInstance.createAccount(withIdentity: id)
+                        FirebaseHelper.sharedInstance.doesUserExist(withUsername: id) { exist in
+                            if !exist {
+                                FirebaseHelper.sharedInstance.createUser(identity: id) { error in
+                                    guard error == nil else {
+                                        Log.error("Firebase: creating user failed with error: \(error?.localizedDescription ?? "unknown error")")
+                                        self.alert(error?.localizedDescription ?? "Something went wrong")
+                                        return
+                                    }
+
+                                    self.goToChatList()
+                                }
                             }
                         }
                     }

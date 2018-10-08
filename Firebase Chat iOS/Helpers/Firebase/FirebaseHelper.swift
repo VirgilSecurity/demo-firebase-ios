@@ -104,7 +104,7 @@ class FirebaseHelper {
     }
 
     static func makeTokenCallback(id: String, firebaseToken token: String) -> CachingJwtProvider.RenewJwtCallback {
-        let tokenCallback: CachingJwtProvider.RenewJwtCallback = { tokenContext, completion in
+        let tokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
             let connection = ServiceConnection()
             let jwtRequest = try? ServiceRequest(url: URL(string: AppDelegate.jwtEndpoint)!,
                                                  method: ServiceRequest.Method.post,

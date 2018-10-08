@@ -15,6 +15,9 @@ import VirgilCryptoAPI
 class VirgilHelper {
     static private(set) var sharedInstance: VirgilHelper!
 
+    public typealias JwtStringCallback = CachingJwtProvider.JwtStringCallback
+    public typealias RenewJwtCallback = CachingJwtProvider.RenewJwtCallback
+
     let identity: String
     let crypto: VirgilCrypto
     let keychainStorage: KeychainStorage
@@ -61,21 +64,30 @@ class VirgilHelper {
         case gettingJwtFailed = "Getting JWT failed"
         case strToDataFailed = "Converting utf8 string to data failed"
         case strFromDataFailed = "Building string from data failed"
+        case verifierInitFailed = "VirgilCardVerifier initialization failed"
     }
 
-    public static func initialize(identity: String, tokenCallback: @escaping CachingJwtProvider.RenewJwtCallback) {
+    public static func initialize(tokenCallback: @escaping RenewJwtCallback, completion: @escaping (Error?) -> ()) {
         let accessTokenProvider = CachingJwtProvider(renewTokenCallback: tokenCallback)
-        let cardCrypto = VirgilCardCrypto()
-        guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
-            Log.error("VirgilCardVerifier init failed")
-            return
-        }
-        let params = CardManagerParams(cardCrypto: cardCrypto,
-                                       accessTokenProvider: accessTokenProvider,
-                                       cardVerifier: verifier)
-        let cardManager = CardManager(params: params)
+        let tokenContext = TokenContext(service: "cards", operation: "publish")
+        accessTokenProvider.getToken(with: tokenContext) { token, error in
+            guard let identity = token?.identity(), error == nil else {
+                completion(VirgilHelperError.gettingJwtFailed)
+                return
+            }
 
-        VirgilHelper.sharedInstance = VirgilHelper(identity: identity, cardManager: cardManager)
+            let cardCrypto = VirgilCardCrypto()
+            guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
+                completion(VirgilHelperError.verifierInitFailed)
+                return
+            }
+            let params = CardManagerParams(cardCrypto: cardCrypto,
+                                           accessTokenProvider: accessTokenProvider,
+                                           cardVerifier: verifier)
+            let cardManager = CardManager(params: params)
+
+            VirgilHelper.sharedInstance = VirgilHelper(identity: identity, cardManager: cardManager)
+        }
     }
 
     /// Initializer

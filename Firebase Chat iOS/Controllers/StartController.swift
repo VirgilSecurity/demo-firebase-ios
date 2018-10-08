@@ -21,22 +21,28 @@ class StartViewController: ViewController {
 
         if let user = Auth.auth().currentUser,
             let id = user.email?.replacingOccurrences(of: "@virgilfirebase.com", with: "") {
-
                 user.getIDToken { token, error in
                     guard error == nil, let token = token else {
                         Log.error("Get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
                         self.goToLogin()
                         return
                     }
-                    VirgilHelper.initialize(identity: id, tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token))
-                    VirgilHelper.sharedInstance.signIn(token: token) { error in
+                    VirgilHelper.initialize(tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token))
+                    { error in
                         guard error == nil else {
-                            Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
+                            Log.error("Virgil init with error: \(error!.localizedDescription)")
                             self.goToLogin()
                             return
                         }
-                        CoreDataHelper.sharedInstance.setUpAccount(withIdentity: id)
-                        self.goToChatList()
+                        VirgilHelper.sharedInstance.signIn(token: token) { error in
+                            guard error == nil else {
+                                Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
+                                self.goToLogin()
+                                return
+                            }
+                            CoreDataHelper.sharedInstance.setUpAccount(withIdentity: id)
+                            self.goToChatList()
+                        }
                     }
                 }
         } else {
