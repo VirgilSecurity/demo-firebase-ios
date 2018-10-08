@@ -15,13 +15,39 @@ import VirgilCryptoAPI
 class VirgilHelper {
     static private(set) var sharedInstance: VirgilHelper!
 
+    let identity: String
     let crypto: VirgilCrypto
     let keychainStorage: KeychainStorage
     let privateKeyExporter: PrivateKeyExporter
-    let cardManager: CardManager
+    private(set) var cardManager: CardManager
 
-    var historyKeyPair: VirgilKeyPair?
+    private var historyKeyPair_: VirgilKeyPair?
+
+    var historyKeyPair: VirgilKeyPair? {
+        set {
+            self.historyKeyPair_ = historyKeyPair
+        }
+        get {
+            if self.historyKeyPair_ == nil {
+                try? fetchHistoryKeyPair()
+            }
+            return self.historyKeyPair_
+        }
+    }
     var channelKey: VirgilPublicKey?
+
+    func fetchHistoryKeyPair() throws {
+        let keyEntry = try self.keychainStorage.retrieveEntry(withName: self.identity)
+
+        let key = try self.privateKeyExporter.importPrivateKey(from: keyEntry.data)
+
+        guard let historyKey = key as? VirgilPrivateKey else {
+            throw VirgilHelperError.keyIsNotVirgil
+        }
+        let publicKey = try self.crypto.extractPublicKey(from: historyKey)
+
+        self.historyKeyPair = VirgilKeyPair(privateKey: historyKey, publicKey: publicKey)
+    }
 
     /// Declares error types and codes
     ///
@@ -31,13 +57,13 @@ class VirgilHelper {
     /// - strFromDataFailed: Building string from data failed
     enum VirgilHelperError: String, Error {
         case keyIsNotVirgil = "Converting Public or Private Key to Virgil one failed"
-        case missingKeys = "Missing channel or self public key"
+        case missingKeys = "Missing channel or self keys"
         case gettingJwtFailed = "Getting JWT failed"
         case strToDataFailed = "Converting utf8 string to data failed"
         case strFromDataFailed = "Building string from data failed"
     }
 
-    public static func initialize(tokenCallback: @escaping CachingJwtProvider.RenewJwtCallback) {
+    public static func initialize(identity: String, tokenCallback: @escaping CachingJwtProvider.RenewJwtCallback) {
         let accessTokenProvider = CachingJwtProvider(renewTokenCallback: tokenCallback)
         let cardCrypto = VirgilCardCrypto()
         guard let verifier = VirgilCardVerifier(cardCrypto: cardCrypto) else {
@@ -49,12 +75,13 @@ class VirgilHelper {
                                        cardVerifier: verifier)
         let cardManager = CardManager(params: params)
 
-        VirgilHelper.sharedInstance = VirgilHelper(cardManager: cardManager)
+        VirgilHelper.sharedInstance = VirgilHelper(identity: identity, cardManager: cardManager)
     }
 
     /// Initializer
-    private init(cardManager: CardManager, crypto: VirgilCrypto? = nil, privateKeyExporter: PrivateKeyExporter? = nil,
-                 keychainStorageParams: KeychainStorageParams? = nil) {
+    private init(identity: String, cardManager: CardManager, crypto: VirgilCrypto? = nil,
+                 privateKeyExporter: PrivateKeyExporter? = nil, keychainStorageParams: KeychainStorageParams? = nil) {
+        self.identity = identity
         self.crypto = crypto ?? VirgilCrypto()
         self.privateKeyExporter = privateKeyExporter ?? VirgilPrivateKeyExporter()
         let keychainStorageParams = try! keychainStorageParams ?? KeychainStorageParams.makeKeychainStorageParams()

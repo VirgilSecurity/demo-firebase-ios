@@ -11,31 +11,21 @@ import VirgilSDK
 import VirgilCryptoApiImpl
 
 extension VirgilHelper {
-    func signIn(with identity: String, token: String, completion: @escaping (Error?) -> ()) {
+    func signIn(token: String, completion: @escaping (Error?) -> ()) {
         do {
-            let keyEntry = try self.keychainStorage.retrieveEntry(withName: identity)
-
-            let key = try self.privateKeyExporter.importPrivateKey(from: keyEntry.data)
-
-            guard let historyKey = key as? VirgilPrivateKey else {
-                throw VirgilHelperError.keyIsNotVirgil
-            }
-            let publicKey = try self.crypto.extractPublicKey(from: historyKey)
-
-            self.historyKeyPair = VirgilKeyPair(privateKey: historyKey, publicKey: publicKey)
-
+            try self.fetchHistoryKeyPair()
             completion(nil)
         } catch {
             completion(error)
         }
     }
 
-    func signIn(with identity: String, token: String, password: String, completion: @escaping (Error?) -> ()) {
+    func signIn(token: String, password: String, completion: @escaping (Error?) -> ()) {
         Log.debug("Signing in")
 
         try? self.keychainStorage.deleteEntry(withName: identity)
 
-        self.fetchFromKeyknox(usingPassword: password, identity: identity, cardManager: cardManager) { historyKey, error in
+        self.fetchFromKeyknox(usingPassword: password, identity: self.identity) { historyKey, error in
             guard let historyKey = historyKey, error == nil else {
                 completion(error)
                 return
@@ -50,7 +40,7 @@ extension VirgilHelper {
         }
     }
 
-    func signUp(with identity: String, token: String, password: String, completion: @escaping (Error?) -> ()) {
+    func signUp(token: String, password: String, completion: @escaping (Error?) -> ()) {
         Log.debug("Signing up")
         
         do {
@@ -59,18 +49,17 @@ extension VirgilHelper {
             let group = DispatchGroup()
             var err: Error?
 
-            try? keychainStorage.deleteEntry(withName: identity)
+            try? keychainStorage.deleteEntry(withName: self.identity)
 
             group.enter()
-            cardManager.publishCard(privateKey: historyKeyPair.privateKey, publicKey: historyKeyPair.publicKey,
+            self.cardManager.publishCard(privateKey: historyKeyPair.privateKey, publicKey: historyKeyPair.publicKey,
                                     identity: identity) { card, error in
                 err = error
                 group.leave()
             }
 
             group.enter()
-            self.publishToKeyknox(key: historyKeyPair.privateKey, usingPassword: password,
-                                  identity: identity, cardManager: cardManager) { error in
+            self.publishToKeyknox(key: historyKeyPair.privateKey, usingPassword: password) { error in
                 err = error
                 group.leave()
             }

@@ -12,13 +12,9 @@ import VirgilPythia
 import VirgilCryptoApiImpl
 
 extension VirgilHelper {
-    func publishToKeyknox(key: VirgilPrivateKey, usingPassword password: String, identity: String,
-                          cardManager: CardManager, completion: @escaping (Error?) -> ()) {
-        let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: cardManager.accessTokenProvider)
-        let brainKey = BrainKey(context: brainKeyContext)
-
-        brainKey.generateKeyPair(password: password, brainKeyId: nil) { brainKeyPair, error in
-            guard let brainKeyPair = brainKeyPair, error == nil else {
+    func publishToKeyknox(key: VirgilPrivateKey, usingPassword password: String, completion: @escaping (Error?) -> ()) {
+        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
+            guard let syncKeyStorage = syncKeyStorage, error == nil else {
                 completion(error)
                 return
             }
@@ -26,19 +22,8 @@ extension VirgilHelper {
             do {
                 let exportedHistoryKey = try self.privateKeyExporter.exportPrivateKey(privateKey: key)
 
-                let cloudKeyStorage = try CloudKeyStorage(accessTokenProvider: cardManager.accessTokenProvider,
-                                                          publicKeys: [brainKeyPair.publicKey], privateKey: brainKeyPair.privateKey)
-                let syncKeyStorage = SyncKeyStorage(identity: identity, keychainStorage: self.keychainStorage,
-                                                    cloudKeyStorage: cloudKeyStorage)
-
-                syncKeyStorage.sync { error in
-                    guard error == nil else {
-                        completion(error)
-                        return
-                    }
-                    syncKeyStorage.storeEntry(withName: identity, data: exportedHistoryKey) { _, error in
-                        completion(error)
-                    }
+                syncKeyStorage.storeEntry(withName: self.identity, data: exportedHistoryKey) { _, error in
+                    completion(error)
                 }
             } catch {
                 completion(error)
@@ -46,45 +31,98 @@ extension VirgilHelper {
         }
     }
 
-    func fetchFromKeyknox(usingPassword password: String, identity: String, cardManager: CardManager,
-                          completion: @escaping (VirgilPrivateKey?, Error?) -> ()) {
-        let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: cardManager.accessTokenProvider)
-        let brainKey = BrainKey(context: brainKeyContext)
+    func fetchFromKeyknox(usingPassword password: String, identity: String, completion: @escaping (VirgilPrivateKey?, Error?) -> ()) {
+        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
+            guard let syncKeyStorage = syncKeyStorage, error == nil else {
+                completion(nil, error)
+                return
+            }
 
-        brainKey.generateKeyPair(password: password, brainKeyId: nil) { brainKeyPair, error in
+            do {
+                let entry = try syncKeyStorage.retrieveEntry(withName: identity)
+                let key = try self.privateKeyExporter.importPrivateKey(from: entry.data)
+
+                guard let historyKey = key as? VirgilPrivateKey else {
+                    throw VirgilHelperError.keyIsNotVirgil
+                }
+
+                completion(historyKey, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    func deleteKeyknoxEntry(password: String, completion: @escaping (Error?) -> ()) {
+        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
+            guard let syncKeyStorage = syncKeyStorage, error == nil else {
+                completion(error)
+                return
+            }
+
+            syncKeyStorage.deleteEntry(withName: self.identity) { error in
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
+            }
+        }
+    }
+
+    func changeKeyknoxPassword(from oldPassword: String, to newPassword: String, completion: @escaping (Error?) -> ()) {
+        guard let historyKey = self.historyKeyPair?.privateKey else {
+            completion(VirgilHelperError.missingKeys)
+            return
+        }
+
+        self.deleteKeyknoxEntry(password: oldPassword) { error in
+            guard error == nil else {
+                completion(error)
+                return
+            }
+
+            self.publishToKeyknox(key: historyKey, usingPassword: newPassword) { error in
+                completion(error)
+            }
+        }
+    }
+
+    // MARK: - Private API
+
+    private func setUpSyncKeyStorage(password: String, completion: @escaping (SyncKeyStorage?, Error?) -> ()) {
+        self.generateBrainKey(password: password) { brainKeyPair, error in
             guard let brainKeyPair = brainKeyPair, error == nil else {
                 completion(nil, error)
                 return
             }
 
             do {
-                let cloudKeyStorage = try CloudKeyStorage(accessTokenProvider: cardManager.accessTokenProvider,
-                                                          publicKeys: [brainKeyPair.publicKey], privateKey: brainKeyPair.privateKey)
-                let syncKeyStorage = SyncKeyStorage(identity: identity, keychainStorage: self.keychainStorage,
-                                                    cloudKeyStorage: cloudKeyStorage)
+                let syncKeyStorage = try self.generateSyncKeyStorage(keyPair: brainKeyPair)
 
                 syncKeyStorage.sync { error in
-                    guard error == nil else {
-                        completion(nil, error)
-                        return
-                    }
-
-                    do {
-                        let entry = try syncKeyStorage.retrieveEntry(withName: identity)
-                        let key = try self.privateKeyExporter.importPrivateKey(from: entry.data)
-
-                        guard let historyKey = key as? VirgilPrivateKey else {
-                            throw VirgilHelperError.keyIsNotVirgil
-                        }
-
-                        completion(historyKey, nil)
-                    } catch {
-                        completion(nil, error)
-                    }
+                    completion(syncKeyStorage, error)
                 }
             } catch {
                 completion(nil, error)
             }
+        }
+    }
+
+    private func generateSyncKeyStorage(keyPair: VirgilKeyPair) throws -> SyncKeyStorage {
+        let cloudKeyStorage = try CloudKeyStorage(accessTokenProvider: self.cardManager.accessTokenProvider,
+                                                  publicKeys: [keyPair.publicKey], privateKey: keyPair.privateKey)
+        let syncKeyStorage = SyncKeyStorage(identity: self.identity, keychainStorage: self.keychainStorage,
+                                            cloudKeyStorage: cloudKeyStorage)
+
+        return syncKeyStorage
+    }
+
+    private func generateBrainKey(password: String, brainKeyId: String? = nil, completion: @escaping (VirgilKeyPair?, Error?) -> ()) {
+        let brainKeyContext = BrainKeyContext.makeContext(accessTokenProvider: cardManager.accessTokenProvider)
+        let brainKey = BrainKey(context: brainKeyContext)
+
+        brainKey.generateKeyPair(password: password, brainKeyId: nil) { brainKeyPair, error in
+            completion(brainKeyPair, error)
         }
     }
 }

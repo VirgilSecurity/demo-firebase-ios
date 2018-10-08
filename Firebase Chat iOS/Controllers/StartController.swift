@@ -28,8 +28,8 @@ class StartViewController: ViewController {
                         self.goToLogin()
                         return
                     }
-                    VirgilHelper.initialize(tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token))
-                    VirgilHelper.sharedInstance.signIn(with: id, token: token) { error in
+                    VirgilHelper.initialize(identity: id, tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token))
+                    VirgilHelper.sharedInstance.signIn(token: token) { error in
                         guard error == nil else {
                             Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
                             self.goToLogin()
