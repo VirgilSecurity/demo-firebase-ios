@@ -77,37 +77,12 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Auth.auth().signIn(withEmail: self.makeFakeEmail(from: id), password: password) { authDataResult, error in
-            guard let authDataResult = authDataResult, error == nil else {
-                Log.error("Sign in failed with error: \(error?.localizedDescription ?? "unknown error")")
-                self.alert(error?.localizedDescription ?? "Something went wrong")
+        Authorizer.signIn(identity: id, password: password) { error in
+            guard error == nil else {
+                self.alert("Sign in failed with error: \(error!.localizedDescription)")
                 return
             }
-            authDataResult.user.getIDToken { token, error in
-                guard error == nil, let token = token else {
-                    Log.error("Get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
-                    self.alert(error?.localizedDescription ?? "Something went wrong")
-                    return
-                }
-                
-                VirgilHelper.initialize(tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token)) { error in
-                    guard error == nil else {
-                        Log.error("Virgil init with error: \(error!.localizedDescription)")
-                        self.alert(error!.localizedDescription)
-                        return
-                    }
-                    VirgilHelper.sharedInstance.bootstrapUser(password: password) { error in
-                        guard error == nil else {
-                            Log.error("Virgil sign in failed with error: \(error!.localizedDescription)")
-                            self.alert(error!.localizedDescription)
-                            return
-                        }
-
-                        CoreDataHelper.sharedInstance.setUpAccount(withIdentity: id)
-                        self.goToChatList()
-                    }
-                }
-            }
+            self.goToChatList()
         }
     }
 
@@ -126,53 +101,12 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Auth.auth().createUser(withEmail: self.makeFakeEmail(from: id), password: password) { authDataResult, error in
-            guard let authDataResult = authDataResult, error == nil else {
-                Log.error("Creating user failed with error: \(error?.localizedDescription ?? "unknown error")")
-                self.alert(error?.localizedDescription ?? "Something went wrong")
+        Authorizer.signUp(identity: id, password: password) { error in
+            guard error == nil else {
+                self.alert("Sign up failed with error: \(error!.localizedDescription)")
                 return
             }
-            authDataResult.user.getIDToken { token, error in
-                guard error == nil, let token = token else {
-                    Log.error("Get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
-                    self.alert(error?.localizedDescription ?? "Something went wrong")
-                    authDataResult.user.delete { _ in }
-                    return
-                }
-
-                VirgilHelper.initialize(tokenCallback: FirebaseHelper.makeTokenCallback(id: id, firebaseToken: token)) { error in
-                    guard error == nil else {
-                        Log.error("Virgil init up failed with error: \(error!.localizedDescription)")
-                        self.alert(error!.localizedDescription)
-                        authDataResult.user.delete { _ in }
-                        return
-                    }
-
-                    VirgilHelper.sharedInstance.bootstrapUser(password: password) { error in
-                        guard error == nil else {
-                            Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
-                            self.alert(error!.localizedDescription)
-                            authDataResult.user.delete { _ in }
-                            return
-                        }
-
-                        CoreDataHelper.sharedInstance.createAccount(withIdentity: id)
-                        FirebaseHelper.sharedInstance.doesUserExist(withUsername: id) { exist in
-                            if !exist {
-                                FirebaseHelper.sharedInstance.createUser(identity: id) { error in
-                                    guard error == nil else {
-                                        Log.error("Firebase: creating user failed with error: \(error?.localizedDescription ?? "unknown error")")
-                                        self.alert(error?.localizedDescription ?? "Something went wrong")
-                                        return
-                                    }
-
-                                    self.goToChatList()
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            self.goToChatList()
         }
     }
 
@@ -182,10 +116,6 @@ class AuthenticationController: ViewController {
                 super.alert(message)
             }
         }
-    }
-
-    private func makeFakeEmail(from id: String) -> String {
-        return id + "@virgilfirebase.com"
     }
 
     private func goToChatList() {

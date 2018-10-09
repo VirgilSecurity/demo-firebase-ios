@@ -41,7 +41,6 @@ class VirgilHelper {
     }
     var sessionKeys: [VirgilPublicKey]
 
-
     /// Declares error types and codes
     ///
     /// - keyIsNotVirgil: Converting Public or Private Key to Virgil one failed
