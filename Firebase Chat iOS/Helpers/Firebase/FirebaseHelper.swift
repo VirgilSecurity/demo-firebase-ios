@@ -8,7 +8,6 @@
 
 import Foundation
 import Firebase
-import VirgilSDK
 
 class FirebaseHelper {
     static private(set) var sharedInstance: FirebaseHelper!
@@ -103,8 +102,8 @@ class FirebaseHelper {
         }
     }
 
-    static func makeTokenCallback(id: String, firebaseToken token: String) -> CachingJwtProvider.RenewJwtCallback {
-        let tokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
+    static func makeTokenCallback(id: String, firebaseToken token: String) -> VirgilHelper.RenewJwtCallback {
+        let tokenCallback: VirgilHelper.RenewJwtCallback = { completion in
             let connection = ServiceConnection()
             let jwtRequest = try? ServiceRequest(url: URL(string: AppDelegate.jwtEndpoint)!,
                                                  method: ServiceRequest.Method.post,

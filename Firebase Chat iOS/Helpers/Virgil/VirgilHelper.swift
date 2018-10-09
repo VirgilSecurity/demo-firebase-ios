@@ -15,8 +15,10 @@ import VirgilCryptoAPI
 class VirgilHelper {
     static private(set) var sharedInstance: VirgilHelper!
 
-    public typealias JwtStringCallback = CachingJwtProvider.JwtStringCallback
-    public typealias RenewJwtCallback = CachingJwtProvider.RenewJwtCallback
+    /// Typealias for callback used below
+    public typealias JwtStringCallback = (String?, Error?) -> Void
+    /// Typealias for callback used below
+    public typealias RenewJwtCallback = (@escaping JwtStringCallback) -> Void
 
     let identity: String
     let crypto: VirgilCrypto
@@ -55,8 +57,11 @@ class VirgilHelper {
         case verifierInitFailed = "VirgilCardVerifier initialization failed"
     }
 
-    public static func initialize(tokenCallback: @escaping RenewJwtCallback, completion: @escaping (Error?) -> ()) {
-        let accessTokenProvider = CachingJwtProvider(renewTokenCallback: tokenCallback)
+    public static func initialize(tokenCallback: @escaping VirgilHelper.RenewJwtCallback, completion: @escaping (Error?) -> ()) {
+        let renewTokenCallback: CachingJwtProvider.RenewJwtCallback = { _, completion in
+            tokenCallback(completion)
+        }
+        let accessTokenProvider = CachingJwtProvider(renewTokenCallback: renewTokenCallback)
         let tokenContext = TokenContext(service: "cards", operation: "publish")
         accessTokenProvider.getToken(with: tokenContext) { token, error in
             guard let identity = token?.identity(), error == nil else {
@@ -103,73 +108,10 @@ class VirgilHelper {
         self.historyKeyPair = VirgilKeyPair(privateKey: historyKey, publicKey: publicKey)
     }
 
-    /// Encrypts given String
-    ///
-    /// - Parameter text: String to encrypt
-    /// - Returns: encrypted String
-    /// - Throws: error if fails
-    func encrypt(_ text: String) throws -> String {
-        guard let data = text.data(using: .utf8) else {
-            throw VirgilHelperError.strToDataFailed
-        }
-        guard !self.sessionKeys.isEmpty, let selfKey = self.historyKeyPair?.publicKey else {
-            throw VirgilHelperError.missingKeys
-        }
-
-        return try self.crypto.encrypt(data, for: self.sessionKeys + [selfKey]).base64EncodedString()
-    }
-
-    /// Decrypts given String
-    ///
-    /// - Parameter encrypted: String to decrypt
-    /// - Returns: decrypted String
-    /// - Throws: error if fails
-    func decrypt(_ encrypted: String) throws -> String {
-        guard let privateKey = self.historyKeyPair?.privateKey,
-            let data = Data(base64Encoded: encrypted)
-            else {
-                throw VirgilHelperError.strToDataFailed
-        }
-        let decryptedData = try self.crypto.decrypt(data, with: privateKey)
-
-        guard let decrypted = String(data: decryptedData, encoding: .utf8) else {
-            throw VirgilHelperError.strFromDataFailed
-        }
-
-        return decrypted
-    }
-
-    /// Searches and sets Public Key to encrypt for
-    ///
-    /// - Parameters:
-    ///   - identity: identity of user
-    ///   - completion: completion handler, called with error if failed
-    func startSession(with identities: [String], completion: @escaping (Error?) -> ()) {
+    func logout() throws {
         self.closeSession()
-
-        for identity in identities {
-            Log.debug("Searching cards with identity: \(identity)")
-
-            cardManager.searchCards(identity: identity) { cards, error in
-                guard error == nil, let cards = cards else {
-                    completion(error)
-                    return
-                }
-
-                let keys = cards.map { $0.publicKey }
-                guard let virgilKeys = keys as? [VirgilPublicKey] else {
-                    completion(VirgilHelperError.keyIsNotVirgil)
-                    return
-                }
-                self.sessionKeys = self.sessionKeys + virgilKeys
-
-                completion(nil)
-            }
-        }
-    }
-
-    func closeSession() {
-        self.sessionKeys = []
+        self.historyKeyPair = nil
+        try self.keychainStorage.deleteEntry(withName: self.identity)
     }
 
     /// Makes SHA256 hash
@@ -182,11 +124,5 @@ class VirgilHelper {
             return nil
         }
         return self.crypto.computeHash(for: data, using: .SHA256).hexEncodedString()
-    }
-
-    /// Resets variables
-    func reset() {
-        self.historyKeyPair = nil
-        self.sessionKeys = []
     }
 }

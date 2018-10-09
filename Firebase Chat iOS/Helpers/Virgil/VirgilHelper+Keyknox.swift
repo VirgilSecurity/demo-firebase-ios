@@ -35,7 +35,6 @@ extension VirgilHelper {
                 completion(nil, error)
             }
         }
-        
     }
 
     func deleteKeyknoxEntry(password: String, completion: @escaping (Error?) -> ()) {
