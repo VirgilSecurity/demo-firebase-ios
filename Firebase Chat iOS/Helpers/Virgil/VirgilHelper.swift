@@ -22,7 +22,7 @@ class VirgilHelper {
     let crypto: VirgilCrypto
     let keychainStorage: KeychainStorage
     let privateKeyExporter: PrivateKeyExporter
-    private(set) var cardManager: CardManager
+    let cardManager: CardManager
 
     private var historyKeyPair_: VirgilKeyPair?
 
@@ -37,20 +37,8 @@ class VirgilHelper {
             return self.historyKeyPair_
         }
     }
-    var channelKey: VirgilPublicKey?
+    var sessionKeys: [VirgilPublicKey]
 
-    func fetchHistoryKeyPair() throws {
-        let keyEntry = try self.keychainStorage.retrieveEntry(withName: self.identity)
-
-        let key = try self.privateKeyExporter.importPrivateKey(from: keyEntry.data)
-
-        guard let historyKey = key as? VirgilPrivateKey else {
-            throw VirgilHelperError.keyIsNotVirgil
-        }
-        let publicKey = try self.crypto.extractPublicKey(from: historyKey)
-
-        self.historyKeyPair = VirgilKeyPair(privateKey: historyKey, publicKey: publicKey)
-    }
 
     /// Declares error types and codes
     ///
@@ -99,6 +87,20 @@ class VirgilHelper {
         let keychainStorageParams = try! keychainStorageParams ?? KeychainStorageParams.makeKeychainStorageParams()
         self.keychainStorage = KeychainStorage(storageParams: keychainStorageParams)
         self.cardManager = cardManager
+        self.sessionKeys = []
+    }
+
+    func fetchHistoryKeyPair() throws {
+        let keyEntry = try self.keychainStorage.retrieveEntry(withName: self.identity)
+
+        let key = try self.privateKeyExporter.importPrivateKey(from: keyEntry.data)
+
+        guard let historyKey = key as? VirgilPrivateKey else {
+            throw VirgilHelperError.keyIsNotVirgil
+        }
+        let publicKey = try self.crypto.extractPublicKey(from: historyKey)
+
+        self.historyKeyPair = VirgilKeyPair(privateKey: historyKey, publicKey: publicKey)
     }
 
     /// Encrypts given String
@@ -110,11 +112,11 @@ class VirgilHelper {
         guard let data = text.data(using: .utf8) else {
             throw VirgilHelperError.strToDataFailed
         }
-        guard let channelKey = self.channelKey, let selfKey = self.historyKeyPair?.publicKey else {
+        guard !self.sessionKeys.isEmpty, let selfKey = self.historyKeyPair?.publicKey else {
             throw VirgilHelperError.missingKeys
         }
 
-        return try self.crypto.encrypt(data, for: [channelKey, selfKey]).base64EncodedString()
+        return try self.crypto.encrypt(data, for: self.sessionKeys + [selfKey]).base64EncodedString()
     }
 
     /// Decrypts given String
@@ -131,7 +133,6 @@ class VirgilHelper {
         let decryptedData = try self.crypto.decrypt(data, with: privateKey)
 
         guard let decrypted = String(data: decryptedData, encoding: .utf8) else {
-            Log.error("Building string from data failed")
             throw VirgilHelperError.strFromDataFailed
         }
 
@@ -143,32 +144,32 @@ class VirgilHelper {
     /// - Parameters:
     ///   - identity: identity of user
     ///   - completion: completion handler, called with error if failed
-    func setChannelKey(for identity: String, completion: @escaping (Error?) -> ()) {
-        Log.debug("Searching cards with identity: \(identity)")
+    func startSession(with identities: [String], completion: @escaping (Error?) -> ()) {
+        self.closeSession()
 
-        cardManager.searchCards(identity: identity) { cards, error in
-            guard error == nil, let cards = cards else {
-                Log.error("Search self cards failed with error: \(error?.localizedDescription ?? "unknown error")")
-                DispatchQueue.main.async {
+        for identity in identities {
+            Log.debug("Searching cards with identity: \(identity)")
+
+            cardManager.searchCards(identity: identity) { cards, error in
+                guard error == nil, let cards = cards else {
                     completion(error)
+                    return
                 }
-                return
-            }
 
-            let keys = cards.map { $0.publicKey }
-            guard let virgilKeys = keys as? [VirgilPublicKey] else {
-                Log.error("Converting keys to Virgil failed")
-                DispatchQueue.main.async {
+                let keys = cards.map { $0.publicKey }
+                guard let virgilKeys = keys as? [VirgilPublicKey] else {
                     completion(VirgilHelperError.keyIsNotVirgil)
+                    return
                 }
-                return
-            }
-            self.channelKey = virgilKeys.first
+                self.sessionKeys = self.sessionKeys + virgilKeys
 
-            DispatchQueue.main.async {
                 completion(nil)
             }
         }
+    }
+
+    func closeSession() {
+        self.sessionKeys = []
     }
 
     /// Makes SHA256 hash
@@ -186,6 +187,6 @@ class VirgilHelper {
     /// Resets variables
     func reset() {
         self.historyKeyPair = nil
-        self.channelKey = nil
+        self.sessionKeys = []
     }
 }

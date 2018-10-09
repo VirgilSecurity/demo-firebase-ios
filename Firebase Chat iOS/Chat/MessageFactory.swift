@@ -27,7 +27,8 @@ import Chatto
 import ChattoAdditions
 
 class MessageFactory {
-    class func createTextMessageModel(_ uid: String, text: String, isIncoming: Bool, status: MessageStatus, date: Date) -> DemoTextMessageModel {
+    class func createTextMessageModel(_ uid: String, text: String, isIncoming: Bool,
+                                      status: MessageStatus, date: Date) -> DemoTextMessageModel {
         let messageModel = createMessageModel(uid, isIncoming: isIncoming, type: TextMessageModel<MessageModel>.chatItemType,
                                               status: status, date: date)
         let textMessageModel = DemoTextMessageModel(messageModel: messageModel, text: text)

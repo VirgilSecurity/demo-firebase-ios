@@ -31,6 +31,7 @@ class ChatListController: ViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        VirgilHelper.sharedInstance.closeSession()
         FirebaseHelper.sharedInstance.channelListener?.remove()
         FirebaseHelper.sharedInstance.channelListener = nil
     }
@@ -174,7 +175,7 @@ extension ChatListController: CellTapDelegate {
             var err: Error?
 
             group.enter()
-            VirgilHelper.sharedInstance.setChannelKey(for: username) { error in
+            VirgilHelper.sharedInstance.startSession(with: [username]) { error in
                 err = error
                 group.leave()
             }

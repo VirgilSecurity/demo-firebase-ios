@@ -55,6 +55,8 @@ public class MessageSender {
         }
     }
 
+    // MARK: - Private API
+
     private func messageStatus(ciphertext: String, message: DemoTextMessageModel) {
         switch message.status {
         case .success:
