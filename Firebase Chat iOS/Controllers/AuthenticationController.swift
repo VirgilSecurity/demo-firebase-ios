@@ -96,9 +96,9 @@ class AuthenticationController: ViewController {
                         self.alert(error!.localizedDescription)
                         return
                     }
-                    VirgilHelper.sharedInstance.signIn(token: token, password: password) { error in
+                    VirgilHelper.sharedInstance.bootstrapUser(password: password) { error in
                         guard error == nil else {
-                            Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
+                            Log.error("Virgil sign in failed with error: \(error!.localizedDescription)")
                             self.alert(error!.localizedDescription)
                             return
                         }
@@ -148,7 +148,7 @@ class AuthenticationController: ViewController {
                         return
                     }
 
-                    VirgilHelper.sharedInstance.signUp(token: token, password: password) { error in
+                    VirgilHelper.sharedInstance.bootstrapUser(password: password) { error in
                         guard error == nil else {
                             Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
                             self.alert(error!.localizedDescription)

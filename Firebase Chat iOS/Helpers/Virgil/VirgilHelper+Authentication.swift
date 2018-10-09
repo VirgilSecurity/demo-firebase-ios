@@ -11,62 +11,86 @@ import VirgilSDK
 import VirgilCryptoApiImpl
 
 extension VirgilHelper {
-    func signIn(token: String, completion: @escaping (Error?) -> ()) {
-        do {
-            try self.fetchHistoryKeyPair()
+    func bootstrapUser(completion: @escaping (Error?) -> ()) {
+        if (try? self.fetchHistoryKeyPair()) != nil {
             completion(nil)
-        } catch {
-            completion(error)
-        }
-    }
-
-    func signIn(token: String, password: String, completion: @escaping (Error?) -> ()) {
-        Log.debug("Signing in")
-
-        try? self.keychainStorage.deleteEntry(withName: identity)
-
-        self.fetchFromKeyknox(usingPassword: password, identity: self.identity) { historyKey, error in
-            guard let historyKey = historyKey, error == nil else {
-                completion(error)
-                return
-            }
+        } else {
             do {
-                let publicKey = try self.crypto.extractPublicKey(from: historyKey)
-                self.historyKeyPair = VirgilKeyPair(privateKey: historyKey, publicKey: publicKey)
-                completion(nil)
+                let historyKeyPair = try self.crypto.generateKeyPair()
+
+                self.cardManager.publishCard(privateKey: historyKeyPair.privateKey,
+                                             publicKey: historyKeyPair.publicKey, identity: identity)
+                { card, error in
+                    guard error == nil else {
+                        completion(error)
+                        return
+                    }
+                    self.historyKeyPair = historyKeyPair
+
+                    do {
+                        let data = try self.privateKeyExporter.exportPrivateKey(privateKey: historyKeyPair.privateKey)
+                        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
+                    } catch {
+                        completion(error)
+                    }
+
+                    completion(nil)
+                }
             } catch {
                 completion(error)
             }
         }
     }
 
-    func signUp(token: String, password: String, completion: @escaping (Error?) -> ()) {
-        Log.debug("Signing up")
-        
+    func bootstrapUser(password: String, completion: @escaping (Error?) -> ()) {
+        if (try? self.fetchHistoryKeyPair()) != nil {
+            completion(nil)
+        } else {
+            self.cardManager.searchCards(identity: self.identity) { cards, error in
+                guard let cards = cards, error == nil else {
+                    completion(error)
+                    return
+                }
+
+                if cards.isEmpty {
+                    self.signUp(password: password, completion: completion)
+                } else {
+                    self.recoverUserKey(usingPassword: password) { _, error in
+                        completion(error)
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - Private API
+
+    private func signUp(password: String, completion: @escaping (Error?) -> ()) {
         do {
             let historyKeyPair = try self.crypto.generateKeyPair()
 
-            let group = DispatchGroup()
-            var err: Error?
-
-            try? keychainStorage.deleteEntry(withName: self.identity)
-
-            group.enter()
-            self.cardManager.publishCard(privateKey: historyKeyPair.privateKey, publicKey: historyKeyPair.publicKey,
-                                    identity: identity) { card, error in
-                err = error
-                group.leave()
-            }
-
-            group.enter()
             self.publishToKeyknox(key: historyKeyPair.privateKey, usingPassword: password) { error in
-                err = error
-                group.leave()
-            }
+                guard error == nil else {
+                    completion(error)
+                    return
+                }
 
-            group.notify(queue: .main) {
-                self.historyKeyPair = err == nil ? historyKeyPair : nil
-                completion(err)
+                self.cardManager.publishCard(privateKey: historyKeyPair.privateKey,
+                                             publicKey: historyKeyPair.publicKey, identity: self.identity)
+                { card, error in
+                    guard card != nil, error == nil else {
+                        self.deleteKeyknoxEntry(password: password) { err in
+                            if let err = err {
+                                Log.error("Deleting Keyknox entry failed with error: \(err.localizedDescription)")
+                            }
+                            completion(error)
+                        }
+                        return
+                    }
+                    self.historyKeyPair = historyKeyPair
+
+                    completion(nil)
+                }
             }
         } catch {
             completion(error)

@@ -34,9 +34,9 @@ class StartViewController: ViewController {
                             self.goToLogin()
                             return
                         }
-                        VirgilHelper.sharedInstance.signIn(token: token) { error in
+                        VirgilHelper.sharedInstance.bootstrapUser { error in
                             guard error == nil else {
-                                Log.error("Virgil sign up failed with error: \(error!.localizedDescription)")
+                                Log.error("Virgil sign in failed with error: \(error!.localizedDescription)")
                                 self.goToLogin()
                                 return
                             }
