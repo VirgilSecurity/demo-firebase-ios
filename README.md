@@ -3,6 +3,8 @@ You can reuse this sample in any Firebase project where you want to end-to-end p
 
 [Also, we've created a helpful video on YouTube to walk you through the steps below and explains what you'll be doing for the next 10 minutes or so. Popcorn not included](https://www.youtube.com/watch?v=6zpzbcm_3I8).
 
+* Looking for other client platforms? [Android](https://github.com/VirgilSecurity/demo-firebase-android) [JavaScript (browser)](https://github.com/VirgilSecurity/demo-firebase-js)
+
 ## Clone project
 ```bash
 git clone https://github.com/VirgilSecurity/demo-firebase-ios
