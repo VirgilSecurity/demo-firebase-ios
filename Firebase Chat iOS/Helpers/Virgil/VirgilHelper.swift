@@ -30,7 +30,7 @@ class VirgilHelper {
 
     var historyKeyPair: VirgilKeyPair? {
         set {
-            self.historyKeyPair_ = historyKeyPair
+            self.historyKeyPair_ = newValue
         }
         get {
             if self.historyKeyPair_ == nil {
@@ -79,6 +79,8 @@ class VirgilHelper {
             let cardManager = CardManager(params: params)
 
             VirgilHelper.sharedInstance = VirgilHelper(identity: identity, cardManager: cardManager)
+
+            completion(nil)
         }
     }
 

@@ -111,10 +111,6 @@ extension FirebaseHelper {
 
                     CoreDataHelper.sharedInstance.createTextMessage(withBody: decryptedBody ?? "Message encrypted",
                                                                     isIncoming: isIncoming, date: messageDate)
-                    if isIncoming {
-                        FirebaseHelper.sharedInstance.blindMessageBody(messageNumber: "\(i)", channel: channel, sender: sender,
-                                                                       receiver: receiver, date: messageDate)
-                    }
                     count += 1
                 }
             }

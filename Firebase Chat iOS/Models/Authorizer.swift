@@ -58,8 +58,9 @@ class Authorizer {
                         completion(error)
                         return
                     }
-
                     CoreDataHelper.sharedInstance.setUpAccount(withIdentity: identity)
+
+                    completion(nil)
                 }
             }
         }
@@ -103,6 +104,8 @@ class Authorizer {
                                     completion(error)
                                     return
                                 }
+
+                                completion(nil)
                             }
                         }
                     }
@@ -119,10 +122,7 @@ class Authorizer {
             }
 
             VirgilHelper.sharedInstance.bootstrapUser(password: password) { error in
-                guard error == nil else {
-                    completion(error)
-                    return
-                }
+                completion(error)
             }
         }
     }

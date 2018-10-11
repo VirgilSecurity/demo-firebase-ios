@@ -8,17 +8,17 @@ PODS:
   - Chatto (3.3.1)
   - ChattoAdditions (3.3.1):
     - Chatto
-  - Firebase/Auth (5.9.0):
+  - Firebase/Auth (5.10.0):
     - Firebase/CoreOnly
     - FirebaseAuth (= 5.0.4)
-  - Firebase/Core (5.9.0):
+  - Firebase/Core (5.10.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.2.0)
-  - Firebase/CoreOnly (5.9.0):
-    - FirebaseCore (= 5.1.4)
-  - Firebase/Firestore (5.9.0):
+  - Firebase/CoreOnly (5.10.0):
+    - FirebaseCore (= 5.1.5)
+  - Firebase/Firestore (5.10.0):
     - Firebase/CoreOnly
-    - FirebaseFirestore (= 0.13.4)
+    - FirebaseFirestore (= 0.13.5)
   - FirebaseAnalytics (5.2.0):
     - FirebaseCore (~> 5.1)
     - FirebaseInstanceID (~> 3.2)
@@ -34,20 +34,20 @@ PODS:
     - GoogleUtilities/Environment (~> 5.2)
     - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseAuthInterop (1.0.0)
-  - FirebaseCore (5.1.4):
+  - FirebaseCore (5.1.5):
     - GoogleUtilities/Logger (~> 5.2)
-  - FirebaseFirestore (0.13.4):
+  - FirebaseFirestore (0.13.5):
     - FirebaseAuthInterop (~> 1.0)
-    - FirebaseCore (~> 5.0)
-    - FirebaseFirestore/abseil-cpp (= 0.13.4)
+    - FirebaseCore (~> 5.1)
+    - FirebaseFirestore/abseil-cpp (= 0.13.5)
     - "gRPC-C++ (~> 0.0.3)"
     - gRPC-ProtoRPC (~> 1.0)
     - leveldb-library (~> 1.20)
     - nanopb (~> 0.3.8)
     - Protobuf (~> 3.1)
-  - FirebaseFirestore/abseil-cpp (0.13.4):
+  - FirebaseFirestore/abseil-cpp (0.13.5):
     - FirebaseAuthInterop (~> 1.0)
-    - FirebaseCore (~> 5.0)
+    - FirebaseCore (~> 5.1)
     - "gRPC-C++ (~> 0.0.3)"
     - gRPC-ProtoRPC (~> 1.0)
     - leveldb-library (~> 1.20)
@@ -126,12 +126,12 @@ PODS:
     - VirgilCryptoAPI (= 1.0.2)
   - VirgilKeyknox (0.1.0):
     - VirgilCryptoApiImpl (~> 3.1.2)
-    - VirgilSDK (~> 5.3.0)
+    - VirgilSDK (~> 5.4)
   - VirgilPythia (0.2.0):
     - VirgilCryptoApiImpl (~> 3.1.2)
-    - VirgilSDK (~> 5.3.0)
-  - VirgilSDK (5.3.0):
-    - VirgilCryptoAPI (~> 1.0.0)
+    - VirgilSDK (~> 5.4)
+  - VirgilSDK (5.4.1):
+    - VirgilCryptoAPI (~> 1.0)
 
 DEPENDENCIES:
   - Chatto (~> 3.3.1)
@@ -141,7 +141,7 @@ DEPENDENCIES:
   - Firebase/Firestore
   - PKHUD (~> 5.0)
   - VirgilCryptoApiImpl (~> 3.0)
-  - VirgilKeyknox (~> 0.1.0)
+  - VirgilKeyknox (from `https://github.com/Ogerets/keyknox-x.git`)
   - VirgilPythia (from `https://github.com/Ogerets/pythia-x.git`)
 
 SPEC REPOS:
@@ -171,28 +171,32 @@ SPEC REPOS:
     - VirgilCrypto
     - VirgilCryptoAPI
     - VirgilCryptoApiImpl
-    - VirgilKeyknox
     - VirgilSDK
 
 EXTERNAL SOURCES:
+  VirgilKeyknox:
+    :git: https://github.com/Ogerets/keyknox-x.git
   VirgilPythia:
     :git: https://github.com/Ogerets/pythia-x.git
 
 CHECKOUT OPTIONS:
+  VirgilKeyknox:
+    :commit: 0aa0cd3502eab85fa96b4f79c7b40a7ca6e025aa
+    :git: https://github.com/Ogerets/keyknox-x.git
   VirgilPythia:
-    :commit: 5c2cba7789b4398219782581f74ec0d0e9e29b46
+    :commit: 4b7109292c19b6878a62d178aa4e2903508ce221
     :git: https://github.com/Ogerets/pythia-x.git
 
 SPEC CHECKSUMS:
   BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
   Chatto: 24a6c9b0c91b08130466888b8b61563b90191c6f
   ChattoAdditions: cc74cd3dd371aa3f70e5ab8568a4f383f0c0eb8c
-  Firebase: 383fa29aca93e371cab776b48a5c66544d3c2003
+  Firebase: 6691d47562a780c26281ce8464518faafc90c610
   FirebaseAnalytics: 831f1f127f4a75698e9875a87bf7e2668730d953
   FirebaseAuth: 504b198ceb3472dca5c65bb95544ea44cfc9439e
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
-  FirebaseCore: 2a84b6b325792a4319ef71ee18819dcba08d2fd7
-  FirebaseFirestore: eaf0b6244e9463e2429fe216666b641e4dec606b
+  FirebaseCore: c6079de64c1a87000e52e9b408dddcadc901177f
+  FirebaseFirestore: 45a9a3045a2dc27f23c13bf832556fe287fbe1b5
   FirebaseInstanceID: 78ba376fcd5b94c001f9999b2cbd3d1f1e56e78d
   GoogleAppMeasurement: 2b3a023a61239c8d002e6e4fcf4abce8eddce0e0
   GoogleUtilities: 760ccb53b7c7f40f9c02d8c241f76f841a7a6162
@@ -209,10 +213,10 @@ SPEC CHECKSUMS:
   VirgilCrypto: 26047b40e9532e8c0c7d62f9b6a66835caa86f60
   VirgilCryptoAPI: e844010f0279227148e0e956b9b9650d4763c918
   VirgilCryptoApiImpl: 6aa86bcf997f9082b92ac8c9d89db4e41b5676f4
-  VirgilKeyknox: 96e81f8d345472ba4b4205e51bf76b432971f971
-  VirgilPythia: f4bb36de7747f9fb13aae3517469468004bb0191
-  VirgilSDK: 4abc5718929008cdf58aef67675c0c7d30d51de6
+  VirgilKeyknox: 781fa2522e2beaed4d615d621559e07ed6659904
+  VirgilPythia: 6d5dca707870f2aea877f8fe5cf11bffb44d79cb
+  VirgilSDK: 6e7998078906a3bc5cf5c0fa034f1f1f65b448d0
 
-PODFILE CHECKSUM: 32d0447030a8b74592bf19e7013440582b76f142
+PODFILE CHECKSUM: b2220de5cca2c49d8582e177c09a745d4603a17f
 
 COCOAPODS: 1.5.3

@@ -15,29 +15,36 @@ extension VirgilHelper {
         if (try? self.fetchHistoryKeyPair()) != nil {
             completion(nil)
         } else {
-            do {
-                let historyKeyPair = try self.crypto.generateKeyPair()
-
-                self.cardManager.publishCard(privateKey: historyKeyPair.privateKey,
-                                             publicKey: historyKeyPair.publicKey, identity: identity)
-                { card, error in
-                    guard error == nil else {
-                        completion(error)
-                        return
-                    }
-                    self.historyKeyPair = historyKeyPair
-
-                    do {
-                        let data = try self.privateKeyExporter.exportPrivateKey(privateKey: historyKeyPair.privateKey)
-                        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
-                    } catch {
-                        completion(error)
-                    }
-
-                    completion(nil)
+            self.cardManager.searchCards(identity: self.identity) { cards, error in
+                guard let cards = cards, error == nil, cards.isEmpty else {
+                    completion(error ?? VirgilHelperError.missingKeys)
+                    return
                 }
-            } catch {
-                completion(error)
+
+                do {
+                    let historyKeyPair = try self.crypto.generateKeyPair()
+
+                    self.cardManager.publishCard(privateKey: historyKeyPair.privateKey,
+                                                 publicKey: historyKeyPair.publicKey, identity: self.identity)
+                    { card, error in
+                        guard error == nil else {
+                            completion(error)
+                            return
+                        }
+                        self.historyKeyPair = historyKeyPair
+
+                        do {
+                            let data = try self.privateKeyExporter.exportPrivateKey(privateKey: historyKeyPair.privateKey)
+                            _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
+                        } catch {
+                            completion(error)
+                        }
+
+                        completion(nil)
+                    }
+                } catch {
+                    completion(error)
+                }
             }
         }
     }

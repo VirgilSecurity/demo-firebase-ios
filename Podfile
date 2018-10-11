@@ -10,11 +10,19 @@ target 'Firebase Chat iOS' do
   pod 'Firebase/Firestore'
 
   pod 'VirgilCryptoApiImpl', '~> 3.0'
-  pod 'VirgilKeyknox', '~> 0.1.0'
+  pod 'VirgilKeyknox', :git => 'https://github.com/Ogerets/keyknox-x.git'
   pod 'VirgilPythia', :git => 'https://github.com/Ogerets/pythia-x.git'
 
   pod 'Chatto', '~> 3.3.1'
   pod 'ChattoAdditions', '~> 3.3.1'
 
   pod 'PKHUD', '~> 5.0'
+end
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['SWIFT_VERSION'] = '4.1'
+        end
+    end
 end

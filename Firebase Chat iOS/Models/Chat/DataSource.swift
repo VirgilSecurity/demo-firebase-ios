@@ -93,10 +93,6 @@ class DataSource: ChatDataSourceProtocol {
                                                                              date: messageDate)
                 CoreDataHelper.sharedInstance.createTextMessage(withBody: decryptedBody ?? "Message encrypted",
                                                                 isIncoming: isIncoming, date: messageDate)
-                if isIncoming {
-                    FirebaseHelper.sharedInstance.blindMessageBody(messageNumber: "\(i)", channel: channel, sender: sender,
-                                                                   receiver: receiver, date: messageDate)
-                }
 
                 self.countCore += 1
                 self.slidingWindow.insertItem(decryptedMessage, position: .bottom)
