@@ -12,25 +12,41 @@ import VirgilPythia
 import VirgilCryptoApiImpl
 
 extension VirgilHelper {
-    func backupUserKey(usingPassword password: String, completion: @escaping (Error?) -> ()) {
-        guard let historyKey = self.historyKeyPair?.privateKey else {
-            completion(VirgilHelperError.missingKeys)
-            return
-        }
-
-        self.publishToKeyknox(key: historyKey, usingPassword: password, completion: completion)
-    }
-
-    func recoverUserKey(usingPassword password: String, completion: @escaping (VirgilPrivateKey?, Error?) -> ()) {
-        self.fetchFromKeyknox(usingPassword: password) { historyKey, error in
-            guard let historyKey = historyKey, error == nil else {
+    func publishToKeyknox(key: VirgilPrivateKey, usingPassword password: String, completion: @escaping (KeychainEntry?, Error?) -> ()) {
+        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
+            guard let syncKeyStorage = syncKeyStorage, error == nil else {
                 completion(nil, error)
                 return
             }
+
             do {
-                let publicKey = try self.crypto.extractPublicKey(from: historyKey)
-                self.historyKeyPair = VirgilKeyPair(privateKey: historyKey, publicKey: publicKey)
-                completion(historyKey, nil)
+                if let entry = try? syncKeyStorage.retrieveEntry(withName: self.identity) {
+                    completion(entry, VirgilHelperError.entryExists)
+                    return
+                }
+
+                let exportedIdentityKey = try self.privateKeyExporter.exportPrivateKey(privateKey: key)
+
+                syncKeyStorage.storeEntry(withName: self.identity, data: exportedIdentityKey) { entry, error in
+                    completion(entry, error)
+                }
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
+
+    func fetchFromKeyknox(usingPassword password: String, completion: @escaping (KeychainEntry?, Error?) -> ()) {
+        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
+            guard let syncKeyStorage = syncKeyStorage, error == nil else {
+                completion(nil, error)
+                return
+            }
+
+            do {
+                let entry = try syncKeyStorage.retrieveEntry(withName: self.identity)
+
+                completion(entry, nil)
             } catch {
                 completion(nil, error)
             }
@@ -72,10 +88,10 @@ extension VirgilHelper {
         }
     }
 
-    func rotateHistoryKey(password: String, completion: @escaping (Error?) -> ()) {
+    func rotateIdentityKey(password: String, completion: @escaping (Error?) -> ()) {
         do {
-            let newHistoryKeyPair = try self.crypto.generateKeyPair()
-            let newHistoryKey = newHistoryKeyPair.privateKey
+            let newIdentityKeyPair = try self.crypto.generateKeyPair()
+            let newIdentityKey = newIdentityKeyPair.privateKey
 
             self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
                 guard let syncKeyStorage = syncKeyStorage, error == nil else {
@@ -83,10 +99,11 @@ extension VirgilHelper {
                     return
                 }
                 do {
-                    let exportedNewHistoryKey = try self.privateKeyExporter.exportPrivateKey(privateKey: newHistoryKey)
+                    let exportedNewIdentityKey = try self.privateKeyExporter.exportPrivateKey(privateKey: newIdentityKey)
 
-                    syncKeyStorage.updateEntry(withName: self.identity, data: exportedNewHistoryKey, meta: nil) { error in
-                        self.historyKeyPair = newHistoryKeyPair
+                    syncKeyStorage.updateEntry(withName: self.identity, data: exportedNewIdentityKey, meta: nil) { error in
+                        // FIXME
+//                        self.identityKeyPair = newIdentityKeyPair
                         completion(error)
                     }
                 } catch {
@@ -95,47 +112,6 @@ extension VirgilHelper {
             }
         } catch {
             completion(error)
-        }
-    }
-
-    func publishToKeyknox(key: VirgilPrivateKey, usingPassword password: String, completion: @escaping (Error?) -> ()) {
-        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
-            guard let syncKeyStorage = syncKeyStorage, error == nil else {
-                completion(error)
-                return
-            }
-
-            do {
-                let exportedHistoryKey = try self.privateKeyExporter.exportPrivateKey(privateKey: key)
-
-                syncKeyStorage.storeEntry(withName: self.identity, data: exportedHistoryKey) { _, error in
-                    completion(error)
-                }
-            } catch {
-                completion(error)
-            }
-        }
-    }
-
-    func fetchFromKeyknox(usingPassword password: String, completion: @escaping (VirgilPrivateKey?, Error?) -> ()) {
-        self.setUpSyncKeyStorage(password: password) { syncKeyStorage, error in
-            guard let syncKeyStorage = syncKeyStorage, error == nil else {
-                completion(nil, error)
-                return
-            }
-
-            do {
-                let entry = try syncKeyStorage.retrieveEntry(withName: self.identity)
-                let key = try self.privateKeyExporter.importPrivateKey(from: entry.data)
-
-                guard let historyKey = key as? VirgilPrivateKey else {
-                    throw VirgilHelperError.keyIsNotVirgil
-                }
-
-                completion(historyKey, nil)
-            } catch {
-                completion(nil, error)
-            }
         }
     }
 

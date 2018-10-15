@@ -8,9 +8,11 @@
 
 import Foundation
 import Firebase
+import VirgilCryptoApiImpl
 
 class ChatListController: ViewController {
     @IBOutlet weak var tableView: UITableView!
+    private var publicKeys: [VirgilPublicKey] = []
 
     override func viewDidLoad() {
         if let id = CoreDataHelper.sharedInstance.currentAccount?.identity,
@@ -31,7 +33,7 @@ class ChatListController: ViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        VirgilHelper.sharedInstance.closeSession()
+        self.publicKeys = []
         FirebaseHelper.sharedInstance.channelListener?.remove()
         FirebaseHelper.sharedInstance.channelListener = nil
     }
@@ -175,8 +177,9 @@ extension ChatListController: CellTapDelegate {
             var err: Error?
 
             group.enter()
-            VirgilHelper.sharedInstance.startSession(with: [username]) { error in
-                err = error
+            VirgilHelper.sharedInstance.lookupPublicKeys(of: [username]) { publicKeys, error in
+                err = error.first
+                self.publicKeys = publicKeys
                 group.leave()
             }
 
@@ -203,7 +206,7 @@ extension ChatListController: CellTapDelegate {
         if let chatController = segue.destination as? ChatViewController {
             let pageSize = ChatConstants.chatPageSize
 
-            let dataSource = DataSource(pageSize: pageSize)
+            let dataSource = DataSource(pageSize: pageSize, publicKeys: self.publicKeys)
             chatController.title = CoreDataHelper.sharedInstance.currentChannel?.name
             chatController.dataSource = dataSource
             chatController.messageSender = dataSource.messageSender

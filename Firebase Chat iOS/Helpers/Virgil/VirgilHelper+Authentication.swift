@@ -12,60 +12,36 @@ import VirgilCryptoApiImpl
 
 extension VirgilHelper {
     func bootstrapUser(completion: @escaping (Error?) -> ()) {
-        if (try? self.fetchHistoryKeyPair()) != nil {
+        guard let identityKeyPair = self.identityKeyPair, identityKeyPair.isPublished else {
             completion(nil)
-        } else {
-            self.cardManager.searchCards(identity: self.identity) { cards, error in
-                guard let cards = cards, error == nil, cards.isEmpty else {
-                    completion(error ?? VirgilHelperError.missingKeys)
-                    return
-                }
+            return
+        }
 
-                do {
-                    let historyKeyPair = try self.crypto.generateKeyPair()
+        do {
+            let keyPair = try self.crypto.generateKeyPair()
 
-                    self.cardManager.publishCard(privateKey: historyKeyPair.privateKey,
-                                                 publicKey: historyKeyPair.publicKey, identity: self.identity)
-                    { card, error in
-                        guard error == nil else {
-                            completion(error)
-                            return
-                        }
-                        self.historyKeyPair = historyKeyPair
-
-                        do {
-                            let data = try self.privateKeyExporter.exportPrivateKey(privateKey: historyKeyPair.privateKey)
-                            _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: nil)
-                        } catch {
-                            completion(error)
-                        }
-
-                        completion(nil)
-                    }
-                } catch {
-                    completion(error)
-                }
-            }
+            self.publishCardThenUpdateLocal(keyPair: keyPair, completion: completion)
+        } catch {
+            completion(error)
         }
     }
 
     func bootstrapUser(password: String, completion: @escaping (Error?) -> ()) {
-        if (try? self.fetchHistoryKeyPair()) != nil {
+        guard self.identityKeyPair == nil else {
             completion(nil)
-        } else {
-            self.cardManager.searchCards(identity: self.identity) { cards, error in
-                guard let cards = cards, error == nil else {
-                    completion(error)
-                    return
-                }
+            return
+        }
 
-                if cards.isEmpty {
-                    self.signUp(password: password, completion: completion)
-                } else {
-                    self.recoverUserKey(usingPassword: password) { _, error in
-                        completion(error)
-                    }
-                }
+        self.cardManager.searchCards(identity: self.identity) { cards, error in
+            guard let cards = cards, error == nil else {
+                completion(error)
+                return
+            }
+
+            if cards.isEmpty {
+                self.signUp(password: password, completion: completion)
+            } else {
+                self.signIn(password: password, completion: completion)
             }
         }
     }
@@ -74,33 +50,50 @@ extension VirgilHelper {
 
     private func signUp(password: String, completion: @escaping (Error?) -> ()) {
         do {
-            let historyKeyPair = try self.crypto.generateKeyPair()
+            var keyPair = try self.crypto.generateKeyPair()
 
-            self.publishToKeyknox(key: historyKeyPair.privateKey, usingPassword: password) { error in
-                guard error == nil else {
-                    completion(error)
-                    return
-                }
-
-                self.cardManager.publishCard(privateKey: historyKeyPair.privateKey,
-                                             publicKey: historyKeyPair.publicKey, identity: self.identity)
-                { card, error in
-                    guard card != nil, error == nil else {
-                        self.deleteKeyknoxEntry(password: password) { err in
-                            if let err = err {
-                                Log.error("Deleting Keyknox entry failed with error: \(err.localizedDescription)")
-                            }
-                            completion(error)
+            self.publishToKeyknox(key: keyPair.privateKey, usingPassword: password) { entry, error in
+                do {
+                    if let entry = entry, let error = error as? VirgilHelperError, error == VirgilHelperError.entryExists {
+                        let privateKey = try self.privateKeyExporter.importPrivateKey(from: entry.data)
+                        guard let virgilPrivateKey = privateKey as? VirgilPrivateKey else {
+                            throw VirgilHelperError.keyIsNotVirgil
                         }
+                        let virgilPublicKey = try self.crypto.extractPublicKey(from: virgilPrivateKey)
+
+                        keyPair = VirgilKeyPair(privateKey: virgilPrivateKey, publicKey: virgilPublicKey)
+                    }
+
+                    guard let entry = entry, error == nil else {
+                        completion(error)
                         return
                     }
-                    self.historyKeyPair = historyKeyPair
 
-                    completion(nil)
+                    try self.storeLocal(data: entry.data, isPublished: false)
+
+                    self.publishCardThenUpdateLocal(keyPair: keyPair, completion: completion)
+                } catch {
+                    completion(error)
+                    return
                 }
             }
         } catch {
             completion(error)
+        }
+    }
+
+    private func signIn(password: String, completion: @escaping (Error?) -> ()) {
+        self.fetchFromKeyknox(usingPassword: password) { entry, error in
+            guard let entry = entry, error == nil else {
+                completion(error)
+                return
+            }
+            do {
+                try self.storeLocal(data: entry.data, isPublished: true)
+                completion(nil)
+            } catch {
+                completion(error)
+            }
         }
     }
 }

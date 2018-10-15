@@ -91,7 +91,6 @@ extension FirebaseHelper {
                     let messageDocuments = messages.filter({ $0.documentID == "\(i)" })
                     guard let messageDocument = messageDocuments.first,
                         let receiver = messageDocument.data()[FirebaseHelper.Keys.receiver.rawValue] as? String,
-                        let sender = messageDocument.data()[FirebaseHelper.Keys.sender.rawValue] as? String,
                         let body = messageDocument.data()[FirebaseHelper.Keys.body.rawValue] as? String,
                         let timestamp = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Timestamp else {
                             break

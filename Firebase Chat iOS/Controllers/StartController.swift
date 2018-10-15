@@ -19,7 +19,7 @@ class StartViewController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Authorizer.signIn { signed, error in
+        Authorizer.signIn { signed in
             if signed {
                 self.goToChatList()
             } else {

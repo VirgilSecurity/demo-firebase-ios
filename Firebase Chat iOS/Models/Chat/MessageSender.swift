@@ -25,13 +25,19 @@
 import Foundation
 import Chatto
 import ChattoAdditions
+import VirgilCryptoApiImpl
 
 public protocol DemoMessageModelProtocol: MessageModelProtocol {
     var status: MessageStatus { get set }
 }
 
 public class MessageSender {
+    public let publicKeys: [VirgilPublicKey]
     public var onMessageChanged: ((_ message: DemoMessageModelProtocol) -> ())?
+
+    public init(publicKeys: [VirgilPublicKey]) {
+        self.publicKeys = publicKeys
+    }
 
     public func sendMessages(_ messages: [DemoMessageModelProtocol]) {
         for message in messages {
@@ -43,7 +49,7 @@ public class MessageSender {
         Log.debug("Sending message: \(message)")
         if let textMessage = message as? DemoTextMessageModel {
             do {
-                let encrypted = try VirgilHelper.sharedInstance.encrypt(textMessage.body)
+                let encrypted = try VirgilHelper.sharedInstance.encrypt(textMessage.body, for: self.publicKeys)
 
                 self.messageStatus(ciphertext: encrypted, message: textMessage)
             } catch {

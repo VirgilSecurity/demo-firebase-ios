@@ -26,6 +26,7 @@ import Foundation
 import Chatto
 import ChattoAdditions
 import Firebase
+import VirgilCryptoApiImpl
 
 class DataSource: ChatDataSourceProtocol {
     var nextMessageId: Int = 0
@@ -33,10 +34,12 @@ class DataSource: ChatDataSourceProtocol {
     private let pageSize: Int
     private var countCore: Int = 0
     var slidingWindow: SlidingDataSource<ChatItemProtocol>!
+    private let publicKeys: [VirgilPublicKey]
 
-    init(pageSize: Int) {
+    init(pageSize: Int, publicKeys: [VirgilPublicKey]) {
         self.slidingWindow = SlidingDataSource(pageSize: pageSize)
         self.pageSize = pageSize
+        self.publicKeys = publicKeys
 
         guard let currentChannel = CoreDataHelper.sharedInstance.currentChannel,
             let globalName = currentChannel.globalName else {
@@ -62,8 +65,7 @@ class DataSource: ChatDataSourceProtocol {
         Log.debug("processing message")
         guard  let userInfo = notification.userInfo,
             let messages = userInfo[FirebaseHelper.NotificationKeys.messages.rawValue] as? [QueryDocumentSnapshot],
-            let currentUser = CoreDataHelper.sharedInstance.currentAccount?.identity,
-            let channel = CoreDataHelper.sharedInstance.currentChannel?.globalName else {
+            let currentUser = CoreDataHelper.sharedInstance.currentAccount?.identity else {
                 return
         }
 
@@ -72,7 +74,6 @@ class DataSource: ChatDataSourceProtocol {
                 let messageDocuments = messages.filter({ $0.documentID == "\(i)" })
                 guard let messageDocument = messageDocuments.first,
                     let receiver = messageDocument.data()[FirebaseHelper.Keys.receiver.rawValue] as? String,
-                    let sender = messageDocument.data()[FirebaseHelper.Keys.sender.rawValue] as? String,
                     let body = messageDocument.data()[FirebaseHelper.Keys.body.rawValue] as? String,
                     let timestamp = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Timestamp else {
                         return
@@ -104,7 +105,7 @@ class DataSource: ChatDataSourceProtocol {
     }
 
     lazy var messageSender: MessageSender = {
-        let sender = MessageSender()
+        let sender = MessageSender(publicKeys: self.publicKeys)
         sender.onMessageChanged = { [weak self] message in
             guard let sSelf = self else { return }
             sSelf.delegate?.chatDataSourceDidUpdate(sSelf)

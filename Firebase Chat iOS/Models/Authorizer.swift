@@ -9,35 +9,28 @@
 import FirebaseAuth
 
 class Authorizer {
-    static func signIn(completion: @escaping (Bool, Error?) -> ()) {
+    static func signIn(completion: @escaping (Bool) -> ()) {
         if let user = Auth.auth().currentUser,
             let identity = user.email?.replacingOccurrences(of: "@virgilfirebase.com", with: "") {
             user.getIDToken { token, error in
                 guard error == nil, let token = token else {
                     Log.error("Get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
-                    completion(false, error)
+                    completion(false)
                     return
                 }
                 VirgilHelper.initialize(tokenCallback: Authorizer.makeTokenCallback(identity: identity, firebaseToken: token))
                 { error in
                     guard error == nil else {
                         Log.error("Virgil init with error: \(error!.localizedDescription)")
-                        completion(false, error)
+                        completion(false)
                         return
                     }
-                    VirgilHelper.sharedInstance.bootstrapUser { error in
-                        guard error == nil else {
-                            Log.error("Virgil sign in failed with error: \(error!.localizedDescription)")
-                            completion(false, error)
-                            return
-                        }
-                        CoreDataHelper.sharedInstance.setUpAccount(withIdentity: identity)
-                        completion(true, nil)
-                    }
+                    CoreDataHelper.sharedInstance.setUpAccount(withIdentity: identity)
+                    completion(true)
                 }
             }
         } else {
-            completion(false, nil)
+            completion(false)
         }
     }
 

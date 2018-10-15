@@ -26,27 +26,31 @@ class VirgilHelper {
     let privateKeyExporter: PrivateKeyExporter
     let cardManager: CardManager
 
-    private var historyKeyPair_: VirgilKeyPair?
+    struct IdentityKeyPair {
+        let privateKey: VirgilPrivateKey
+        let publicKey: VirgilPublicKey
+        let isPublished: Bool
+    }
 
-    var historyKeyPair: VirgilKeyPair? {
-        set {
-            self.historyKeyPair_ = newValue
-        }
+    enum Keys: String {
+        case isPublished
+    }
+
+    var identityKeyPair: IdentityKeyPair? {
         get {
-            if self.historyKeyPair_ == nil {
-                try? fetchHistoryKeyPair()
+            guard let keyEntry = try? self.keychainStorage.retrieveEntry(withName: self.identity),
+                let key = try? self.privateKeyExporter.importPrivateKey(from: keyEntry.data),
+                let meta = keyEntry.meta,
+                let isPublished = meta[Keys.isPublished.rawValue]?.bool(),
+                let identityKey = key as? VirgilPrivateKey,
+                let publicKey = try? self.crypto.extractPublicKey(from: identityKey) else {
+                    return nil
             }
-            return self.historyKeyPair_
+
+            return IdentityKeyPair(privateKey: identityKey, publicKey: publicKey, isPublished: isPublished)
         }
     }
-    var sessionKeys: [VirgilPublicKey]
 
-    /// Declares error types and codes
-    ///
-    /// - keyIsNotVirgil: Converting Public or Private Key to Virgil one failed
-    /// - gettingJwtFailed: Failed getting Jwt from server
-    /// - strToDataFailed: Converting utf8 string to data failed
-    /// - strFromDataFailed: Building string from data failed
     enum VirgilHelperError: String, Error {
         case keyIsNotVirgil = "Converting Public or Private Key to Virgil one failed"
         case missingKeys = "Missing channel or self keys"
@@ -54,6 +58,8 @@ class VirgilHelper {
         case strToDataFailed = "Converting utf8 string to data failed"
         case strFromDataFailed = "Building string from data failed"
         case verifierInitFailed = "VirgilCardVerifier initialization failed"
+        case passwordRequired = "Password required"
+        case entryExists = "Entry already exists"
     }
 
     public static func initialize(tokenCallback: @escaping VirgilHelper.RenewJwtCallback, completion: @escaping (Error?) -> ()) {
@@ -61,6 +67,7 @@ class VirgilHelper {
             tokenCallback(completion)
         }
         let accessTokenProvider = CachingJwtProvider(renewTokenCallback: renewTokenCallback)
+
         let tokenContext = TokenContext(service: "cards", operation: "publish")
         accessTokenProvider.getToken(with: tokenContext) { token, error in
             guard let identity = token?.identity(), error == nil else {
@@ -80,39 +87,52 @@ class VirgilHelper {
 
             VirgilHelper.sharedInstance = VirgilHelper(identity: identity, cardManager: cardManager)
 
-            completion(nil)
+            VirgilHelper.sharedInstance.bootstrapUser { error in
+                completion(error)
+            }
         }
     }
 
-    /// Initializer
     private init(identity: String, cardManager: CardManager, crypto: VirgilCrypto? = nil,
                  privateKeyExporter: PrivateKeyExporter? = nil, keychainStorageParams: KeychainStorageParams? = nil) {
         self.identity = identity
         self.crypto = crypto ?? VirgilCrypto()
-        self.privateKeyExporter = privateKeyExporter ?? VirgilPrivateKeyExporter()
-        let keychainStorageParams = try! keychainStorageParams ?? KeychainStorageParams.makeKeychainStorageParams()
+        let keychainStorageParams = try! KeychainStorageParams.makeKeychainStorageParams()
         self.keychainStorage = KeychainStorage(storageParams: keychainStorageParams)
+        self.privateKeyExporter = privateKeyExporter ?? VirgilPrivateKeyExporter()
         self.cardManager = cardManager
-        self.sessionKeys = []
-    }
-
-    func fetchHistoryKeyPair() throws {
-        let keyEntry = try self.keychainStorage.retrieveEntry(withName: self.identity)
-
-        let key = try self.privateKeyExporter.importPrivateKey(from: keyEntry.data)
-
-        guard let historyKey = key as? VirgilPrivateKey else {
-            throw VirgilHelperError.keyIsNotVirgil
-        }
-        let publicKey = try self.crypto.extractPublicKey(from: historyKey)
-
-        self.historyKeyPair = VirgilKeyPair(privateKey: historyKey, publicKey: publicKey)
     }
 
     func logout() throws {
-        self.closeSession()
-        self.historyKeyPair = nil
         try self.keychainStorage.deleteEntry(withName: self.identity)
+    }
+
+    func storeLocal(data: Data, isPublished: Bool) throws {
+        let meta = [Keys.isPublished.rawValue: String(isPublished)]
+        _ = try self.keychainStorage.store(data: data, withName: self.identity, meta: meta)
+    }
+
+    func updateLocal(isPublished: Bool) throws {
+        let meta = [Keys.isPublished.rawValue: String(isPublished)]
+        let data = try self.keychainStorage.retrieveEntry(withName: self.identity).data
+        try self.keychainStorage.updateEntry(withName: self.identity, data: data, meta: meta)
+    }
+
+    func publishCardThenUpdateLocal(keyPair: VirgilKeyPair, completion: @escaping (Error?) -> ()) {
+        self.cardManager.publishCard(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey, identity: self.identity)
+        { cards, error in
+            guard error == nil else {
+                completion(error)
+                return
+            }
+
+            do {
+                try self.updateLocal(isPublished: true)
+                completion(nil)
+            } catch {
+                completion(error)
+            }
+        }
     }
 
     /// Makes SHA256 hash

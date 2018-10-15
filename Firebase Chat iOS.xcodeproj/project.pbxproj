@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1608048B2170EEB6002C72A3 /* String+Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1608048A2170EEB6002C72A3 /* String+Bool.swift */; };
 		161A83A720951995005C7807 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161A83A520951995005C7807 /* Settings.storyboard */; };
 		161A83A820951995005C7807 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161A83A620951995005C7807 /* SettingsViewController.swift */; };
 		162469852084C14500001801 /* Data+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162469842084C14500001801 /* Data+hex.swift */; };
@@ -16,7 +17,7 @@
 		164D697D207E25D600F3A368 /* ServiceConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D6979207E25D600F3A368 /* ServiceConnection.swift */; };
 		164D697E207E25D600F3A368 /* ServiceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D697A207E25D600F3A368 /* ServiceResponse.swift */; };
 		1659F07C2166259C00F13CB7 /* VirgilHelper+Keyknox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1659F07B2166259C00F13CB7 /* VirgilHelper+Keyknox.swift */; };
-		16786C1C216CCD37008AA82A /* VirgilHelper+Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16786C1B216CCD37008AA82A /* VirgilHelper+Sessions.swift */; };
+		16786C1C216CCD37008AA82A /* VirgilHelper+Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16786C1B216CCD37008AA82A /* VirgilHelper+Encryption.swift */; };
 		16786C1F216CD2CE008AA82A /* Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16786C1E216CD2CE008AA82A /* Authorizer.swift */; };
 		167AC85D4714B783CACB4BCE /* Pods_Firebase_Chat_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDCAA97DC26798ECD735E5E8 /* Pods_Firebase_Chat_iOS.framework */; };
 		168980E92095EAE800BA8E08 /* Authentication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168980E82095EAE800BA8E08 /* Authentication.storyboard */; };
@@ -66,6 +67,7 @@
 
 /* Begin PBXFileReference section */
 		075252256CAB5A0F7853DC60 /* Pods-Firebase Chat iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Chat iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		1608048A2170EEB6002C72A3 /* String+Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Bool.swift"; sourceTree = "<group>"; };
 		161A83A520951995005C7807 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		161A83A620951995005C7807 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		162469842084C14500001801 /* Data+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+hex.swift"; sourceTree = "<group>"; };
@@ -75,7 +77,7 @@
 		164D6979207E25D600F3A368 /* ServiceConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceConnection.swift; sourceTree = "<group>"; };
 		164D697A207E25D600F3A368 /* ServiceResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceResponse.swift; sourceTree = "<group>"; };
 		1659F07B2166259C00F13CB7 /* VirgilHelper+Keyknox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VirgilHelper+Keyknox.swift"; sourceTree = "<group>"; };
-		16786C1B216CCD37008AA82A /* VirgilHelper+Sessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VirgilHelper+Sessions.swift"; sourceTree = "<group>"; };
+		16786C1B216CCD37008AA82A /* VirgilHelper+Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VirgilHelper+Encryption.swift"; sourceTree = "<group>"; };
 		16786C1E216CD2CE008AA82A /* Authorizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorizer.swift; sourceTree = "<group>"; };
 		168980E82095EAE800BA8E08 /* Authentication.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Authentication.storyboard; sourceTree = "<group>"; };
 		168980EA2095F03F00BA8E08 /* AuthenticationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationController.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			children = (
 				16AF35612080B81C00B441D0 /* UIColor+RGB.swift */,
 				162469842084C14500001801 /* Data+hex.swift */,
+				1608048A2170EEB6002C72A3 /* String+Bool.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -284,7 +287,7 @@
 				16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */,
 				16BAEBE62093274100AC4F87 /* VirgilHelper+Authentication.swift */,
 				1659F07B2166259C00F13CB7 /* VirgilHelper+Keyknox.swift */,
-				16786C1B216CCD37008AA82A /* VirgilHelper+Sessions.swift */,
+				16786C1B216CCD37008AA82A /* VirgilHelper+Encryption.swift */,
 			);
 			path = Virgil;
 			sourceTree = "<group>";
@@ -558,7 +561,7 @@
 				16BAEBEB20932FAE00AC4F87 /* FirebaseHelper+User.swift in Sources */,
 				16AF355D2080B64700B441D0 /* ChatListCell.swift in Sources */,
 				168980EB2095F03F00BA8E08 /* AuthenticationController.swift in Sources */,
-				16786C1C216CCD37008AA82A /* VirgilHelper+Sessions.swift in Sources */,
+				16786C1C216CCD37008AA82A /* VirgilHelper+Encryption.swift in Sources */,
 				169E792820D8FE1C00AF0A33 /* StartController.swift in Sources */,
 				16A5D620207D004500DFAD6F /* AppDelegate.swift in Sources */,
 				16E6C72720862BE000FAE035 /* SendingStatusCollectionViewCell.swift in Sources */,
@@ -568,6 +571,7 @@
 				164D697D207E25D600F3A368 /* ServiceConnection.swift in Sources */,
 				16E6C73B20862C3900FAE035 /* MessageSender.swift in Sources */,
 				164D697E207E25D600F3A368 /* ServiceResponse.swift in Sources */,
+				1608048B2170EEB6002C72A3 /* String+Bool.swift in Sources */,
 				16AF356A2080BBAA00B441D0 /* CoreDataHelper+Messages.swift in Sources */,
 				16BAEBE920932EE400AC4F87 /* FirebaseHelper+Channel.swift in Sources */,
 				16AF356E2080BCFB00B441D0 /* FirebaseChatModel.xcdatamodeld in Sources */,
