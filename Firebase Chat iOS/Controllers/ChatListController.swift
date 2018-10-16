@@ -163,39 +163,34 @@ extension ChatListController: CellTapDelegate {
         if let username = (cell as! ChatListCell).usernameLabel.text {
             self.view.isUserInteractionEnabled = false
             guard CoreDataHelper.sharedInstance.loadChannel(withName: username) else {
-                    Log.error("Channel do not exist in Core Data")
-                    self.view.isUserInteractionEnabled = true
-                    return
+                self.alert("Channel do not exist in Core Data")
+                self.view.isUserInteractionEnabled = true
+                return
             }
             guard let currentChannel = CoreDataHelper.sharedInstance.currentChannel,
                 let globalName = currentChannel.globalName else {
-                    Log.error("Get current channel failed")
+                    self.alert("Get current channel failed")
+                    self.view.isUserInteractionEnabled = true
                     return
             }
 
-            let group = DispatchGroup()
-            var err: Error?
-
-            group.enter()
-            VirgilHelper.sharedInstance.lookupPublicKeys(of: [username]) { publicKeys, error in
-                err = error.first
+            VirgilHelper.sharedInstance.lookupPublicKeys(of: [username]) { publicKeys, errors in
+                guard errors.isEmpty, !publicKeys.isEmpty else {
+                    self.alert("LookUpPublicKeys failed")
+                    self.view.isUserInteractionEnabled = true
+                    return
+                }
                 self.publicKeys = publicKeys
-                group.leave()
-            }
 
-            group.enter()
-            FirebaseHelper.sharedInstance.updateMessages(of: globalName) { error in
-                err = error
-                group.leave()
-            }
-
-            group.notify(queue: .main) {
-                if let error = err {
-                    Log.error(error.localizedDescription)
-                } else {
+                FirebaseHelper.sharedInstance.updateMessages(of: globalName, publicKeys: publicKeys) { error in
+                    guard error == nil else {
+                        self.alert("Update messages failed")
+                        self.view.isUserInteractionEnabled = true
+                        return
+                    }
+                    self.view.isUserInteractionEnabled = true
                     self.performSegue(withIdentifier: "goToChat", sender: self)
                 }
-                self.view.isUserInteractionEnabled = true
             }
         }
     }

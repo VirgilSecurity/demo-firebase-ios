@@ -51,11 +51,11 @@ extension VirgilHelper {
         guard let data = text.data(using: .utf8) else {
             throw VirgilHelperError.strToDataFailed
         }
-        guard !publicKeys.isEmpty, let selfKey = self.identityKeyPair?.publicKey else {
+        guard !publicKeys.isEmpty, let selfKeyPair = self.identityKeyPair else {
             throw VirgilHelperError.missingKeys
         }
 
-        return try self.crypto.encrypt(data, for: publicKeys + [selfKey]).base64EncodedString()
+        return try self.crypto.signThenEncrypt(data, with: selfKeyPair.privateKey, for: publicKeys + [selfKeyPair.publicKey]).base64EncodedString()
     }
 
     /// Decrypts given String
@@ -63,13 +63,15 @@ extension VirgilHelper {
     /// - Parameter encrypted: String to decrypt
     /// - Returns: decrypted String
     /// - Throws: error if fails
-    func decrypt(_ encrypted: String) throws -> String {
-        guard let privateKey = self.identityKeyPair?.privateKey,
-            let data = Data(base64Encoded: encrypted)
-            else {
-                throw VirgilHelperError.strToDataFailed
+    func decrypt(_ encrypted: String, from publicKeys: [VirgilPublicKey]) throws -> String {
+        guard let data = Data(base64Encoded: encrypted) else {
+            throw VirgilHelperError.strToDataFailed
         }
-        let decryptedData = try self.crypto.decrypt(data, with: privateKey)
+        guard !publicKeys.isEmpty, let selfKeyPair = self.identityKeyPair else {
+            throw VirgilHelperError.missingKeys
+        }
+
+        let decryptedData = try self.crypto.decryptThenVerify(data, with: selfKeyPair.privateKey, usingOneOf: publicKeys + [selfKeyPair.publicKey])
 
         guard let decrypted = String(data: decryptedData, encoding: .utf8) else {
             throw VirgilHelperError.strFromDataFailed

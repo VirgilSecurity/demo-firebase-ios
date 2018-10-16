@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import VirgilCryptoApiImpl
 
 extension FirebaseHelper {
     func send(message: String, to receiver: String, from currentUser: String, completion: @escaping (Error?) -> ()) {
@@ -64,7 +65,7 @@ extension FirebaseHelper {
         }
     }
 
-    func updateMessages(of channel: String, completion: @escaping (Error?) -> ()) {
+    func updateMessages(of channel: String, publicKeys: [VirgilPublicKey], completion: @escaping (Error?) -> ()) {
         let channelReference = self.channelCollection.document(channel)
         let messagesCollection = channelReference.collection(Collections.messages.rawValue)
 
@@ -100,7 +101,7 @@ extension FirebaseHelper {
                         decryptedBody = "Message deleted"
                     } else {
                         do {
-                            decryptedBody = try VirgilHelper.sharedInstance.decrypt(body)
+                            decryptedBody = try VirgilHelper.sharedInstance.decrypt(body, from: publicKeys)
                         } catch {
                             Log.error("Decrypting failed with error: \(error.localizedDescription)")
                         }

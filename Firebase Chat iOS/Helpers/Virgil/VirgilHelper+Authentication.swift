@@ -54,15 +54,7 @@ extension VirgilHelper {
 
             self.publishToKeyknox(key: keyPair.privateKey, usingPassword: password) { entry, error in
                 do {
-                    if let entry = entry, let error = error as? VirgilHelperError, error == VirgilHelperError.entryExists {
-                        let privateKey = try self.privateKeyExporter.importPrivateKey(from: entry.data)
-                        guard let virgilPrivateKey = privateKey as? VirgilPrivateKey else {
-                            throw VirgilHelperError.keyIsNotVirgil
-                        }
-                        let virgilPublicKey = try self.crypto.extractPublicKey(from: virgilPrivateKey)
-
-                        keyPair = VirgilKeyPair(privateKey: virgilPrivateKey, publicKey: virgilPublicKey)
-                    }
+                    try self.updateIfExists(keyPair: &keyPair, entry: entry, error: error)
 
                     guard let entry = entry, error == nil else {
                         completion(error)
@@ -79,6 +71,18 @@ extension VirgilHelper {
             }
         } catch {
             completion(error)
+        }
+    }
+
+    private func updateIfExists(keyPair: inout VirgilKeyPair, entry: KeychainEntry?, error: Error?) throws {
+        if let entry = entry, let error = error as? VirgilHelperError, error == VirgilHelperError.entryExists {
+            let privateKey = try self.privateKeyExporter.importPrivateKey(from: entry.data)
+            guard let virgilPrivateKey = privateKey as? VirgilPrivateKey else {
+                throw VirgilHelperError.keyIsNotVirgil
+            }
+            let virgilPublicKey = try self.crypto.extractPublicKey(from: virgilPrivateKey)
+
+            keyPair = VirgilKeyPair(privateKey: virgilPrivateKey, publicKey: virgilPublicKey)
         }
     }
 
