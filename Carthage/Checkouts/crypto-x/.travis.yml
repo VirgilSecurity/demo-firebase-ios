@@ -1,0 +1,95 @@
+language: swift
+osx_image: xcode10
+
+env:
+  global:
+    - LC_CTYPE=en_US.UTF-8
+    - PROJECT=VirgilCrypto.xcodeproj
+    - IOS_FRAMEWORK_SCHEME="VirgilCrypto iOS"
+    - IOS_IMPL_FRAMEWORK_SCHEME="VirgilCryptoApiImpl iOS"
+    - MACOS_FRAMEWORK_SCHEME="VirgilCrypto macOS"
+    - MACOS_IMPL_FRAMEWORK_SCHEME="VirgilCryptoApiImpl macOS"
+    - TVOS_FRAMEWORK_SCHEME="VirgilCrypto tvOS"
+    - TVOS_IMPL_FRAMEWORK_SCHEME="VirgilCryptoApiImpl tvOS"
+    - WATCHOS_FRAMEWORK_SCHEME="VirgilCrypto watchOS"
+    - WATCHOS_IMPL_FRAMEWORK_SCHEME="VirgilCryptoApiImpl watchOS"
+    - IOS_SDK=iphonesimulator12.0
+    - MACOS_SDK=macosx10.14
+    - TVOS_SDK=appletvsimulator12.0
+    - WATCHOS_SDK=watchsimulator5.0
+    - CRYPTO_FRAMEWORK_NAME=VirgilCrypto
+    - CRYPTO_WRAPPER_FRAMEWORK_NAME=VSCCrypto
+  matrix:
+    - DESTINATION="OS=12.0,name=iPhone SE"                   CRYPTO_SCHEME="$IOS_FRAMEWORK_SCHEME"      CRYPTO_IMPL_SCHEME="$IOS_IMPL_FRAMEWORK_SCHEME"      SDK="$IOS_SDK"      TWO_STEP_BUILD_ENABLED="YES"  CARTHAGE_PLATFORM_NAME="iOS"      RUN_TESTS="YES"  PUBLISH_CARTHAGE="NO"   POD_LIB_LINT="NO"   SWIFT_LINT="NO"
+    - DESTINATION="arch=x86_64"                              CRYPTO_SCHEME="$MACOS_FRAMEWORK_SCHEME"    CRYPTO_IMPL_SCHEME="$MACOS_IMPL_FRAMEWORK_SCHEME"    SDK="$MACOS_SDK"    TWO_STEP_BUILD_ENABLED="YES"  CARTHAGE_PLATFORM_NAME="Mac"      RUN_TESTS="YES"  PUBLISH_CARTHAGE="YES"  POD_LIB_LINT="NO"   SWIFT_LINT="NO"
+    - DESTINATION="OS=12.0,name=Apple TV 4K"                 CRYPTO_SCHEME="$TVOS_FRAMEWORK_SCHEME"     CRYPTO_IMPL_SCHEME="$TVOS_IMPL_FRAMEWORK_SCHEME"     SDK="$TVOS_SDK"     TWO_STEP_BUILD_ENABLED="YES"  CARTHAGE_PLATFORM_NAME="tvOS"     RUN_TESTS="YES"  PUBLISH_CARTHAGE="NO"   POD_LIB_LINT="NO"   SWIFT_LINT="YES"
+    - DESTINATION="OS=5.0,name=Apple Watch Series 4 - 44mm"  CRYPTO_SCHEME="$WATCHOS_FRAMEWORK_SCHEME"  CRYPTO_IMPL_SCHEME="$WATCHOS_IMPL_FRAMEWORK_SCHEME"  SDK="$WATCHOS_SDK"  TWO_STEP_BUILD_ENABLED="NO"   CARTHAGE_PLATFORM_NAME="watchOS"  RUN_TESTS="NO"   PUBLISH_CARTHAGE="NO"   POD_LIB_LINT="YES"  SWIFT_LINT="NO"
+
+before_install:
+  - set -e
+  - set -o pipefail
+  - brew update
+  - brew outdated carthage || brew upgrade carthage
+  - xcodebuild -version
+  - xcodebuild -showsdks
+  - instruments -s devices
+
+script:
+  - carthage version
+  - carthage bootstrap --no-build
+
+  - |
+    if [ $SWIFT_LINT == "YES" ]; then
+      brew outdated swiftlint || brew upgrade swiftlint
+      swiftlint
+    fi
+
+  - |
+    if [ $TWO_STEP_BUILD_ENABLED == "YES" ]; then
+      # Build Framework
+      xcodebuild -verbose -project "$PROJECT" -scheme "$CRYPTO_SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug clean build-for-testing | xcpretty;
+      # Build Framework in Release and Run Tests if specified
+      if [ $RUN_TESTS == "YES" ]; then
+        xcodebuild -verbose -project "$PROJECT" -scheme "$CRYPTO_SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug test-without-building | xcpretty;
+      fi
+
+      # Build Framework
+      xcodebuild -verbose -project "$PROJECT" -scheme "$CRYPTO_IMPL_SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug clean build-for-testing | xcpretty;
+      # Build Framework in Release and Run Tests if specified
+      if [ $RUN_TESTS == "YES" ]; then
+        xcodebuild -verbose -project "$PROJECT" -scheme "$CRYPTO_IMPL_SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug test-without-building | xcpretty;
+      fi
+    else
+      # Build Framework
+      xcodebuild -verbose -project "$PROJECT" -scheme "$CRYPTO_SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Release clean build | xcpretty;
+      xcodebuild -verbose -project "$PROJECT" -scheme "$CRYPTO_IMPL_SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Release clean build | xcpretty;
+    fi
+
+  # Build with carthage
+  - if [ $PUBLISH_CARTHAGE == "YES" ]; then
+      carthage build --no-skip-current --no-use-binaries;
+    fi
+  
+  # Check pod lib
+  - if [ $POD_LIB_LINT == "YES" ]; then
+      gem install cocoapods --pre;
+      pod repo update;
+      pod lib lint VirgilCrypto.podspec;
+      pod lib lint VirgilCryptoApiImpl.podspec;
+    fi
+
+before_deploy:
+  - carthage archive
+  - mv $CRYPTO_WRAPPER_FRAMEWORK_NAME.framework.zip $CRYPTO_FRAMEWORK_NAME.framework.zip 
+
+deploy:
+  - provider: releases
+    api_key:
+      secure: aG7D23eff40uF4U5IQhz/vlvvq8WeLDIcoLI32yr5q+IXqHlKSc4JuG8xM52PoU8Zmvvz6ay6CY28yFp2ecjjK0cnejg/cs30qzOrwYxO7D2/N9/bFIXgwZD20a33J/rz2PosIA+6XeBM6yHWYYOKF0MFK53JmzFIqe+lf4ABVN6rRp6XwVz9ATvalnKWTpwHh9oo5iayG1oeKBMx+zL8cCzXTlq6f2Ib8Sf8n/G5sKMTVhFD+idAPfhRHgk7m4HkyzZiT432b8M65r72c4qphWXFKeMM4RBFevQoM8XYwee+vjMLfIYfYFS3ory2JuAClEQjiG7MJVMqvTTAvJy/9cQ+NIhoP0NfLlVtMpLgog9rFXamkeoQ717/8MuB05aUiitIyV0skaybIXRYiuX5kAoKdMlsprOTMcupuDfE/VX24kc1+gVQafCJ+sS6tTl/b+zr7qniLnFFT8mmlXJMOgX/5Gchs/bwqlLDVF7M7TTxoBrPyCr0r8ovLyJkYCt45+vZgqXzkGg9U9IHQ6jiOz26IS1oJn4GuqiFY6r7TNBV16vL7nzi3iET6UXHUwv8jTlgeiyxj0WhaFH463EtUSthvWCDdb9hli78Gv7Nr82LYR7hNby6oVOlYW0ttUEJIlRfCHYrQlb3DN32n9tczy3vZBjl1EFUe8PJhvjLhs=
+    file:
+      - "$CRYPTO_FRAMEWORK_NAME.framework.zip"
+    skip_cleanup: true
+    on:
+      repo: VirgilSecurity/crypto-x
+      tags: true
+      condition: $PUBLISH_CARTHAGE = "YES"

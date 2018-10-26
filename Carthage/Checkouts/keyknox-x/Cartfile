@@ -1,0 +1,2 @@
+github "VirgilSecurity/sdk-x" ~> 5.4.0
+github "VirgilSecurity/crypto-x" ~> 3.2.0

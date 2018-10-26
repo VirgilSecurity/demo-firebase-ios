@@ -49,7 +49,7 @@ public class MessageSender {
         Log.debug("Sending message: \(message)")
         if let textMessage = message as? DemoTextMessageModel {
             do {
-                let encrypted = try VirgilHelper.sharedInstance.encrypt(textMessage.body, for: self.publicKeys)
+                let encrypted = try VirgilHelper.sharedInstance.encrypt(text: textMessage.body, for: self.publicKeys)
 
                 self.messageStatus(ciphertext: encrypted, message: textMessage)
             } catch {
