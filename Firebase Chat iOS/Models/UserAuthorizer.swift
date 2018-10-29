@@ -11,22 +11,24 @@ import VirgilE3Kit
 
 class UserAuthorizer {
     func signIn(completion: @escaping (Bool) -> ()) {
-        if let user = Auth.auth().currentUser,
-            let identity = user.email?.replacingOccurrences(of: "@virgilfirebase.com", with: "") {
+        if let user = Auth.auth().currentUser, let email = user.email {
+            let identity = email.replacingOccurrences(of: "@virgilfirebase.com", with: "")
             user.getIDToken { token, error in
                 guard error == nil, let token = token else {
                     Log.error("Get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
                     completion(false)
                     return
                 }
-                VirgilHelper.initialize(tokenCallback: self.makeTokenCallback(identity: identity, firebaseToken: token))
-                { error in
+
+                let tokenCallback = self.makeTokenCallback(identity: identity, firebaseToken: token)
+                VirgilHelper.initialize(tokenCallback: tokenCallback) { error in
                     guard error == nil else {
                         Log.error("Virgil init with error: \(error!.localizedDescription)")
                         completion(false)
                         return
                     }
                     CoreDataHelper.sharedInstance.setUpAccount(withIdentity: identity)
+
                     completion(true)
                 }
             }
@@ -36,7 +38,8 @@ class UserAuthorizer {
     }
 
     func signIn(identity: String, password: String, completion: @escaping (Error?) -> ()) {
-        Auth.auth().signIn(withEmail: self.makeFakeEmail(from: identity), password: password) { authDataResult, error in
+        let email = self.makeFakeEmail(from: identity)
+        Auth.auth().signIn(withEmail: email, password: password) { authDataResult, error in
             guard let authDataResult = authDataResult, error == nil else {
                 completion(error)
                 return
@@ -61,7 +64,8 @@ class UserAuthorizer {
     }
 
     func signUp(identity: String, password: String, completion: @escaping (Error?) -> ()) {
-        Auth.auth().createUser(withEmail: self.makeFakeEmail(from: identity), password: password) { authDataResult, error in
+        let email = self.makeFakeEmail(from: identity)
+        Auth.auth().createUser(withEmail: email, password: password) { authDataResult, error in
             guard let authDataResult = authDataResult, error == nil else {
                 completion(error)
                 return
@@ -115,7 +119,8 @@ class UserAuthorizer {
     }
 
     private func setUpVirgil(identity: String, password: String, token: String, completion: @escaping (Error?) -> ()) {
-        VirgilHelper.initialize(tokenCallback: makeTokenCallback(identity: identity, firebaseToken: token)) { error in
+        let tokenCallback = makeTokenCallback(identity: identity, firebaseToken: token)
+        VirgilHelper.initialize(tokenCallback: tokenCallback) { error in
             guard error == nil else {
                 completion(error)
                 return

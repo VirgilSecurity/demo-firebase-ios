@@ -21,9 +21,12 @@ class AuthenticationController: ViewController {
         super.viewDidLoad()
 
         try? VirgilHelper.sharedInstance?.cleanUp()
+
         FirestoreHelper.sharedInstance.channelListListener?.remove()
         FirestoreHelper.sharedInstance.channelListListener = nil
+
         CoreDataHelper.sharedInstance.setCurrent(account: nil)
+        
         self.idTextField.delegate = self
         self.passwordTextField.delegate = self
 
