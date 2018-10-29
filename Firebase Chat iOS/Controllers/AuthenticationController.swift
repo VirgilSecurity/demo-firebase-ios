@@ -15,6 +15,8 @@ class AuthenticationController: ViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
+    private let userAuthorizer: UserAuthorizer = UserAuthorizer()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -77,7 +79,7 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Authorizer.signIn(identity: id, password: password) { error in
+        userAuthorizer.signIn(identity: id, password: password) { error in
             guard error == nil else {
                 self.alert("Sign in failed with error: \(error!.localizedDescription)")
                 return
@@ -101,7 +103,7 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Authorizer.signUp(identity: id, password: password) { error in
+        userAuthorizer.signUp(identity: id, password: password) { error in
             guard error == nil else {
                 self.alert("Sign up failed with error: \(error!.localizedDescription)")
                 return

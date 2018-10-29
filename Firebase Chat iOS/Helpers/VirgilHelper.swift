@@ -9,7 +9,6 @@
 import Foundation
 import VirgilE3Kit
 
-/// Provides usage of VirgilSDK and VirgilCrypto
 class VirgilHelper {
     static private(set) var sharedInstance: EThree!
 

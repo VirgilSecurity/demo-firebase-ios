@@ -1,5 +1,5 @@
 //
-//  Authorizer.swift
+//  UserAuthorizer.swift
 //  Firebase Chat iOS
 //
 //  Created by Eugen Pivovarov on 10/9/18.
@@ -9,8 +9,8 @@
 import FirebaseAuth
 import VirgilE3Kit
 
-class Authorizer {
-    static func signIn(completion: @escaping (Bool) -> ()) {
+class UserAuthorizer {
+    func signIn(completion: @escaping (Bool) -> ()) {
         if let user = Auth.auth().currentUser,
             let identity = user.email?.replacingOccurrences(of: "@virgilfirebase.com", with: "") {
             user.getIDToken { token, error in
@@ -19,7 +19,7 @@ class Authorizer {
                     completion(false)
                     return
                 }
-                VirgilHelper.initialize(tokenCallback: Authorizer.makeTokenCallback(identity: identity, firebaseToken: token))
+                VirgilHelper.initialize(tokenCallback: self.makeTokenCallback(identity: identity, firebaseToken: token))
                 { error in
                     guard error == nil else {
                         Log.error("Virgil init with error: \(error!.localizedDescription)")
@@ -35,7 +35,7 @@ class Authorizer {
         }
     }
 
-    static func signIn(identity: String, password: String, completion: @escaping (Error?) -> ()) {
+    func signIn(identity: String, password: String, completion: @escaping (Error?) -> ()) {
         Auth.auth().signIn(withEmail: self.makeFakeEmail(from: identity), password: password) { authDataResult, error in
             guard let authDataResult = authDataResult, error == nil else {
                 completion(error)
@@ -60,7 +60,7 @@ class Authorizer {
         }
     }
 
-    static func signUp(identity: String, password: String, completion: @escaping (Error?) -> ()) {
+    func signUp(identity: String, password: String, completion: @escaping (Error?) -> ()) {
         Auth.auth().createUser(withEmail: self.makeFakeEmail(from: identity), password: password) { authDataResult, error in
             guard let authDataResult = authDataResult, error == nil else {
                 completion(error)
@@ -108,7 +108,7 @@ class Authorizer {
         }
     }
 
-    private static func virgilAuthenticate(identity: String, password: String, token: String, completion: @escaping (Error?) -> ()) {
+    private func virgilAuthenticate(identity: String, password: String, token: String, completion: @escaping (Error?) -> ()) {
         VirgilHelper.initialize(tokenCallback: makeTokenCallback(identity: identity, firebaseToken: token)) { error in
             guard error == nil else {
                 completion(error)
@@ -121,7 +121,7 @@ class Authorizer {
         }
     }
 
-    private static func makeTokenCallback(identity: String, firebaseToken token: String) -> EThree.RenewJwtCallback {
+    private func makeTokenCallback(identity: String, firebaseToken token: String) -> EThree.RenewJwtCallback {
         let tokenCallback: EThree.RenewJwtCallback = { completion in
             let connection = ServiceConnection()
             let jwtRequest = try? ServiceRequest(url: URL(string: AppDelegate.jwtEndpoint)!,
@@ -145,7 +145,7 @@ class Authorizer {
         return tokenCallback
     }
 
-    private static func makeFakeEmail(from id: String) -> String {
+    private func makeFakeEmail(from id: String) -> String {
         return id + "@virgilfirebase.com"
     }
 }

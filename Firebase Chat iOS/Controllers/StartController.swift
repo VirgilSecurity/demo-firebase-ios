@@ -13,13 +13,15 @@ import Firebase
 class StartViewController: ViewController {
     static let name = "Start"
 
+    private let userAuthorizer: UserAuthorizer = UserAuthorizer()
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        Authorizer.signIn { signed in
+        userAuthorizer.signIn { signed in
             if signed {
                 self.goToChatList()
             } else {
