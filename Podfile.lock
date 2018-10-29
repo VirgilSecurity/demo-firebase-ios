@@ -119,19 +119,23 @@ PODS:
   - nanopb/encode (0.3.8)
   - PKHUD (5.2.0)
   - Protobuf (3.6.1)
-  - VirgilCrypto (3.1.5)
-  - VirgilCryptoAPI (1.0.2)
-  - VirgilCryptoApiImpl (3.1.5):
-    - VirgilCrypto (= 3.1.5)
-    - VirgilCryptoAPI (= 1.0.2)
-  - VirgilKeyknox (0.1.0):
-    - VirgilCryptoApiImpl (~> 3.1.2)
-    - VirgilSDK (~> 5.4)
-  - VirgilPythia (0.2.0):
-    - VirgilCryptoApiImpl (~> 3.1.2)
-    - VirgilSDK (~> 5.4)
-  - VirgilSDK (5.4.1):
+  - VirgilCrypto (3.2.1)
+  - VirgilCryptoAPI (1.0.3)
+  - VirgilCryptoApiImpl (3.2.1):
+    - VirgilCrypto (= 3.2.1)
     - VirgilCryptoAPI (~> 1.0)
+  - VirgilE3Kit (0.1.1):
+    - VirgilCryptoApiImpl (~> 3.1)
+    - VirgilSDKKeyknox (~> 0.2)
+    - VirgilSDKPythia (~> 0.3)
+  - VirgilSDK (5.5.0):
+    - VirgilCryptoAPI (~> 1.0)
+  - VirgilSDKKeyknox (0.2.1):
+    - VirgilCryptoApiImpl (~> 3.0)
+    - VirgilSDK (~> 5.3)
+  - VirgilSDKPythia (0.3.3):
+    - VirgilCryptoApiImpl (~> 3.1)
+    - VirgilSDK (~> 5.3)
 
 DEPENDENCIES:
   - Chatto (~> 3.3.1)
@@ -140,9 +144,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Firestore
   - PKHUD (~> 5.0)
-  - VirgilCryptoApiImpl (~> 3.0)
-  - VirgilKeyknox (from `https://github.com/Ogerets/keyknox-x.git`)
-  - VirgilPythia (from `https://github.com/Ogerets/pythia-x.git`)
+  - VirgilE3Kit (~> 0.1.1)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -171,21 +173,10 @@ SPEC REPOS:
     - VirgilCrypto
     - VirgilCryptoAPI
     - VirgilCryptoApiImpl
+    - VirgilE3Kit
     - VirgilSDK
-
-EXTERNAL SOURCES:
-  VirgilKeyknox:
-    :git: https://github.com/Ogerets/keyknox-x.git
-  VirgilPythia:
-    :git: https://github.com/Ogerets/pythia-x.git
-
-CHECKOUT OPTIONS:
-  VirgilKeyknox:
-    :commit: 0aa0cd3502eab85fa96b4f79c7b40a7ca6e025aa
-    :git: https://github.com/Ogerets/keyknox-x.git
-  VirgilPythia:
-    :commit: 4b7109292c19b6878a62d178aa4e2903508ce221
-    :git: https://github.com/Ogerets/pythia-x.git
+    - VirgilSDKKeyknox
+    - VirgilSDKPythia
 
 SPEC CHECKSUMS:
   BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
@@ -210,13 +201,14 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   PKHUD: dd5357ac65f26115c35c4a68e9b328053326c5fe
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  VirgilCrypto: 26047b40e9532e8c0c7d62f9b6a66835caa86f60
-  VirgilCryptoAPI: e844010f0279227148e0e956b9b9650d4763c918
-  VirgilCryptoApiImpl: 6aa86bcf997f9082b92ac8c9d89db4e41b5676f4
-  VirgilKeyknox: 781fa2522e2beaed4d615d621559e07ed6659904
-  VirgilPythia: 6d5dca707870f2aea877f8fe5cf11bffb44d79cb
-  VirgilSDK: 6e7998078906a3bc5cf5c0fa034f1f1f65b448d0
+  VirgilCrypto: a99fff02d7327ae240275cefe28dc14e4697877a
+  VirgilCryptoAPI: c3b20b0d3d2b801b0a2b6e7f624653321c32da32
+  VirgilCryptoApiImpl: 0182af2b5e483f031dda9d3b2aca88c4d36fe802
+  VirgilE3Kit: 20f9dc13ffda9a21e29a9ce06096de0bf79c96e4
+  VirgilSDK: 824d0265af01ab23f7e34ba4bc9e19e05c2de417
+  VirgilSDKKeyknox: 5168c406ff50dd9c693af9ac64e6e3de721b0077
+  VirgilSDKPythia: b02b5d22047a0894fbe0b108611ea37d6a88300a
 
-PODFILE CHECKSUM: b2220de5cca2c49d8582e177c09a745d4603a17f
+PODFILE CHECKSUM: 4c660f659332f2d184342bc95f45911a2bb7fb55
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0.beta.2

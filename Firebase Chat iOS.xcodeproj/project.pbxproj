@@ -11,22 +11,12 @@
 		161A83A720951995005C7807 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161A83A520951995005C7807 /* Settings.storyboard */; };
 		161A83A820951995005C7807 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161A83A620951995005C7807 /* SettingsViewController.swift */; };
 		162469852084C14500001801 /* Data+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162469842084C14500001801 /* Data+hex.swift */; };
-		1642DC4521812BE9007EBAE4 /* VirgilSDKKeyknox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1642DC4221812BE9007EBAE4 /* VirgilSDKKeyknox.framework */; };
-		1642DC4621812BE9007EBAE4 /* VirgilSDKPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1642DC4321812BE9007EBAE4 /* VirgilSDKPythia.framework */; };
-		1642DC4721812BE9007EBAE4 /* VirgilE3Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1642DC4421812BE9007EBAE4 /* VirgilE3Kit.framework */; };
-		1642DC4821812BF8007EBAE4 /* VirgilE3Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1642DC4421812BE9007EBAE4 /* VirgilE3Kit.framework */; };
-		1642DC4921812BF8007EBAE4 /* VirgilE3Kit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1642DC4421812BE9007EBAE4 /* VirgilE3Kit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1642DC4A21812BF8007EBAE4 /* VirgilSDKKeyknox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1642DC4221812BE9007EBAE4 /* VirgilSDKKeyknox.framework */; };
-		1642DC4B21812BF8007EBAE4 /* VirgilSDKKeyknox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1642DC4221812BE9007EBAE4 /* VirgilSDKKeyknox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1642DC4C21812BF8007EBAE4 /* VirgilSDKPythia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1642DC4321812BE9007EBAE4 /* VirgilSDKPythia.framework */; };
-		1642DC4D21812BF8007EBAE4 /* VirgilSDKPythia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1642DC4321812BE9007EBAE4 /* VirgilSDKPythia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		164D6975207E24FB00F3A368 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D6974207E24FB00F3A368 /* Log.swift */; };
 		164D697B207E25D600F3A368 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D6977207E25D600F3A368 /* Connection.swift */; };
 		164D697C207E25D600F3A368 /* ServiceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D6978207E25D600F3A368 /* ServiceRequest.swift */; };
 		164D697D207E25D600F3A368 /* ServiceConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D6979207E25D600F3A368 /* ServiceConnection.swift */; };
 		164D697E207E25D600F3A368 /* ServiceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164D697A207E25D600F3A368 /* ServiceResponse.swift */; };
 		16786C1F216CD2CE008AA82A /* Authorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16786C1E216CD2CE008AA82A /* Authorizer.swift */; };
-		167AC85D4714B783CACB4BCE /* Pods_Firebase_Chat_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDCAA97DC26798ECD735E5E8 /* Pods_Firebase_Chat_iOS.framework */; };
 		168980E92095EAE800BA8E08 /* Authentication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168980E82095EAE800BA8E08 /* Authentication.storyboard */; };
 		168980EB2095F03F00BA8E08 /* AuthenticationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168980EA2095F03F00BA8E08 /* AuthenticationController.swift */; };
 		169E792820D8FE1C00AF0A33 /* StartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169E792720D8FE1C00AF0A33 /* StartController.swift */; };
@@ -69,26 +59,10 @@
 		16E6C73C20862C3900FAE035 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C73520862C3900FAE035 /* DataSource.swift */; };
 		16E6C73D20862C3900FAE035 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C73620862C3900FAE035 /* ChatViewController.swift */; };
 		16E6C73E20862C3900FAE035 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16E6C73720862C3900FAE035 /* Chat.storyboard */; };
+		34ED68E471151C8438C6C90B /* Pods_Firebase_Chat_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A00A15B3FCF7DC2C7EEFF5 /* Pods_Firebase_Chat_iOS.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		1642DC4E21812BF8007EBAE4 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				1642DC4B21812BF8007EBAE4 /* VirgilSDKKeyknox.framework in Embed Frameworks */,
-				1642DC4921812BF8007EBAE4 /* VirgilE3Kit.framework in Embed Frameworks */,
-				1642DC4D21812BF8007EBAE4 /* VirgilSDKPythia.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		075252256CAB5A0F7853DC60 /* Pods-Firebase Chat iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Chat iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		1608048A2170EEB6002C72A3 /* String+Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Bool.swift"; sourceTree = "<group>"; };
 		161A83A520951995005C7807 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		161A83A620951995005C7807 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -146,8 +120,9 @@
 		16E6C73520862C3900FAE035 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		16E6C73620862C3900FAE035 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		16E6C73720862C3900FAE035 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
-		3D6736360DD0F75C1CAE0F00 /* Pods-Firebase Chat iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Chat iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS.release.xcconfig"; sourceTree = "<group>"; };
-		EDCAA97DC26798ECD735E5E8 /* Pods_Firebase_Chat_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Firebase_Chat_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B03BC02E2BAA37018F9CBF2A /* Pods-Firebase Chat iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Chat iOS.debug.xcconfig"; path = "Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		D59C297945A36C1F241BDB39 /* Pods-Firebase Chat iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Chat iOS.release.xcconfig"; path = "Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS.release.xcconfig"; sourceTree = "<group>"; };
+		F7A00A15B3FCF7DC2C7EEFF5 /* Pods_Firebase_Chat_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Firebase_Chat_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,13 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1642DC4A21812BF8007EBAE4 /* VirgilSDKKeyknox.framework in Frameworks */,
-				167AC85D4714B783CACB4BCE /* Pods_Firebase_Chat_iOS.framework in Frameworks */,
-				1642DC4C21812BF8007EBAE4 /* VirgilSDKPythia.framework in Frameworks */,
-				1642DC4521812BE9007EBAE4 /* VirgilSDKKeyknox.framework in Frameworks */,
-				1642DC4621812BE9007EBAE4 /* VirgilSDKPythia.framework in Frameworks */,
-				1642DC4821812BF8007EBAE4 /* VirgilE3Kit.framework in Frameworks */,
-				1642DC4721812BE9007EBAE4 /* VirgilE3Kit.framework in Frameworks */,
+				34ED68E471151C8438C6C90B /* Pods_Firebase_Chat_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,8 +213,8 @@
 			children = (
 				16A5D61E207D004500DFAD6F /* Firebase Chat iOS */,
 				16A5D61D207D004500DFAD6F /* Products */,
-				3C6A5369591FB4A70EC5B408 /* Pods */,
 				528EFC121184AC9EC2ECA72C /* Frameworks */,
+				99CE27E2E8E8264A17969440 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -382,24 +351,24 @@
 			path = TextMessage;
 			sourceTree = "<group>";
 		};
-		3C6A5369591FB4A70EC5B408 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				075252256CAB5A0F7853DC60 /* Pods-Firebase Chat iOS.debug.xcconfig */,
-				3D6736360DD0F75C1CAE0F00 /* Pods-Firebase Chat iOS.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		528EFC121184AC9EC2ECA72C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				1642DC4421812BE9007EBAE4 /* VirgilE3Kit.framework */,
 				1642DC4221812BE9007EBAE4 /* VirgilSDKKeyknox.framework */,
 				1642DC4321812BE9007EBAE4 /* VirgilSDKPythia.framework */,
-				EDCAA97DC26798ECD735E5E8 /* Pods_Firebase_Chat_iOS.framework */,
+				F7A00A15B3FCF7DC2C7EEFF5 /* Pods_Firebase_Chat_iOS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		99CE27E2E8E8264A17969440 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B03BC02E2BAA37018F9CBF2A /* Pods-Firebase Chat iOS.debug.xcconfig */,
+				D59C297945A36C1F241BDB39 /* Pods-Firebase Chat iOS.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -409,12 +378,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 16A5D62E207D004700DFAD6F /* Build configuration list for PBXNativeTarget "Firebase Chat iOS" */;
 			buildPhases = (
-				A6ADF7A7DCB0542AFA7F5957 /* [CP] Check Pods Manifest.lock */,
+				C164D267DE2A518E66C3BBB8 /* [CP] Check Pods Manifest.lock */,
 				16A5D618207D004500DFAD6F /* Sources */,
 				16A5D619207D004500DFAD6F /* Frameworks */,
 				16A5D61A207D004500DFAD6F /* Resources */,
-				6BC30BB564788D47D06D3F0A /* [CP] Embed Pods Frameworks */,
-				1642DC4E21812BF8007EBAE4 /* Embed Frameworks */,
+				386F6D9A487C5E42DBB7E9D4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -488,13 +456,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6BC30BB564788D47D06D3F0A /* [CP] Embed Pods Frameworks */ = {
+		386F6D9A487C5E42DBB7E9D4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
 				"${BUILT_PRODUCTS_DIR}/Chatto/Chatto.framework",
 				"${BUILT_PRODUCTS_DIR}/ChattoAdditions/ChattoAdditions.framework",
@@ -506,9 +476,10 @@
 				"${BUILT_PRODUCTS_DIR}/VirgilCrypto/VirgilCrypto.framework",
 				"${BUILT_PRODUCTS_DIR}/VirgilCryptoAPI/VirgilCryptoAPI.framework",
 				"${BUILT_PRODUCTS_DIR}/VirgilCryptoApiImpl/VirgilCryptoApiImpl.framework",
-				"${BUILT_PRODUCTS_DIR}/VirgilKeyknox/VirgilKeyknox.framework",
-				"${BUILT_PRODUCTS_DIR}/VirgilPythia/VirgilPythia.framework",
+				"${BUILT_PRODUCTS_DIR}/VirgilE3Kit/VirgilE3Kit.framework",
 				"${BUILT_PRODUCTS_DIR}/VirgilSDK/VirgilSDK.framework",
+				"${BUILT_PRODUCTS_DIR}/VirgilSDKKeyknox/VirgilSDKKeyknox.framework",
+				"${BUILT_PRODUCTS_DIR}/VirgilSDKPythia/VirgilSDKPythia.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
@@ -518,6 +489,8 @@
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Chatto.framework",
@@ -530,9 +503,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VirgilCrypto.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VirgilCryptoAPI.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VirgilCryptoApiImpl.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VirgilKeyknox.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VirgilPythia.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VirgilE3Kit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VirgilSDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VirgilSDKKeyknox.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VirgilSDKPythia.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
@@ -543,19 +517,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A6ADF7A7DCB0542AFA7F5957 /* [CP] Check Pods Manifest.lock */ = {
+		C164D267DE2A518E66C3BBB8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Firebase Chat iOS-checkManifestLockResult.txt",
 			);
@@ -746,7 +724,7 @@
 		};
 		16A5D62F207D004700DFAD6F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 075252256CAB5A0F7853DC60 /* Pods-Firebase Chat iOS.debug.xcconfig */;
+			baseConfigurationReference = B03BC02E2BAA37018F9CBF2A /* Pods-Firebase Chat iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -770,7 +748,7 @@
 		};
 		16A5D630207D004700DFAD6F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D6736360DD0F75C1CAE0F00 /* Pods-Firebase Chat iOS.release.xcconfig */;
+			baseConfigurationReference = D59C297945A36C1F241BDB39 /* Pods-Firebase Chat iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

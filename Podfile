@@ -9,9 +9,7 @@ target 'Firebase Chat iOS' do
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
 
-  pod 'VirgilCryptoApiImpl', '~> 3.0'
-  pod 'VirgilKeyknox', :git => 'https://github.com/Ogerets/keyknox-x.git'
-  pod 'VirgilPythia', :git => 'https://github.com/Ogerets/pythia-x.git'
+  pod 'VirgilE3Kit', '~> 0.1.1'
 
   pod 'Chatto', '~> 3.3.1'
   pod 'ChattoAdditions', '~> 3.3.1'
