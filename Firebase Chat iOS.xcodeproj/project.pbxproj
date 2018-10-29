@@ -38,8 +38,8 @@
 		16AF357A2080CD7E00B441D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF35792080CD7E00B441D0 /* Constants.swift */; };
 		16AF357D2080DE6B00B441D0 /* FirestoreHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF357C2080DE6B00B441D0 /* FirestoreHelper.swift */; };
 		16AF35802080F3CB00B441D0 /* VirgilHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */; };
-		16BAEBE920932EE400AC4F87 /* FirebaseHelper+Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAEBE820932EE400AC4F87 /* FirebaseHelper+Channel.swift */; };
-		16BAEBEB20932FAE00AC4F87 /* FirebaseHelper+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAEBEA20932FAE00AC4F87 /* FirebaseHelper+User.swift */; };
+		16BAEBE920932EE400AC4F87 /* FirestoreHelper+Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAEBE820932EE400AC4F87 /* FirestoreHelper+Channel.swift */; };
+		16BAEBEB20932FAE00AC4F87 /* FirestoreHelper+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAEBEA20932FAE00AC4F87 /* FirestoreHelper+User.swift */; };
 		16C1D3AC207F8E540087DF81 /* ChatListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C1D3AB207F8E540087DF81 /* ChatListController.swift */; };
 		16E14FF0209C986A00DCAD94 /* FirestoreHelper+Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E14FEF209C986A00DCAD94 /* FirestoreHelper+Messages.swift */; };
 		16E6C72320862BE000FAE035 /* TimeSeparatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C71B20862BE000FAE035 /* TimeSeparatorModel.swift */; };
@@ -99,8 +99,8 @@
 		16AF35792080CD7E00B441D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		16AF357C2080DE6B00B441D0 /* FirestoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreHelper.swift; sourceTree = "<group>"; };
 		16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirgilHelper.swift; sourceTree = "<group>"; };
-		16BAEBE820932EE400AC4F87 /* FirebaseHelper+Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseHelper+Channel.swift"; sourceTree = "<group>"; };
-		16BAEBEA20932FAE00AC4F87 /* FirebaseHelper+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseHelper+User.swift"; sourceTree = "<group>"; };
+		16BAEBE820932EE400AC4F87 /* FirestoreHelper+Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreHelper+Channel.swift"; sourceTree = "<group>"; };
+		16BAEBEA20932FAE00AC4F87 /* FirestoreHelper+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreHelper+User.swift"; sourceTree = "<group>"; };
 		16C1D3AB207F8E540087DF81 /* ChatListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListController.swift; sourceTree = "<group>"; };
 		16E14FEF209C986A00DCAD94 /* FirestoreHelper+Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreHelper+Messages.swift"; sourceTree = "<group>"; };
 		16E6C71B20862BE000FAE035 /* TimeSeparatorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorModel.swift; sourceTree = "<group>"; };
@@ -282,8 +282,8 @@
 			isa = PBXGroup;
 			children = (
 				16AF357C2080DE6B00B441D0 /* FirestoreHelper.swift */,
-				16BAEBEA20932FAE00AC4F87 /* FirebaseHelper+User.swift */,
-				16BAEBE820932EE400AC4F87 /* FirebaseHelper+Channel.swift */,
+				16BAEBEA20932FAE00AC4F87 /* FirestoreHelper+User.swift */,
+				16BAEBE820932EE400AC4F87 /* FirestoreHelper+Channel.swift */,
 				16E14FEF209C986A00DCAD94 /* FirestoreHelper+Messages.swift */,
 			);
 			path = Firebase;
@@ -557,7 +557,7 @@
 				16AF35692080BBAA00B441D0 /* CoreDataHelper+Account.swift in Sources */,
 				164D697C207E25D600F3A368 /* ServiceRequest.swift in Sources */,
 				16A5D622207D004500DFAD6F /* ViewController.swift in Sources */,
-				16BAEBEB20932FAE00AC4F87 /* FirebaseHelper+User.swift in Sources */,
+				16BAEBEB20932FAE00AC4F87 /* FirestoreHelper+User.swift in Sources */,
 				16AF355D2080B64700B441D0 /* ChatListCell.swift in Sources */,
 				168980EB2095F03F00BA8E08 /* AuthenticationController.swift in Sources */,
 				169E792820D8FE1C00AF0A33 /* StartController.swift in Sources */,
@@ -571,7 +571,7 @@
 				164D697E207E25D600F3A368 /* ServiceResponse.swift in Sources */,
 				1608048B2170EEB6002C72A3 /* String+Bool.swift in Sources */,
 				16AF356A2080BBAA00B441D0 /* CoreDataHelper+Messages.swift in Sources */,
-				16BAEBE920932EE400AC4F87 /* FirebaseHelper+Channel.swift in Sources */,
+				16BAEBE920932EE400AC4F87 /* FirestoreHelper+Channel.swift in Sources */,
 				16AF356E2080BCFB00B441D0 /* FirebaseChatModel.xcdatamodeld in Sources */,
 				16786C1F216CD2CE008AA82A /* UserAuthorizer.swift in Sources */,
 				16AF35682080BBAA00B441D0 /* CoreDataHelper.swift in Sources */,
