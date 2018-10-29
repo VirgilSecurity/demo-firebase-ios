@@ -1,5 +1,5 @@
 //
-//  FirebaseHelper+Channel.swift
+//  FirestoreHelper+Channel.swift
 //  Firebase Chat iOS
 //
 //  Created by Eugen Pivovarov on 4/27/18.
@@ -9,9 +9,9 @@
 import Foundation
 import Firebase
 
-extension FirebaseHelper {
+extension FirestoreHelper {
     func createChannel(currentUser: String, user: String, completion: @escaping (Error?) -> ()) {
-        guard let name = FirebaseHelper.makeChannelName(currentUser, user) else {
+        guard let name = FirestoreHelper.makeChannelName(currentUser, user) else {
             Log.error("Firestore: creating Channel failed")
             completion(NSError())
             return

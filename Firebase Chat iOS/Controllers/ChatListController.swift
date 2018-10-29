@@ -16,8 +16,8 @@ class ChatListController: ViewController {
 
     override func viewDidLoad() {
         if let id = CoreDataHelper.sharedInstance.currentAccount?.identity,
-            FirebaseHelper.sharedInstance.channelListListener == nil {
-                FirebaseHelper.sharedInstance.setUpChannelListListener(for: id)
+            FirestoreHelper.sharedInstance.channelListListener == nil {
+                FirestoreHelper.sharedInstance.setUpChannelListListener(for: id)
         }
 
         self.tableView.register(UINib(nibName: ChatListCell.name, bundle: Bundle.main),
@@ -28,19 +28,19 @@ class ChatListController: ViewController {
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(ChatListController.updateCoreDataChannels(notification:)),
-                                               name: Notification.Name(rawValue: FirebaseHelper.Notifications.ChannelAdded.rawValue),
+                                               name: Notification.Name(rawValue: FirestoreHelper.Notifications.ChannelAdded.rawValue),
                                                object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         self.publicKeys = []
-        FirebaseHelper.sharedInstance.channelListener?.remove()
-        FirebaseHelper.sharedInstance.channelListener = nil
+        FirestoreHelper.sharedInstance.channelListener?.remove()
+        FirestoreHelper.sharedInstance.channelListener = nil
     }
 
     @objc func updateCoreDataChannels(notification: Notification) {
         guard let userInfo = notification.userInfo,
-            let channels = userInfo[FirebaseHelper.NotificationKeys.channels.rawValue] as? [String] else {
+            let channels = userInfo[FirestoreHelper.NotificationKeys.channels.rawValue] as? [String] else {
                 Log.error("processing new channel failed")
                 return
         }
@@ -50,7 +50,7 @@ class ChatListController: ViewController {
         }
         for channel in channels {
             if !CoreDataHelper.sharedInstance.doesChannelExist(withGlobalName: channel) {
-                FirebaseHelper.sharedInstance.getChannelMembers(channel: channel) { members, error in
+                FirestoreHelper.sharedInstance.getChannelMembers(channel: channel) { members, error in
                     let newChannelName = members.filter { $0 != id }.first
                     guard error == nil, let name = newChannelName else {
                         Log.error("Getting channel members failed")
@@ -104,13 +104,13 @@ class ChatListController: ViewController {
             return
         }
 
-        FirebaseHelper.sharedInstance.doesUserExist(withUsername: username) { exist in
+        FirestoreHelper.sharedInstance.doesUserExist(withUsername: username) { exist in
             guard exist else {
                 self.alert("There are no such user")
                 return
             }
 
-            FirebaseHelper.sharedInstance.createChannel(currentUser: currentUser, user: username) { error in
+            FirestoreHelper.sharedInstance.createChannel(currentUser: currentUser, user: username) { error in
                 guard error == nil else {
                     Log.error("Firebse: creating channel failed with error: (\(error!.localizedDescription)")
                     return
@@ -182,7 +182,7 @@ extension ChatListController: CellTapDelegate {
                 }
                 self.publicKeys = publicKeys
 
-                FirebaseHelper.sharedInstance.updateMessages(of: globalName, publicKeys: publicKeys) { error in
+                FirestoreHelper.sharedInstance.updateMessages(of: globalName, publicKeys: publicKeys) { error in
                     guard error == nil else {
                         self.alert("Update messages failed")
                         self.view.isUserInteractionEnabled = true

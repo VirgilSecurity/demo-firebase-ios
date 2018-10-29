@@ -75,7 +75,7 @@ public class MessageSender {
                 let receiver = CoreDataHelper.sharedInstance.currentChannel?.name else {
                     return
             }
-            FirebaseHelper.sharedInstance.send(message: ciphertext, to: receiver, from: currentUser) { error in
+            FirestoreHelper.sharedInstance.send(message: ciphertext, to: receiver, from: currentUser) { error in
                 guard error == nil else {
                     Log.error("Sending message \"\(ciphertext)\" failed: \(error!.localizedDescription)")
                     self.updateMessage(message, status: .failed)

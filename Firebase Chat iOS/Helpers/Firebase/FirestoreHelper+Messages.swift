@@ -1,5 +1,5 @@
 //
-//  Firebase+Messages.swift
+//  FirestoreHelper+Messages.swift
 //  Firebase Chat iOS
 //
 //  Created by Eugen Pivovarov on 5/4/18.
@@ -10,9 +10,9 @@ import Foundation
 import Firebase
 import VirgilCryptoApiImpl
 
-extension FirebaseHelper {
+extension FirestoreHelper {
     func send(message: String, to receiver: String, from currentUser: String, completion: @escaping (Error?) -> ()) {
-        guard let channel = FirebaseHelper.makeChannelName(currentUser, receiver) else {
+        guard let channel = FirestoreHelper.makeChannelName(currentUser, receiver) else {
             completion(nil)
             return
         }
@@ -91,9 +91,9 @@ extension FirebaseHelper {
                 for i in count..<messages.count {
                     let messageDocuments = messages.filter({ $0.documentID == "\(i)" })
                     guard let messageDocument = messageDocuments.first,
-                        let receiver = messageDocument.data()[FirebaseHelper.Keys.receiver.rawValue] as? String,
-                        let body = messageDocument.data()[FirebaseHelper.Keys.body.rawValue] as? String,
-                        let timestamp = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Timestamp else {
+                        let receiver = messageDocument.data()[FirestoreHelper.Keys.receiver.rawValue] as? String,
+                        let body = messageDocument.data()[FirestoreHelper.Keys.body.rawValue] as? String,
+                        let timestamp = messageDocument.data()[FirestoreHelper.Keys.createdAt.rawValue] as? Timestamp else {
                             break
                     }
                     var decryptedBody: String?

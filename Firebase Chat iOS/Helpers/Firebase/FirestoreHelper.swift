@@ -1,5 +1,5 @@
 //
-//  FirebaseHelper.swift
+//  FirestoreHelper.swift
 //  Firebase Chat iOS
 //
 //  Created by Eugen Pivovarov on 4/13/18.
@@ -9,8 +9,8 @@
 import Foundation
 import Firebase
 
-class FirebaseHelper {
-    static private(set) var sharedInstance: FirebaseHelper!
+class FirestoreHelper {
+    static private(set) var sharedInstance: FirestoreHelper!
     static var tokenChangeListener: IDTokenDidChangeListenerHandle? = nil
     let userCollection: CollectionReference
     let channelCollection: CollectionReference
@@ -35,8 +35,8 @@ class FirebaseHelper {
     }
 
     enum Notifications: String {
-        case ChannelAdded = "FirebaseHelper.Notifications.ChannelAdded"
-        case MessageAdded = "FirebaseHelper.Notifications.MessageAdded"
+        case ChannelAdded = "FirestoreHelper.Notifications.ChannelAdded"
+        case MessageAdded = "FirestoreHelper.Notifications.MessageAdded"
     }
 
     enum NotificationKeys: String {
@@ -45,7 +45,7 @@ class FirebaseHelper {
     }
 
     static func initialize() {
-        sharedInstance = FirebaseHelper()
+        sharedInstance = FirestoreHelper()
     }
 
     private init() {
@@ -54,7 +54,7 @@ class FirebaseHelper {
         self.channelListListener = nil
         self.channelListener = nil
 
-        FirebaseHelper.tokenChangeListener = Auth.auth().addIDTokenDidChangeListener { auth, user in
+        FirestoreHelper.tokenChangeListener = Auth.auth().addIDTokenDidChangeListener { auth, user in
             guard let user = user, let id = CoreDataHelper.sharedInstance.currentAccount?.identity else {
                 Log.error("Refresh token failed")
                 return
@@ -77,7 +77,7 @@ class FirebaseHelper {
                 return
             }
             NotificationCenter.default.post(
-                name: Notification.Name(rawValue: FirebaseHelper.Notifications.ChannelAdded.rawValue),
+                name: Notification.Name(rawValue: FirestoreHelper.Notifications.ChannelAdded.rawValue),
                 object: self,
                 userInfo: [
                     NotificationKeys.channels.rawValue: channels
@@ -94,7 +94,7 @@ class FirebaseHelper {
             }
 
             NotificationCenter.default.post(
-                name: Notification.Name(rawValue: FirebaseHelper.Notifications.MessageAdded.rawValue),
+                name: Notification.Name(rawValue: FirestoreHelper.Notifications.MessageAdded.rawValue),
                 object: self,
                 userInfo: [
                     NotificationKeys.messages.rawValue: messages

@@ -1,5 +1,5 @@
 //
-//  FirebaseHelper+User.swift
+//  FirestoreHelper+User.swift
 //  Firebase Chat iOS
 //
 //  Created by Eugen Pivovarov on 4/27/18.
@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-extension FirebaseHelper {
+extension FirestoreHelper {
     func createUser(identity: String, completion: @escaping (Error?) -> ()) {
         let userReference = self.userCollection.document(identity)
         userReference.setData([

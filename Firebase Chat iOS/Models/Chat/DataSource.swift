@@ -55,16 +55,16 @@ class DataSource: ChatDataSourceProtocol {
         self.delegate?.chatDataSourceDidUpdate(self, updateType: .reload)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(DataSource.processMessage(notification:)),
-                                               name: Notification.Name(rawValue: FirebaseHelper.Notifications.MessageAdded.rawValue),
+                                               name: Notification.Name(rawValue: FirestoreHelper.Notifications.MessageAdded.rawValue),
                                                object: nil)
 
-        FirebaseHelper.sharedInstance.setUpChannelListener(channel: globalName)
+        FirestoreHelper.sharedInstance.setUpChannelListener(channel: globalName)
     }
 
     @objc private func processMessage(notification: Notification) {
         Log.debug("processing message")
         guard  let userInfo = notification.userInfo,
-            let messages = userInfo[FirebaseHelper.NotificationKeys.messages.rawValue] as? [QueryDocumentSnapshot],
+            let messages = userInfo[FirestoreHelper.NotificationKeys.messages.rawValue] as? [QueryDocumentSnapshot],
             let currentUser = CoreDataHelper.sharedInstance.currentAccount?.identity else {
                 return
         }
@@ -73,9 +73,9 @@ class DataSource: ChatDataSourceProtocol {
             for i in self.countCore..<messages.count {
                 let messageDocuments = messages.filter({ $0.documentID == "\(i)" })
                 guard let messageDocument = messageDocuments.first,
-                    let receiver = messageDocument.data()[FirebaseHelper.Keys.receiver.rawValue] as? String,
-                    let body = messageDocument.data()[FirebaseHelper.Keys.body.rawValue] as? String,
-                    let timestamp = messageDocument.data()[FirebaseHelper.Keys.createdAt.rawValue] as? Timestamp else {
+                    let receiver = messageDocument.data()[FirestoreHelper.Keys.receiver.rawValue] as? String,
+                    let body = messageDocument.data()[FirestoreHelper.Keys.body.rawValue] as? String,
+                    let timestamp = messageDocument.data()[FirestoreHelper.Keys.createdAt.rawValue] as? Timestamp else {
                         return
                 }
                 let messageDate = timestamp.dateValue()

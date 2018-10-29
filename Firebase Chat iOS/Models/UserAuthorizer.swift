@@ -90,9 +90,9 @@ class UserAuthorizer {
                     }
 
                     CoreDataHelper.sharedInstance.createAccount(withIdentity: identity)
-                    FirebaseHelper.sharedInstance.doesUserExist(withUsername: identity) { exist in
+                    FirestoreHelper.sharedInstance.doesUserExist(withUsername: identity) { exist in
                         if !exist {
-                            FirebaseHelper.sharedInstance.createUser(identity: identity) { error in
+                            FirestoreHelper.sharedInstance.createUser(identity: identity) { error in
                                 guard error == nil else {
                                     Log.error("Firebase: creating user failed with error: \(error!.localizedDescription)")
                                     completion(error)

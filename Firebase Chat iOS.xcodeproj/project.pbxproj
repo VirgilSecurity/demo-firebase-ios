@@ -36,12 +36,12 @@
 		16AF356B2080BBAA00B441D0 /* CoreDataHelper+Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF35672080BBAA00B441D0 /* CoreDataHelper+Channel.swift */; };
 		16AF356E2080BCFB00B441D0 /* FirebaseChatModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 16AF356C2080BCFB00B441D0 /* FirebaseChatModel.xcdatamodeld */; };
 		16AF357A2080CD7E00B441D0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF35792080CD7E00B441D0 /* Constants.swift */; };
-		16AF357D2080DE6B00B441D0 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF357C2080DE6B00B441D0 /* FirebaseHelper.swift */; };
+		16AF357D2080DE6B00B441D0 /* FirestoreHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF357C2080DE6B00B441D0 /* FirestoreHelper.swift */; };
 		16AF35802080F3CB00B441D0 /* VirgilHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */; };
 		16BAEBE920932EE400AC4F87 /* FirebaseHelper+Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAEBE820932EE400AC4F87 /* FirebaseHelper+Channel.swift */; };
 		16BAEBEB20932FAE00AC4F87 /* FirebaseHelper+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAEBEA20932FAE00AC4F87 /* FirebaseHelper+User.swift */; };
 		16C1D3AC207F8E540087DF81 /* ChatListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C1D3AB207F8E540087DF81 /* ChatListController.swift */; };
-		16E14FF0209C986A00DCAD94 /* Firebase+Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E14FEF209C986A00DCAD94 /* Firebase+Messages.swift */; };
+		16E14FF0209C986A00DCAD94 /* FirestoreHelper+Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E14FEF209C986A00DCAD94 /* FirestoreHelper+Messages.swift */; };
 		16E6C72320862BE000FAE035 /* TimeSeparatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C71B20862BE000FAE035 /* TimeSeparatorModel.swift */; };
 		16E6C72420862BE000FAE035 /* TimeSeparatorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C71C20862BE000FAE035 /* TimeSeparatorPresenter.swift */; };
 		16E6C72520862BE000FAE035 /* TimeSeparatorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E6C71D20862BE000FAE035 /* TimeSeparatorCollectionViewCell.swift */; };
@@ -97,12 +97,12 @@
 		16AF35672080BBAA00B441D0 /* CoreDataHelper+Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreDataHelper+Channel.swift"; sourceTree = "<group>"; };
 		16AF356D2080BCFB00B441D0 /* FirebaseChatModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FirebaseChatModel.xcdatamodel; sourceTree = "<group>"; };
 		16AF35792080CD7E00B441D0 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		16AF357C2080DE6B00B441D0 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
+		16AF357C2080DE6B00B441D0 /* FirestoreHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreHelper.swift; sourceTree = "<group>"; };
 		16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirgilHelper.swift; sourceTree = "<group>"; };
 		16BAEBE820932EE400AC4F87 /* FirebaseHelper+Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseHelper+Channel.swift"; sourceTree = "<group>"; };
 		16BAEBEA20932FAE00AC4F87 /* FirebaseHelper+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseHelper+User.swift"; sourceTree = "<group>"; };
 		16C1D3AB207F8E540087DF81 /* ChatListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListController.swift; sourceTree = "<group>"; };
-		16E14FEF209C986A00DCAD94 /* Firebase+Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firebase+Messages.swift"; sourceTree = "<group>"; };
+		16E14FEF209C986A00DCAD94 /* FirestoreHelper+Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirestoreHelper+Messages.swift"; sourceTree = "<group>"; };
 		16E6C71B20862BE000FAE035 /* TimeSeparatorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorModel.swift; sourceTree = "<group>"; };
 		16E6C71C20862BE000FAE035 /* TimeSeparatorPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorPresenter.swift; sourceTree = "<group>"; };
 		16E6C71D20862BE000FAE035 /* TimeSeparatorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeSeparatorCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -281,10 +281,10 @@
 		16AF357B2080DC5D00B441D0 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				16AF357C2080DE6B00B441D0 /* FirebaseHelper.swift */,
+				16AF357C2080DE6B00B441D0 /* FirestoreHelper.swift */,
 				16BAEBEA20932FAE00AC4F87 /* FirebaseHelper+User.swift */,
 				16BAEBE820932EE400AC4F87 /* FirebaseHelper+Channel.swift */,
-				16E14FEF209C986A00DCAD94 /* Firebase+Messages.swift */,
+				16E14FEF209C986A00DCAD94 /* FirestoreHelper+Messages.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -547,8 +547,8 @@
 				16AF35622080B81C00B441D0 /* UIColor+RGB.swift in Sources */,
 				16AF35802080F3CB00B441D0 /* VirgilHelper.swift in Sources */,
 				161A83A820951995005C7807 /* SettingsViewController.swift in Sources */,
-				16E14FF0209C986A00DCAD94 /* Firebase+Messages.swift in Sources */,
-				16AF357D2080DE6B00B441D0 /* FirebaseHelper.swift in Sources */,
+				16E14FF0209C986A00DCAD94 /* FirestoreHelper+Messages.swift in Sources */,
+				16AF357D2080DE6B00B441D0 /* FirestoreHelper.swift in Sources */,
 				16E6C72920862BE000FAE035 /* ChatItemsDemoDecorator.swift in Sources */,
 				16E6C72320862BE000FAE035 /* TimeSeparatorModel.swift in Sources */,
 				16E6C73020862BEE00FAE035 /* DemoTextMessageViewModel.swift in Sources */,
