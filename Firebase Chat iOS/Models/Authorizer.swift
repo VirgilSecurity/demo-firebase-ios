@@ -7,6 +7,7 @@
 //
 
 import FirebaseAuth
+import VirgilE3Kit
 
 class Authorizer {
     static func signIn(completion: @escaping (Bool) -> ()) {
@@ -114,14 +115,14 @@ class Authorizer {
                 return
             }
 
-            VirgilHelper.sharedInstance.bootstrapUser(password: password) { error in
+            VirgilHelper.sharedInstance.bootstrap(password: password) { error in
                 completion(error)
             }
         }
     }
 
-    private static func makeTokenCallback(identity: String, firebaseToken token: String) -> VirgilHelper.RenewJwtCallback {
-        let tokenCallback: VirgilHelper.RenewJwtCallback = { completion in
+    private static func makeTokenCallback(identity: String, firebaseToken token: String) -> EThree.RenewJwtCallback {
+        let tokenCallback: EThree.RenewJwtCallback = { completion in
             let connection = ServiceConnection()
             let jwtRequest = try? ServiceRequest(url: URL(string: AppDelegate.jwtEndpoint)!,
                                                  method: ServiceRequest.Method.post,
@@ -134,7 +135,7 @@ class Authorizer {
                 let json = try? JSONSerialization.jsonObject(with: responseBody, options: []) as? [String: Any],
                 let jwtStr = json?["token"] as? String else {
                     Log.error("Getting JWT failed")
-                    completion(nil, VirgilHelper.VirgilHelperError.gettingJwtFailed)
+                    completion(nil, NSError())
                     return
             }
 
