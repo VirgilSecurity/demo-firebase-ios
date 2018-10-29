@@ -11,7 +11,8 @@ import Firebase
 
 class FirestoreHelper {
     static private(set) var sharedInstance: FirestoreHelper!
-    static var tokenChangeListener: IDTokenDidChangeListenerHandle? = nil
+    static var tokenChangeListener: IDTokenDidChangeListenerHandle?
+
     let userCollection: CollectionReference
     let channelCollection: CollectionReference
 
@@ -51,29 +52,12 @@ class FirestoreHelper {
     private init() {
         self.userCollection = Firestore.firestore().collection(Collections.users.rawValue)
         self.channelCollection = Firestore.firestore().collection(Collections.channels.rawValue)
-        self.channelListListener = nil
-        self.channelListener = nil
-
-        FirestoreHelper.tokenChangeListener = Auth.auth().addIDTokenDidChangeListener { auth, user in
-            guard let user = user, let id = CoreDataHelper.sharedInstance.currentAccount?.identity else {
-                Log.error("Refresh token failed")
-                return
-            }
-            user.getIDToken { token, error in
-                guard error == nil, let token = token else {
-                    Log.error("get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
-                    return
-                }
-                // FIXME
-//                E3KitHelper.sharedInstance.setCardManager(identity: id, authToken: token)
-            }
-        }
     }
 
     func setUpChannelListListener(for id: String) {
         self.channelListListener = self.userCollection.document(id).addSnapshotListener { documentSnapshot, error in
-            guard let channels = documentSnapshot?.get("channels") as? [String] else {
-                print("Error fetching document: \(error?.localizedDescription ?? "unknown error")")
+            guard let channels = documentSnapshot?.get(Keys.channels.rawValue) as? [String] else {
+                Log.error("Error fetching document: \(error?.localizedDescription ?? "unknown error")")
                 return
             }
             NotificationCenter.default.post(
