@@ -47,7 +47,7 @@ class UserAuthorizer {
                     return
                 }
 
-                self.virgilAuthenticate(identity: identity, password: password, token: token) { error in
+                self.setUpVirgil(identity: identity, password: password, token: token) { error in
                     guard error == nil else {
                         completion(error)
                         return
@@ -82,7 +82,7 @@ class UserAuthorizer {
                     return
                 }
 
-                self.virgilAuthenticate(identity: identity, password: password, token: token) { error in
+                self.setUpVirgil(identity: identity, password: password, token: token) { error in
                     guard error == nil else {
                         reverseCreatingUser()
                         completion(error)
@@ -90,25 +90,31 @@ class UserAuthorizer {
                     }
 
                     CoreDataHelper.sharedInstance.createAccount(withIdentity: identity)
-                    FirestoreHelper.sharedInstance.doesUserExist(withUsername: identity) { exist in
-                        if !exist {
-                            FirestoreHelper.sharedInstance.createUser(identity: identity) { error in
-                                guard error == nil else {
-                                    Log.error("Firebase: creating user failed with error: \(error!.localizedDescription)")
-                                    completion(error)
-                                    return
-                                }
-
-                                completion(nil)
-                            }
-                        }
-                    }
+                    self.setUpFirestore(identity: identity, completion: completion)
                 }
             }
         }
     }
 
-    private func virgilAuthenticate(identity: String, password: String, token: String, completion: @escaping (Error?) -> ()) {
+    // MARK: - Private API
+
+    private func setUpFirestore(identity: String, completion: @escaping (Error?) -> ()) {
+        FirestoreHelper.sharedInstance.doesUserExist(withUsername: identity) { exist in
+            if !exist {
+                FirestoreHelper.sharedInstance.createUser(identity: identity) { error in
+                    guard error == nil else {
+                        Log.error("Firebase: creating user failed with error: \(error!.localizedDescription)")
+                        completion(error)
+                        return
+                    }
+
+                    completion(nil)
+                }
+            }
+        }
+    }
+
+    private func setUpVirgil(identity: String, password: String, token: String, completion: @escaping (Error?) -> ()) {
         VirgilHelper.initialize(tokenCallback: makeTokenCallback(identity: identity, firebaseToken: token)) { error in
             guard error == nil else {
                 completion(error)
