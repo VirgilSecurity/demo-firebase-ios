@@ -259,7 +259,7 @@
 		16AF35632080BB9B00B441D0 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				16AF357B2080DC5D00B441D0 /* Firebase */,
+				16AF357B2080DC5D00B441D0 /* Firestore */,
 				16AF356F2080BF6600B441D0 /* CoreData */,
 				16AF357F2080F3CB00B441D0 /* VirgilHelper.swift */,
 			);
@@ -278,7 +278,7 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
-		16AF357B2080DC5D00B441D0 /* Firebase */ = {
+		16AF357B2080DC5D00B441D0 /* Firestore */ = {
 			isa = PBXGroup;
 			children = (
 				16AF357C2080DE6B00B441D0 /* FirestoreHelper.swift */,
@@ -286,7 +286,7 @@
 				16BAEBE820932EE400AC4F87 /* FirestoreHelper+Channel.swift */,
 				16E14FEF209C986A00DCAD94 /* FirestoreHelper+Messages.swift */,
 			);
-			path = Firebase;
+			path = Firestore;
 			sourceTree = "<group>";
 		};
 		16E6C71820862BCF00FAE035 /* Chat */ = {
@@ -721,10 +721,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MS3LY2W55D;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Firebase Chat iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -745,10 +742,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MS3LY2W55D;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Firebase Chat iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
