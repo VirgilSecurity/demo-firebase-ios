@@ -99,9 +99,9 @@ extension FirestoreHelper {
 
     static func makeChannelName(_ user1: String, _ user2: String) -> String? {
         if user1 > user2 {
-            return VirgilHelper.makeHash(from: user1 + user2)
+            return E3KitHelper.makeHash(from: user1 + user2)
         } else {
-            return VirgilHelper.makeHash(from: user2 + user1)
+            return E3KitHelper.makeHash(from: user2 + user1)
         }
     }
 }

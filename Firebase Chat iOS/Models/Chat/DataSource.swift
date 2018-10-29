@@ -83,7 +83,7 @@ class DataSource: ChatDataSourceProtocol {
 
                 var decryptedBody: String?
                 do {
-                    decryptedBody = try VirgilHelper.sharedInstance.decrypt(text: body, from: self.publicKeys)
+                    decryptedBody = try E3KitHelper.sharedInstance.decrypt(text: body, from: self.publicKeys)
                 } catch {
                     Log.error("Decrypting failed with error: \(error.localizedDescription)")
                 }

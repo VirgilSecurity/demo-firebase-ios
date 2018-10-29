@@ -101,7 +101,7 @@ extension FirestoreHelper {
                         decryptedBody = "Message deleted"
                     } else {
                         do {
-                            decryptedBody = try VirgilHelper.sharedInstance.decrypt(text: body, from: publicKeys)
+                            decryptedBody = try E3KitHelper.sharedInstance.decrypt(text: body, from: publicKeys)
                         } catch {
                             Log.error("Decrypting failed with error: \(error.localizedDescription)")
                         }

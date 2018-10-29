@@ -21,7 +21,7 @@ class UserAuthorizer {
                 }
 
                 let tokenCallback = self.makeTokenCallback(identity: identity, firebaseToken: token)
-                VirgilHelper.initialize(tokenCallback: tokenCallback) { error in
+                E3KitHelper.initialize(tokenCallback: tokenCallback) { error in
                     guard error == nil else {
                         Log.error("Virgil init with error: \(error!.localizedDescription)")
                         completion(false)
@@ -120,13 +120,13 @@ class UserAuthorizer {
 
     private func setUpVirgil(identity: String, password: String, token: String, completion: @escaping (Error?) -> ()) {
         let tokenCallback = makeTokenCallback(identity: identity, firebaseToken: token)
-        VirgilHelper.initialize(tokenCallback: tokenCallback) { error in
+        E3KitHelper.initialize(tokenCallback: tokenCallback) { error in
             guard error == nil else {
                 completion(error)
                 return
             }
 
-            VirgilHelper.sharedInstance.bootstrap(password: password) { error in
+            E3KitHelper.sharedInstance.bootstrap(password: password) { error in
                 completion(error)
             }
         }

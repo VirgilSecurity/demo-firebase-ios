@@ -20,7 +20,7 @@ class AuthenticationController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        try? VirgilHelper.sharedInstance?.cleanUp()
+        try? E3KitHelper.sharedInstance?.cleanUp()
 
         FirestoreHelper.sharedInstance.channelListListener?.remove()
         FirestoreHelper.sharedInstance.channelListListener = nil

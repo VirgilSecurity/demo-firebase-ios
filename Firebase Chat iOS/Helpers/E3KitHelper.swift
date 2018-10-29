@@ -1,5 +1,5 @@
 //
-//  VirgilHelper.swift
+//  E3KitHelper.swift
 //  Firebase Chat iOS
 //
 //  Created by Eugen Pivovarov on 4/13/18.
@@ -9,7 +9,7 @@
 import Foundation
 import VirgilE3Kit
 
-class VirgilHelper {
+class E3KitHelper {
     static private(set) var sharedInstance: EThree!
 
     public static func initialize(tokenCallback: @escaping EThree.RenewJwtCallback,
@@ -30,6 +30,6 @@ class VirgilHelper {
             Log.error("String to data failed")
             return nil
         }
-        return VirgilHelper.sharedInstance.crypto.computeHash(for: data, using: .SHA256).hexEncodedString()
+        return E3KitHelper.sharedInstance.crypto.computeHash(for: data, using: .SHA256).hexEncodedString()
     }
 }

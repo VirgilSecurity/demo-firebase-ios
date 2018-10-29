@@ -65,7 +65,7 @@ class FirestoreHelper {
                     return
                 }
                 // FIXME
-//                VirgilHelper.sharedInstance.setCardManager(identity: id, authToken: token)
+//                E3KitHelper.sharedInstance.setCardManager(identity: id, authToken: token)
             }
         }
     }

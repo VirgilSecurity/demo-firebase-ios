@@ -174,7 +174,7 @@ extension ChatListController: CellTapDelegate {
                     return
             }
 
-            VirgilHelper.sharedInstance.lookupPublicKeys(of: [username]) { publicKeys, errors in
+            E3KitHelper.sharedInstance.lookupPublicKeys(of: [username]) { publicKeys, errors in
                 guard errors.isEmpty, !publicKeys.isEmpty else {
                     self.alert("LookUpPublicKeys failed")
                     self.view.isUserInteractionEnabled = true

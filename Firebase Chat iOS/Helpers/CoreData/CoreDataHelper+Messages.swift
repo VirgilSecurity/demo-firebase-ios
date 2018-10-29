@@ -29,7 +29,7 @@ extension CoreDataHelper {
 
         let message = Message(entity: entity, insertInto: self.managedContext)
 
-        let encryptedBody = body    //= try? VirgilHelper.sharedInstance.encrypt(text: body)
+        let encryptedBody = body    //= try? E3KitHelper.sharedInstance.encrypt(text: body)
         message.body = encryptedBody //?? "Error encrypting message"
         message.isIncoming = isIncoming
         message.date = date
