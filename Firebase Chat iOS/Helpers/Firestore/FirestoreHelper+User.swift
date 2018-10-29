@@ -10,6 +10,22 @@ import Foundation
 import Firebase
 
 extension FirestoreHelper {
+    func setUpUser(identity: String, completion: @escaping (Error?) -> ()) {
+        self.doesUserExist(withUsername: identity) { exist in
+            if !exist {
+                self.createUser(identity: identity) { error in
+                    guard error == nil else {
+                        Log.error("Firebase: creating user failed with error: \(error!.localizedDescription)")
+                        completion(error)
+                        return
+                    }
+
+                    completion(nil)
+                }
+            }
+        }
+    }
+
     func createUser(identity: String, completion: @escaping (Error?) -> ()) {
         let userReference = self.userCollection.document(identity)
         userReference.setData([

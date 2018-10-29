@@ -30,6 +30,7 @@ class E3KitHelper {
             Log.error("String to data failed")
             return nil
         }
+        
         return E3KitHelper.sharedInstance.crypto.computeHash(for: data, using: .SHA256).hexEncodedString()
     }
 }

@@ -28,6 +28,8 @@ class UserAuthorizer {
                         return
                     }
                     CoreDataHelper.sharedInstance.setUpAccount(withIdentity: identity)
+                    FirestoreHelper.sharedInstance.setUpUser(identity: identity,
+                                                             completion: { completion($0 == nil ? true : false) })
 
                     completion(true)
                 }
@@ -56,6 +58,7 @@ class UserAuthorizer {
                         return
                     }
                     CoreDataHelper.sharedInstance.setUpAccount(withIdentity: identity)
+                    FirestoreHelper.sharedInstance.setUpUser(identity: identity, completion: completion)
 
                     completion(nil)
                 }
@@ -94,29 +97,13 @@ class UserAuthorizer {
                     }
 
                     CoreDataHelper.sharedInstance.createAccount(withIdentity: identity)
-                    self.setUpFirestore(identity: identity, completion: completion)
+                    FirestoreHelper.sharedInstance.setUpUser(identity: identity, completion: completion)
                 }
             }
         }
     }
 
     // MARK: - Private API
-
-    private func setUpFirestore(identity: String, completion: @escaping (Error?) -> ()) {
-        FirestoreHelper.sharedInstance.doesUserExist(withUsername: identity) { exist in
-            if !exist {
-                FirestoreHelper.sharedInstance.createUser(identity: identity) { error in
-                    guard error == nil else {
-                        Log.error("Firebase: creating user failed with error: \(error!.localizedDescription)")
-                        completion(error)
-                        return
-                    }
-
-                    completion(nil)
-                }
-            }
-        }
-    }
 
     private func setUpVirgil(identity: String, password: String, token: String, completion: @escaping (Error?) -> ()) {
         let tokenCallback = makeTokenCallback(identity: identity, firebaseToken: token)

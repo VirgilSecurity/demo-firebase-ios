@@ -19,13 +19,6 @@ class AuthenticationController: ViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        try? E3KitHelper.sharedInstance?.cleanUp()
-
-        FirestoreHelper.sharedInstance.channelListListener?.remove()
-        FirestoreHelper.sharedInstance.channelListListener = nil
-
-        CoreDataHelper.sharedInstance.setCurrent(account: nil)
         
         self.idTextField.delegate = self
         self.passwordTextField.delegate = self
