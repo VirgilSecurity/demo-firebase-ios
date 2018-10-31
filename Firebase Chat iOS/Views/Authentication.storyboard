@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bD1-ji-dcc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bD1-ji-dcc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -117,6 +117,7 @@
                         <outlet property="bottomConstraint" destination="LCc-iS-82C" id="BM1-gF-vpa"/>
                         <outlet property="idTextField" destination="jHS-IW-Yyr" id="6fh-9f-uXa"/>
                         <outlet property="passwordTextField" destination="Gq4-hB-8fE" id="Zrf-vn-MUO"/>
+                        <segue destination="1kK-ui-36F" kind="show" identifier="goToKeyPassword" id="wOv-QF-bPO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QCX-BC-J2U" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -127,6 +128,14 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-18.399999999999999" y="-200.14992503748127"/>
+        </scene>
+        <!--KeyPassword-->
+        <scene sceneID="FE3-pl-Htd">
+            <objects>
+                <viewControllerPlaceholder storyboardName="KeyPassword" id="1kK-ui-36F" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pG5-C3-3ad" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="730" y="-201"/>
         </scene>
     </scenes>
 </document>

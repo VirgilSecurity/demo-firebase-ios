@@ -80,7 +80,8 @@ class AuthenticationController: ViewController {
                 self.alert("Sign in failed with error: \(error!.localizedDescription)")
                 return
             }
-            self.goToChatList()
+
+            self.performSegue(withIdentifier: "goToKeyPassword", sender: self)
         }
     }
 
@@ -104,7 +105,8 @@ class AuthenticationController: ViewController {
                 self.alert("Sign up failed with error: \(error!.localizedDescription)")
                 return
             }
-            self.goToChatList()
+
+            self.performSegue(withIdentifier: "goToKeyPassword", sender: self)
         }
     }
 
@@ -116,13 +118,11 @@ class AuthenticationController: ViewController {
         }
     }
 
-    private func goToChatList() {
-        DispatchQueue.main.async {
-            PKHUD.sharedHUD.hide(true) { _ in
-                let vc = UIStoryboard(name: "TabBar", bundle: Bundle.main).instantiateInitialViewController() as! UINavigationController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
 
-                self.switchNavigationStack(to: vc)
-            }
+        if let keyPasswordController = segue.destination as? KeyPasswordController {
+            // keyPasswordController.title = CoreDataHelper.sharedInstance.currentChannel?.name
         }
     }
 

@@ -52,7 +52,7 @@ class UserAuthorizer {
                     return
                 }
 
-                self.setUpVirgil(identity: identity, password: password, token: token) { error in
+                self.setUpVirgil(identity: identity, token: token) { error in
                     guard error == nil else {
                         completion(error)
                         return
@@ -89,7 +89,7 @@ class UserAuthorizer {
                     return
                 }
 
-                self.setUpVirgil(identity: identity, password: password, token: token) { error in
+                self.setUpVirgil(identity: identity, token: token) { error in
                     guard error == nil else {
                         reverseCreatingUser()
                         completion(error)
@@ -105,7 +105,7 @@ class UserAuthorizer {
 
     // MARK: - Private API
 
-    private func setUpVirgil(identity: String, password: String, token: String, completion: @escaping (Error?) -> ()) {
+    private func setUpVirgil(identity: String, token: String, completion: @escaping (Error?) -> ()) {
         let tokenCallback = makeTokenCallback(identity: identity, firebaseToken: token)
         E3KitHelper.initialize(tokenCallback: tokenCallback) { error in
             guard error == nil else {
@@ -113,7 +113,7 @@ class UserAuthorizer {
                 return
             }
 
-            E3KitHelper.sharedInstance.bootstrap(password: password) { error in
+            E3KitHelper.sharedInstance.bootstrap { error in
                 completion(error)
             }
         }
