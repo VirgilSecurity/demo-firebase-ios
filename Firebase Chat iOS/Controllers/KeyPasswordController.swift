@@ -10,6 +10,7 @@ import UIKit
 import PKHUD
 
 class KeyPasswordController: ViewController {
+    @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
@@ -50,8 +51,22 @@ class KeyPasswordController: ViewController {
     }
 
     @IBAction func confirmTapped(_ sender: Any) {
+        guard let password = self.passwordTextField.text else {
+            self.passwordTextField.becomeFirstResponder()
+            return
+        }
+        self.view.endEditing(true)
 
-        //E3KitHelper.sharedInstance.backupPrivateKey(password: , completion: )
+        PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        PKHUD.sharedHUD.show()
+
+        E3KitHelper.sharedInstance.backupPrivateKey(password: password) { error in
+            guard error == nil else {
+                self.alert("Setting key password failed with error: \(error!.localizedDescription)")
+                return
+            }
+            self.goToChatList()
+        }
     }
 
     @IBAction func laterTapped(_ sender: Any) {
@@ -63,6 +78,14 @@ class KeyPasswordController: ViewController {
             let vc = UIStoryboard(name: "TabBar", bundle: Bundle.main).instantiateInitialViewController() as! UINavigationController
 
             self.switchNavigationStack(to: vc)
+        }
+    }
+
+    override func alert(_ message: String) {
+        DispatchQueue.main.async {
+            PKHUD.sharedHUD.hide(true) { _ in
+                super.alert(message)
+            }
         }
     }
 }
