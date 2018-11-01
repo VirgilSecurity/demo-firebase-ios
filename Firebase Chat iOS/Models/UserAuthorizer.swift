@@ -40,8 +40,7 @@ class UserAuthorizer {
     }
 
     func signIn(identity: String, password: String, completion: @escaping (Error?) -> ()) {
-        let email = self.makeFakeEmail(from: identity)
-        Auth.auth().signIn(withEmail: email, password: password) { authDataResult, error in
+        Auth.auth().signIn(withEmail: identity, password: password) { authDataResult, error in
             guard let authDataResult = authDataResult, error == nil else {
                 completion(error)
                 return
@@ -67,8 +66,7 @@ class UserAuthorizer {
     }
 
     func signUp(identity: String, password: String, completion: @escaping (Error?) -> ()) {
-        let email = self.makeFakeEmail(from: identity)
-        Auth.auth().createUser(withEmail: email, password: password) { authDataResult, error in
+        Auth.auth().createUser(withEmail: identity, password: password) { authDataResult, error in
             guard let authDataResult = authDataResult, error == nil else {
                 completion(error)
                 return
@@ -120,13 +118,14 @@ class UserAuthorizer {
     }
 
     private func makeTokenCallback(identity: String, firebaseToken token: String) -> EThree.RenewJwtCallback {
+        let headers = ["Content-Type": "application/json",
+                       "Authorization": "Bearer " + token]
+
         let tokenCallback: EThree.RenewJwtCallback = { completion in
             let connection = ServiceConnection()
             let jwtRequest = try? ServiceRequest(url: URL(string: AppDelegate.jwtEndpoint)!,
                                                  method: ServiceRequest.Method.post,
-                                                 headers: ["Content-Type": "application/json",
-                                                           "Authorization": "Bearer " + token],
-                                                 params: ["identity": identity])
+                                                 headers: headers)
             guard let request = jwtRequest,
                 let jwtResponse = try? connection.send(request),
                 let responseBody = jwtResponse.body,
@@ -141,9 +140,5 @@ class UserAuthorizer {
         }
 
         return tokenCallback
-    }
-
-    private func makeFakeEmail(from id: String) -> String {
-        return id + "@virgilfirebase.com"
     }
 }
