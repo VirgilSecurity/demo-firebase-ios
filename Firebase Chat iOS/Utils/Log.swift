@@ -20,7 +20,7 @@ class Log {
     }
 
     private class func log(_ closure: @autoclosure () -> String, functionName: String = #function, file: String = #file, line: UInt = #line) {
-        let str = "VIRGILMESSENGER_LOG: \(functionName) : \(closure())"
+        let str = "VIRGILFIREBASE_LOG: \(functionName) : \(closure())"
         Log.writeInLog(str)
     }
 
