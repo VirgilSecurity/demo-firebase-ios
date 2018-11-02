@@ -8,6 +8,7 @@
 
 import FirebaseAuth
 import VirgilE3Kit
+import VirgilSDK
 
 class UserAuthorizer {
     func signIn(completion: @escaping (Bool) -> ()) {
@@ -122,12 +123,11 @@ class UserAuthorizer {
                        "Authorization": "Bearer " + token]
 
         let tokenCallback: EThree.RenewJwtCallback = { completion in
-            let connection = ServiceConnection()
-            let jwtRequest = try? ServiceRequest(url: URL(string: AppDelegate.jwtEndpoint)!,
-                                                 method: ServiceRequest.Method.post,
-                                                 headers: headers)
-            guard let request = jwtRequest,
-                let jwtResponse = try? connection.send(request),
+            let connection = HttpConnection()
+            let requestURL = URL(string: AppDelegate.jwtEndpoint)!
+            let request = Request(url: requestURL, method: .post, headers: headers)
+
+            guard let jwtResponse = try? connection.send(request),
                 let responseBody = jwtResponse.body,
                 let json = try? JSONSerialization.jsonObject(with: responseBody, options: []) as? [String: Any],
                 let jwtStr = json?["token"] as? String else {
