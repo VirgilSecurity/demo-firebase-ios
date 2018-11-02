@@ -16,34 +16,37 @@ extension FirestoreHelper {
             completion(nil)
             return
         }
-        let channelReference = self.channelCollection.document(channel)
-        let messagesCollection = channelReference.collection(Collections.messages.rawValue)
 
-        channelReference.getDocument { snapshot, error in
-            guard let snapshot = snapshot, error == nil else {
-                Log.error("Firestore: get user document failed with error: (\(error?.localizedDescription ?? "unknown error")")
-                completion(error)
-                return
-            }
-            let count = (snapshot.data()?[Keys.count.rawValue] as? Int) ?? 0
+        let channelDocRef = self.channelCollection.document(channel)
+        let messagesCollection = channelDocRef.collection(Collections.messages.rawValue)
 
-            messagesCollection.document("\(count)").setData([
-                Keys.body.rawValue: message,
-                Keys.sender.rawValue: currentUser,
-                Keys.receiver.rawValue: receiver,
-                Keys.createdAt.rawValue: Date()
-            ]) { error in
-                guard error == nil else {
-                    completion(error)
-                    return
-                }
-                channelReference.updateData([
-                    Keys.count.rawValue: count + 1
-                ]) { error in
-                    completion(error)
-                }
+        Firestore.firestore().runTransaction({ transaction, errorPointer in
+            do {
+                let channelDoc = try transaction.getDocument(channelDocRef)
+
+                let messagesCount = (channelDoc.data()?[Keys.count.rawValue] as? Int) ?? 0
+                let messageDoc = messagesCollection.document("\(messagesCount)")
+                let messageData: [String: Any] = [Keys.body.rawValue: message,
+                                                  Keys.sender.rawValue: currentUser,
+                                                  Keys.receiver.rawValue: receiver,
+                                                  Keys.createdAt.rawValue: Date()]
+                transaction.setData(messageData, forDocument: messageDoc)
+
+                let updatedCountData = [Keys.count.rawValue: messagesCount + 1]
+                transaction.updateData(updatedCountData, forDocument: channelDocRef)
+
+                return nil
+            } catch {
+                errorPointer?.pointee = error as NSError
+                return nil
             }
-        }
+        }, completion: { object, error in
+            if let error = error {
+                Log.error("Firebase: writing message transaction failed with error: \(error.localizedDescription)")
+            }
+
+            completion(error)
+        })
     }
 
     func blindMessageBody(messageNumber: String, channel: String, sender: String,

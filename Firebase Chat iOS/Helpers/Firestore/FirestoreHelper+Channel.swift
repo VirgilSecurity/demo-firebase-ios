@@ -18,11 +18,11 @@ extension FirestoreHelper {
             return
         }
 
-        Firestore.firestore().runTransaction({ transaction, errorPointer in
-            let user1DocRef = self.userCollection.document(user1)
-            let user2DocRef = self.userCollection.document(user2)
-            let channelDocRef = self.channelCollection.document(name)
+        let user1DocRef = self.userCollection.document(user1)
+        let user2DocRef = self.userCollection.document(user2)
+        let channelDocRef = self.channelCollection.document(name)
 
+        Firestore.firestore().runTransaction({ transaction, errorPointer in
             do {
                 let user1Doc = try transaction.getDocument(user1DocRef)
                 let user2Doc = try transaction.getDocument(user2DocRef)
@@ -50,12 +50,11 @@ extension FirestoreHelper {
                 return nil
             } catch {
                 errorPointer?.pointee = error as NSError
-
                 return nil
             }
         }, completion: { object, error in
             if let error = error {
-                Log.error("Firebase channel creation failed with error: \(error.localizedDescription)")
+                Log.error("Firebase: channel creation failed with error: \(error.localizedDescription)")
             }
             
             completion(error)
@@ -71,6 +70,7 @@ extension FirestoreHelper {
                     completion([], error)
                     return
             }
+
             completion(channels, nil)
         }
     }
