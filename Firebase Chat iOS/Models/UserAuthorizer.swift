@@ -21,7 +21,7 @@ class UserAuthorizer {
                     return
                 }
 
-                let tokenCallback = self.makeTokenCallback(identity: identity, firebaseToken: token)
+                let tokenCallback = self.makeTokenCallback(firebaseToken: token)
                 E3KitHelper.initialize(tokenCallback: tokenCallback) { error in
                     guard error == nil else {
                         Log.error("Virgil init with error: \(error!.localizedDescription)")
@@ -54,7 +54,7 @@ class UserAuthorizer {
                     return
                 }
 
-                self.setUpVirgil(identity: identity, password: password, token: token) { error in
+                self.setUpVirgil(identity: user.uid, password: password, token: token) { error in
                     guard error == nil else {
                         completion(error)
                         return
@@ -91,7 +91,7 @@ class UserAuthorizer {
                     return
                 }
 
-                self.setUpVirgil(identity: identity, password: password, token: token) { error in
+                self.setUpVirgil(identity: user.uid, password: password, token: token) { error in
                     guard error == nil else {
                         reverseCreatingUser()
                         completion(error)
@@ -108,20 +108,18 @@ class UserAuthorizer {
     // MARK: - Private API
 
     private func setUpVirgil(identity: String, password: String, token: String, completion: @escaping (Error?) -> ()) {
-        let tokenCallback = makeTokenCallback(identity: identity, firebaseToken: token)
+        let tokenCallback = makeTokenCallback(firebaseToken: token)
         E3KitHelper.initialize(tokenCallback: tokenCallback) { error in
             guard error == nil else {
                 completion(error)
                 return
             }
 
-            E3KitHelper.sharedInstance.bootstrap(password: password) { error in
-                completion(error)
-            }
+            E3KitHelper.sharedInstance.bootstrap(password: password, completion: completion)
         }
     }
 
-    private func makeTokenCallback(identity: String, firebaseToken token: String) -> EThree.RenewJwtCallback {
+    private func makeTokenCallback(firebaseToken token: String) -> EThree.RenewJwtCallback {
         let headers = ["Content-Type": "application/json",
                        "Authorization": "Bearer " + token]
 
