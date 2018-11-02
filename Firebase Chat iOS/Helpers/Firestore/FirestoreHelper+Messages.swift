@@ -24,15 +24,15 @@ extension FirestoreHelper {
             do {
                 let channelDoc = try transaction.getDocument(channelDocRef)
 
-                let messagesCount = (channelDoc.data()?[Keys.count.rawValue] as? Int) ?? 0
-                let messageDoc = messagesCollection.document("\(messagesCount)")
+                let messagesNumber = (channelDoc.data()?[Keys.count.rawValue] as? Int) ?? 0
+                let messageDoc = messagesCollection.document("\(messagesNumber)")
                 let messageData: [String: Any] = [Keys.body.rawValue: message,
                                                   Keys.sender.rawValue: currentUser,
                                                   Keys.receiver.rawValue: receiver,
                                                   Keys.createdAt.rawValue: Date()]
                 transaction.setData(messageData, forDocument: messageDoc)
 
-                let updatedCountData = [Keys.count.rawValue: messagesCount + 1]
+                let updatedCountData = [Keys.count.rawValue: messagesNumber + 1]
                 transaction.updateData(updatedCountData, forDocument: channelDocRef)
 
                 return nil
@@ -49,22 +49,18 @@ extension FirestoreHelper {
         })
     }
 
-    func blindMessageBody(messageNumber: String, channel: String, sender: String,
-                          receiver: String, date: Date) {
+    func blindMessageBody(messageNumber: String, channel: String, completion: @escaping (Error?) -> ()) {
         let channelReference = self.channelCollection.document(channel)
         let messagesCollection = channelReference.collection(Collections.messages.rawValue)
 
-        messagesCollection.document("\(messageNumber)").setData([
-            Keys.body.rawValue: "",
-            Keys.sender.rawValue: sender,
-            Keys.receiver.rawValue: receiver,
-            Keys.createdAt.rawValue: date
-        ]) { error in
+        let updatedBodyData = [Keys.body.rawValue: ""]
+
+        messagesCollection.document("\(messageNumber)").updateData(updatedBodyData) { error in
             if let error = error {
                 Log.debug("Blinding message failed with error: \(error.localizedDescription)")
             }
 
-            return
+            completion(error)
         }
     }
 
