@@ -75,7 +75,7 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        userAuthorizer.signIn(identity: id, password: password) { error in
+        userAuthorizer.signIn(email: id, password: password) { error in
             guard error == nil else {
                 self.alert("Sign in failed with error: \(error!.localizedDescription)")
                 return
@@ -99,7 +99,7 @@ class AuthenticationController: ViewController {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.show()
 
-        userAuthorizer.signUp(identity: id, password: password) { error in
+        userAuthorizer.signUp(email: id, password: password) { error in
             guard error == nil else {
                 self.alert("Sign up failed with error: \(error!.localizedDescription)")
                 return

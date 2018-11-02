@@ -10,21 +10,22 @@ import Foundation
 import CoreData
 
 extension CoreDataHelper {
-    func createChannel(withName name: String, globalName: String) -> Channel? {
+    func createChannel(withUserInfo userInfo: UserInfo, globalName: String) -> Channel? {
         guard let account = self.currentAccount else {
             Log.error("Core Data: nil account")
             return nil
         }
 
         guard let entity = NSEntityDescription.entity(forEntityName: Entities.channel.rawValue, in: self.managedContext) else {
-            Log.error("Core Data: entity not found: " + Entities.channel.rawValue)
+            Log.error("Core Data: Entity not found: " + Entities.channel.rawValue)
             return nil
         }
 
         let channel = Channel(entity: entity, insertInto: self.managedContext)
 
-        channel.name = name
+        channel.name = userInfo.username
         channel.globalName = globalName
+        channel.uid = userInfo.uid
 
         let channels = account.mutableOrderedSetValue(forKey: Keys.channels.rawValue)
 
@@ -42,14 +43,16 @@ extension CoreDataHelper {
     func loadChannel(withName username: String) -> Bool {
         if let channel = self.getChannel(withName: username) {
             self.setCurrent(channel: channel)
+
             return true
         }
+
         return false
     }
 
     func getChannel(withName username: String) -> Channel? {
         guard let account = self.currentAccount, let channels = account.channels else {
-            Log.error("Core Data: nil account core data")
+            Log.error("Core Data: nil account")
             return nil
         }
 
@@ -64,6 +67,7 @@ extension CoreDataHelper {
                 return channel
             }
         }
+
         Log.error("Core Data: channel not found")
         return nil
     }
@@ -89,6 +93,7 @@ extension CoreDataHelper {
                     return
                 }
             }
+
             Log.error("Core Data: channel not found")
             self.appDelegate.saveContext()
         }

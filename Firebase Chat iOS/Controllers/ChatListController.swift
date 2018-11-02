@@ -44,19 +44,21 @@ class ChatListController: ViewController {
                 Log.error("processing new channel failed")
                 return
         }
+
         guard let id = CoreDataHelper.sharedInstance.currentAccount?.identity else {
             Log.error("Getting current user id from Core Data failed")
             return
         }
+
         for channel in channels {
             if !CoreDataHelper.sharedInstance.doesChannelExist(withGlobalName: channel) {
-                FirestoreHelper.sharedInstance.getChannelMembers(channel: channel) { members, error in
-                    let newChannelName = members.filter { $0 != id }.first
-                    guard error == nil, let name = newChannelName else {
-                        Log.error("Getting channel members failed")
+                FirestoreHelper.sharedInstance.getChannelCompanion(channel: channel, currentUser:id) { userInfo, error in
+                    guard error == nil, let userInfo = userInfo else {
+                        Log.error("Getting channel companion failed")
                         return
                     }
-                    _ = CoreDataHelper.sharedInstance.createChannel(withName: name, globalName: channel)
+
+                    _ = CoreDataHelper.sharedInstance.createChannel(withUserInfo: userInfo, globalName: channel)
                     self.tableView.reloadData()
                 }
             }

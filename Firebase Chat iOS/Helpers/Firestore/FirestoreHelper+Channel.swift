@@ -75,16 +75,27 @@ extension FirestoreHelper {
         }
     }
 
-    func getChannelMembers(channel: String, completion: @escaping ([String], Error?) -> ()) {
+    func getChannelCompanion(channel: String, currentUser: String, completion: @escaping (UserInfo?, Error?) -> ()) {
         let channelReference = self.channelCollection.document(channel)
         channelReference.getDocument { snapshot, error in
             guard error == nil, let snapshot = snapshot,
-                let members = snapshot.get(Keys.members.rawValue) as? [String] else {
+                let members = snapshot.get(Keys.members.rawValue) as? [[String: String]] else {
                     Log.debug("Firebase: get channel members failed")
-                    completion([], error)
+                    completion(nil, error)
                     return
             }
-            completion(members, nil)
+            let companionOptional = members.filter { $0[Keys.username.rawValue] != currentUser }.first
+
+            guard let companion = companionOptional,
+                let username = companion[Keys.username.rawValue],
+                let uid = companion[Keys.uid.rawValue] else {
+                    // FIXME
+                    completion(nil, NSError())
+                    return
+            }
+            let companionInfo = UserInfo(username: username, uid: uid)
+
+            completion(companionInfo, nil)
         }
     }
 

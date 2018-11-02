@@ -13,7 +13,6 @@ import VirgilSDK
 class UserAuthorizer {
     func signIn(completion: @escaping (Bool) -> ()) {
         if let user = Auth.auth().currentUser, let email = user.email {
-            let identity = email.replacingOccurrences(of: "@virgilfirebase.com", with: "")
             user.getIDToken { token, error in
                 guard error == nil, let token = token else {
                     Log.error("Get ID Token with error: \(error?.localizedDescription ?? "unknown error")")
@@ -28,8 +27,8 @@ class UserAuthorizer {
                         completion(false)
                         return
                     }
-                    CoreDataHelper.sharedInstance.setUpAccount(withIdentity: identity)
-                    FirestoreHelper.sharedInstance.setUpUser(identity: identity, uid: user.uid,
+                    CoreDataHelper.sharedInstance.setUpAccount(withIdentity: email)
+                    FirestoreHelper.sharedInstance.setUpUser(username: email, uid: user.uid,
                                                              completion: { completion($0 == nil ? true : false) })
 
                     completion(true)
@@ -40,8 +39,8 @@ class UserAuthorizer {
         }
     }
 
-    func signIn(identity: String, password: String, completion: @escaping (Error?) -> ()) {
-        Auth.auth().signIn(withEmail: identity, password: password) { authDataResult, error in
+    func signIn(email: String, password: String, completion: @escaping (Error?) -> ()) {
+        Auth.auth().signIn(withEmail: email, password: password) { authDataResult, error in
             guard let authDataResult = authDataResult, error == nil else {
                 completion(error)
                 return
@@ -54,13 +53,14 @@ class UserAuthorizer {
                     return
                 }
 
-                self.setUpVirgil(identity: user.uid, password: password, token: token) { error in
+                self.setUpVirgil(password: password, token: token) { error in
                     guard error == nil else {
                         completion(error)
                         return
                     }
-                    CoreDataHelper.sharedInstance.setUpAccount(withIdentity: identity)
-                    FirestoreHelper.sharedInstance.setUpUser(identity: identity, uid: user.uid, completion: completion)
+                    CoreDataHelper.sharedInstance.setUpAccount(withIdentity: email)
+                    FirestoreHelper.sharedInstance.setUpUser(username: email, uid: user.uid,
+                                                             completion: completion)
 
                     completion(nil)
                 }
@@ -68,8 +68,8 @@ class UserAuthorizer {
         }
     }
 
-    func signUp(identity: String, password: String, completion: @escaping (Error?) -> ()) {
-        Auth.auth().createUser(withEmail: identity, password: password) { authDataResult, error in
+    func signUp(email: String, password: String, completion: @escaping (Error?) -> ()) {
+        Auth.auth().createUser(withEmail: email, password: password) { authDataResult, error in
             guard let authDataResult = authDataResult, error == nil else {
                 completion(error)
                 return
@@ -91,15 +91,16 @@ class UserAuthorizer {
                     return
                 }
 
-                self.setUpVirgil(identity: user.uid, password: password, token: token) { error in
+                self.setUpVirgil(password: password, token: token) { error in
                     guard error == nil else {
                         reverseCreatingUser()
                         completion(error)
                         return
                     }
 
-                    CoreDataHelper.sharedInstance.createAccount(withIdentity: identity)
-                    FirestoreHelper.sharedInstance.setUpUser(identity: identity, uid: user.uid, completion: completion)
+                    CoreDataHelper.sharedInstance.createAccount(withIdentity: email)
+                    FirestoreHelper.sharedInstance.setUpUser(username: email, uid: user.uid,
+                                                             completion: completion)
                 }
             }
         }
@@ -107,7 +108,7 @@ class UserAuthorizer {
 
     // MARK: - Private API
 
-    private func setUpVirgil(identity: String, password: String, token: String, completion: @escaping (Error?) -> ()) {
+    private func setUpVirgil(password: String, token: String, completion: @escaping (Error?) -> ()) {
         let tokenCallback = makeTokenCallback(firebaseToken: token)
         E3KitHelper.initialize(tokenCallback: tokenCallback) { error in
             guard error == nil else {

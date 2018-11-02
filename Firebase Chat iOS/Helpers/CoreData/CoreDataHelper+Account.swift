@@ -12,7 +12,7 @@ import CoreData
 extension CoreDataHelper {
     func createAccount(withIdentity identity: String) {
         guard let entity = NSEntityDescription.entity(forEntityName: Entities.account.rawValue, in: self.managedContext) else {
-            Log.error("Core Data: entity not found: " + Entities.account.rawValue)
+            Log.error("Core Data: Entity not found: " + Entities.account.rawValue)
             return
         }
 
@@ -22,7 +22,7 @@ extension CoreDataHelper {
         self.append(account: account)
         self.setCurrent(account: account)
 
-        Log.debug("Core Data: account created")
+        Log.debug("Core Data: Account created")
 
         self.appDelegate.saveContext()
     }
@@ -32,13 +32,12 @@ extension CoreDataHelper {
         for account in self.accounts {
             if let identity = account.identity, identity == username {
                 self.setCurrent(account: account)
-                Log.debug("Core Data: found account: " + identity)
-                let channels = account.channels
-                Log.debug("Core Data: it has " + String(describing: channels?.count) + " channels")
+                Log.debug("Core Data: Found account: " + identity)
                 return
             }
         }
-        Log.debug("Core Data: Searching for account ended")
+        Log.debug("Core Data: No account found")
+
         throw CoreDataHelperError.missingAccount
     }
 
