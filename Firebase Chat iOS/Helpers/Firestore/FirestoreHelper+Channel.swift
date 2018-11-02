@@ -10,65 +10,56 @@ import Foundation
 import Firebase
 
 extension FirestoreHelper {
-    func createChannel(currentUser: String, user: String, completion: @escaping (Error?) -> ()) {
-        guard let name = FirestoreHelper.makeChannelName(currentUser, user) else {
+    func createChannel(user1: String, user2: String, completion: @escaping (Error?) -> ()) {
+        guard let name = FirestoreHelper.makeChannelName(user1, user2) else {
             Log.error("Firestore: creating Channel failed")
+            // FIXME
             completion(NSError())
             return
         }
 
-        let group = DispatchGroup()
-        var err: Error?
+        Firestore.firestore().runTransaction({ transaction, errorPointer in
+            let user1DocRef = self.userCollection.document(user1)
+            let user2DocRef = self.userCollection.document(user2)
+            let channelDocRef = self.channelCollection.document(name)
 
-        group.enter()
-        self.channelCollection.document(name).setData([
-            Keys.members.rawValue: [currentUser, user],
-            Keys.count.rawValue: 0
-        ]) { error in
-            err = error
-            group.leave()
-        }
+            do {
+                let user1Doc = try transaction.getDocument(user1DocRef)
+                let user2Doc = try transaction.getDocument(user2DocRef)
 
-        group.enter()
-        self.userCollection.document(currentUser).getDocument { snapshot, error in
-            guard let snapshot = snapshot, error == nil,
-                var channels = snapshot.data()?[Keys.channels.rawValue] as? [String] else {
-                    err = error ?? NSError()
-                    group.leave()
-                    return
-            }
-            channels.append(name)
-            self.userCollection.document(currentUser).updateData([
-                Keys.channels.rawValue: channels
-            ]) { error in
-                err = error
-                group.leave()
-            }
-        }
+                guard let user1ID = user1Doc.data()?[Keys.uid.rawValue],
+                    let user2ID = user2Doc.data()?[Keys.uid.rawValue],
+                    var user1Channels = user1Doc.data()?[Keys.channels.rawValue] as? [String],
+                    var user2Channels = user2Doc.data()?[Keys.channels.rawValue] as? [String] else {
+                        // FIXME
+                        throw NSError()
+                }
+                user1Channels.append(name)
+                user2Channels.append(name)
 
-        group.enter()
-        self.userCollection.document(user).getDocument { snapshot, error in
-            guard let snapshot = snapshot, error == nil,
-                var channels = snapshot.data()?[Keys.channels.rawValue] as? [String] else {
-                    err = error ?? NSError()
-                    group.leave()
-                    return
-            }
-            channels.append(name)
-            self.userCollection.document(user).updateData([
-                Keys.channels.rawValue: channels
-            ]) { error in
-                err = error
-                group.leave()
-            }
-        }
+                let user1Decription = [Keys.username.rawValue: user1, Keys.uid.rawValue: user1ID]
+                let user2Decription = [Keys.username.rawValue: user2, Keys.uid.rawValue: user2ID]
 
-        group.notify(queue: .main) {
-            if let error = err {
+                let channelDocData: [String: Any] = [Keys.members.rawValue: [user1Decription, user2Decription],
+                                                     Keys.count.rawValue: 0] as [String : Any]
+
+                transaction.updateData([Keys.channels.rawValue: user1Channels], forDocument: user1DocRef)
+                transaction.updateData([Keys.channels.rawValue: user2Channels], forDocument: user2DocRef)
+                transaction.setData(channelDocData, forDocument: channelDocRef)
+
+                return nil
+            } catch {
+                errorPointer?.pointee = error as NSError
+
+                return nil
+            }
+        }, completion: { object, error in
+            if let error = error {
                 Log.error("Firebase channel creation failed with error: \(error.localizedDescription)")
             }
-            completion(err)
-        }
+            
+            completion(error)
+        })
     }
 
     func getChannels(of user: String, completion: @escaping ([String], Error?) -> ()) {

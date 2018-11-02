@@ -33,6 +33,8 @@ class FirestoreHelper {
         case body
         case sender
         case receiver
+        case uid
+        case username
     }
 
     enum Notifications: String {

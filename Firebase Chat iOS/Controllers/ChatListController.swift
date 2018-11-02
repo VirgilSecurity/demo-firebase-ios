@@ -110,7 +110,7 @@ class ChatListController: ViewController {
                 return
             }
 
-            FirestoreHelper.sharedInstance.createChannel(currentUser: currentUser, user: username) { error in
+            FirestoreHelper.sharedInstance.createChannel(user1: currentUser, user2: username) { error in
                 guard error == nil else {
                     Log.error("Firebse: creating channel failed with error: (\(error!.localizedDescription)")
                     return

@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     /// URL to your cloud function for getting JWT
     /// - Important: change it to your own from [Firebase Console](https://console.firebase.google.com)
-    static let jwtEndpoint = "https://us-central1-fir-chat-ios-2c1d0.cloudfunctions.net/api/generate_jwt"
+    static let jwtEndpoint = "https://us-central1-js-chat-ff5ca.cloudfunctions.net/api/generate_jwt"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
