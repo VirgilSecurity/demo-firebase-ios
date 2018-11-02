@@ -29,7 +29,7 @@ class UserAuthorizer {
                         return
                     }
                     CoreDataHelper.sharedInstance.setUpAccount(withIdentity: identity)
-                    FirestoreHelper.sharedInstance.setUpUser(identity: identity,
+                    FirestoreHelper.sharedInstance.setUpUser(identity: identity, uid: user.uid,
                                                              completion: { completion($0 == nil ? true : false) })
 
                     completion(true)
@@ -46,7 +46,9 @@ class UserAuthorizer {
                 completion(error)
                 return
             }
-            authDataResult.user.getIDToken { token, error in
+
+            let user = authDataResult.user
+            user.getIDToken { token, error in
                 guard error == nil, let token = token else {
                     completion(error)
                     return
@@ -58,7 +60,7 @@ class UserAuthorizer {
                         return
                     }
                     CoreDataHelper.sharedInstance.setUpAccount(withIdentity: identity)
-                    FirestoreHelper.sharedInstance.setUpUser(identity: identity, completion: completion)
+                    FirestoreHelper.sharedInstance.setUpUser(identity: identity, uid: user.uid, completion: completion)
 
                     completion(nil)
                 }
@@ -81,6 +83,7 @@ class UserAuthorizer {
                 }
             }
 
+            let user = authDataResult.user
             authDataResult.user.getIDToken { token, error in
                 guard error == nil, let token = token else {
                     reverseCreatingUser()
@@ -96,7 +99,7 @@ class UserAuthorizer {
                     }
 
                     CoreDataHelper.sharedInstance.createAccount(withIdentity: identity)
-                    FirestoreHelper.sharedInstance.setUpUser(identity: identity, completion: completion)
+                    FirestoreHelper.sharedInstance.setUpUser(identity: identity, uid: user.uid, completion: completion)
                 }
             }
         }

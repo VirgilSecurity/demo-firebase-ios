@@ -10,35 +10,33 @@ import Foundation
 import Firebase
 
 extension FirestoreHelper {
-    func setUpUser(identity: String, completion: @escaping (Error?) -> ()) {
+    func setUpUser(identity: String, uid: String, completion: @escaping (Error?) -> ()) {
         self.doesUserExist(withUsername: identity) { exist in
             if !exist {
-                self.createUser(identity: identity) { error in
-                    guard error == nil else {
-                        Log.error("Firebase: creating user failed with error: \(error!.localizedDescription)")
-                        completion(error)
-                        return
+                self.createUser(identity: identity, uid: uid) { error in
+                    if let error = error {
+                        Log.error("Firebase: creating user failed with error: \(error.localizedDescription)")
                     }
 
-                    completion(nil)
+                    completion(error)
                 }
             }
         }
     }
 
-    func createUser(identity: String, completion: @escaping (Error?) -> ()) {
+    func createUser(identity: String, uid: String, completion: @escaping (Error?) -> ()) {
         let userReference = self.userCollection.document(identity)
-        userReference.setData([
-            Keys.createdAt.rawValue: Date(),
-            Keys.channels.rawValue: []
-        ]) { error in
-            guard error == nil else {
-                completion(error)
-                return
-            }
-            Log.debug("Firebase: user created")
 
-            completion(nil)
+        let userData: [String: Any] = [Keys.uid.rawValue: uid,
+                                       Keys.createdAt.rawValue: Date(),
+                                       Keys.channels.rawValue: []]
+
+        userReference.setData(userData) { error in
+            if let error = error {
+                Log.error("Firebase: creating user failed with error: \(error.localizedDescription)")
+            }
+
+            completion(error)
         }
     }
 
