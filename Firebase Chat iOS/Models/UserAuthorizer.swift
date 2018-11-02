@@ -131,7 +131,7 @@ class UserAuthorizer {
         let tokenCallback: EThree.RenewJwtCallback = { completion in
             let connection = HttpConnection()
             let requestURL = URL(string: AppDelegate.jwtEndpoint)!
-            let request = Request(url: requestURL, method: .post, headers: headers)
+            let request = Request(url: requestURL, method: .get, headers: headers)
 
             guard let jwtResponse = try? connection.send(request),
                 let responseBody = jwtResponse.body,
