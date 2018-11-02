@@ -27,7 +27,6 @@ class E3KitHelper {
     /// - Returns: hex encoded String with SHA256 hash
     static func makeHash(from string: String) -> String? {
         guard let data = string.data(using: .utf8) else {
-            Log.error("String to data failed")
             return nil
         }
         

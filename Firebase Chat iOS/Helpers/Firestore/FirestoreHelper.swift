@@ -9,6 +9,13 @@
 import Foundation
 import Firebase
 
+enum FirestoreHelperError: String, Error {
+    case makeChannelNameFailed
+    case corruptedUser
+    case corruptedChannel
+    case companionNotFound
+}
+
 class FirestoreHelper {
     static private(set) var sharedInstance: FirestoreHelper!
     static var tokenChangeListener: IDTokenDidChangeListenerHandle?

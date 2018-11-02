@@ -45,14 +45,14 @@ class ChatListController: ViewController {
                 return
         }
 
-        guard let id = CoreDataHelper.sharedInstance.currentAccount?.identity else {
+        guard let username = CoreDataHelper.sharedInstance.currentAccount?.identity else {
             Log.error("Getting current user id from Core Data failed")
             return
         }
 
         for channel in channels {
             if !CoreDataHelper.sharedInstance.doesChannelExist(withGlobalName: channel) {
-                FirestoreHelper.sharedInstance.getChannelCompanion(channel: channel, currentUser:id) { userInfo, error in
+                FirestoreHelper.sharedInstance.getChannelCompanion(channel: channel, currentUser: username) { userInfo, error in
                     guard error == nil, let userInfo = userInfo else {
                         Log.error("Getting channel companion failed")
                         return
@@ -170,13 +170,13 @@ extension ChatListController: CellTapDelegate {
                 return
             }
             guard let currentChannel = CoreDataHelper.sharedInstance.currentChannel,
-                let globalName = currentChannel.globalName else {
+                let globalName = currentChannel.globalName, let uid = currentChannel.uid else {
                     self.alert("Get current channel failed")
                     self.view.isUserInteractionEnabled = true
                     return
             }
 
-            E3KitHelper.sharedInstance.lookupPublicKeys(of: [username]) { publicKeys, errors in
+            E3KitHelper.sharedInstance.lookupPublicKeys(of: [uid]) { publicKeys, errors in
                 guard errors.isEmpty, !publicKeys.isEmpty else {
                     self.alert("LookUpPublicKeys failed")
                     self.view.isUserInteractionEnabled = true

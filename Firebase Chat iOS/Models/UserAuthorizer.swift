@@ -10,6 +10,10 @@ import FirebaseAuth
 import VirgilE3Kit
 import VirgilSDK
 
+enum UserAuthorizerError: String, Error {
+    case gettingJwtFailed
+}
+
 class UserAuthorizer {
     func signIn(completion: @escaping (Bool) -> ()) {
         if let user = Auth.auth().currentUser, let email = user.email {
@@ -134,7 +138,7 @@ class UserAuthorizer {
                 let json = try? JSONSerialization.jsonObject(with: responseBody, options: []) as? [String: Any],
                 let jwtStr = json?["token"] as? String else {
                     Log.error("Getting JWT failed")
-                    completion(nil, NSError())
+                    completion(nil, UserAuthorizerError.gettingJwtFailed)
                     return
             }
 

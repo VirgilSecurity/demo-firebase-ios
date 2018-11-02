@@ -12,9 +12,8 @@ import Firebase
 extension FirestoreHelper {
     func createChannel(user1: String, user2: String, completion: @escaping (Error?) -> ()) {
         guard let name = FirestoreHelper.makeChannelName(user1, user2) else {
-            Log.error("Firestore: creating Channel failed")
-            // FIXME
-            completion(NSError())
+            Log.error("Firestore: Making Channel name failed")
+            completion(FirestoreHelperError.makeChannelNameFailed)
             return
         }
 
@@ -31,8 +30,7 @@ extension FirestoreHelper {
                     let user2ID = user2Doc.data()?[Keys.uid.rawValue],
                     var user1Channels = user1Doc.data()?[Keys.channels.rawValue] as? [String],
                     var user2Channels = user2Doc.data()?[Keys.channels.rawValue] as? [String] else {
-                        // FIXME
-                        throw NSError()
+                        throw FirestoreHelperError.corruptedUser
                 }
                 user1Channels.append(name)
                 user2Channels.append(name)
@@ -66,7 +64,7 @@ extension FirestoreHelper {
         userReference.getDocument { snapshot, error in
             guard error == nil, let snapshot = snapshot,
                 let channels = snapshot.get(Keys.channels.rawValue) as? [String] else {
-                    Log.debug("Firebase: get channels failed")
+                    Log.debug("Firebase: Get channels failed")
                     completion([], error)
                     return
             }
@@ -78,24 +76,30 @@ extension FirestoreHelper {
     func getChannelCompanion(channel: String, currentUser: String, completion: @escaping (UserInfo?, Error?) -> ()) {
         let channelReference = self.channelCollection.document(channel)
         channelReference.getDocument { snapshot, error in
-            guard error == nil, let snapshot = snapshot,
-                let members = snapshot.get(Keys.members.rawValue) as? [[String: String]] else {
-                    Log.debug("Firebase: get channel members failed")
-                    completion(nil, error)
-                    return
-            }
-            let companionOptional = members.filter { $0[Keys.username.rawValue] != currentUser }.first
+            do {
+                guard error == nil, let snapshot = snapshot else {
+                    throw error!
+                }
+                guard let members = snapshot.get(Keys.members.rawValue) as? [[String: String]] else {
+                    throw FirestoreHelperError.corruptedChannel
+                }
 
-            guard let companion = companionOptional,
-                let username = companion[Keys.username.rawValue],
-                let uid = companion[Keys.uid.rawValue] else {
-                    // FIXME
-                    completion(nil, NSError())
-                    return
-            }
-            let companionInfo = UserInfo(username: username, uid: uid)
+                let companionOptional = members.filter { $0[Keys.username.rawValue] != currentUser }.first
+                guard let companion = companionOptional else {
+                    throw FirestoreHelperError.companionNotFound
+                }
 
-            completion(companionInfo, nil)
+                guard let username = companion[Keys.username.rawValue],
+                    let uid = companion[Keys.uid.rawValue] else {
+                        throw FirestoreHelperError.corruptedUser
+                }
+                let companionInfo = UserInfo(username: username, uid: uid)
+
+                completion(companionInfo, nil)
+            } catch {
+                Log.debug("Firebase: Get channel companion failed")
+                completion(nil, error)
+            }
         }
     }
 
