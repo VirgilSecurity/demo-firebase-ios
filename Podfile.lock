@@ -19,6 +19,9 @@ PODS:
   - Firebase/Firestore (5.10.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (= 0.13.5)
+  - Firebase/Messaging (5.10.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (= 3.2.0)
   - FirebaseAnalytics (5.2.0):
     - FirebaseCore (~> 5.1)
     - FirebaseInstanceID (~> 3.2)
@@ -57,6 +60,12 @@ PODS:
     - FirebaseCore (~> 5.1)
     - GoogleUtilities/Environment (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
+  - FirebaseMessaging (3.2.0):
+    - FirebaseCore (~> 5.0)
+    - FirebaseInstanceID (~> 3.0)
+    - GoogleUtilities/Environment (~> 5.2)
+    - GoogleUtilities/Reachability (~> 5.2)
+    - Protobuf (~> 3.1)
   - GoogleAppMeasurement (5.2.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
@@ -143,6 +152,7 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Firestore
+  - Firebase/Messaging
   - PKHUD (~> 5.0)
   - VirgilE3Kit (~> 0.1.1)
 
@@ -158,6 +168,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseFirestore
     - FirebaseInstanceID
+    - FirebaseMessaging
     - GoogleAppMeasurement
     - GoogleUtilities
     - gRPC
@@ -189,6 +200,7 @@ SPEC CHECKSUMS:
   FirebaseCore: c6079de64c1a87000e52e9b408dddcadc901177f
   FirebaseFirestore: 45a9a3045a2dc27f23c13bf832556fe287fbe1b5
   FirebaseInstanceID: 78ba376fcd5b94c001f9999b2cbd3d1f1e56e78d
+  FirebaseMessaging: 000b32447b461b34b6b912b23ec11be20b503b5b
   GoogleAppMeasurement: 2b3a023a61239c8d002e6e4fcf4abce8eddce0e0
   GoogleUtilities: 760ccb53b7c7f40f9c02d8c241f76f841a7a6162
   gRPC: 9d4c549f37c7cef22478634bac7a0405b6e3dbfb
@@ -209,6 +221,6 @@ SPEC CHECKSUMS:
   VirgilSDKKeyknox: 5168c406ff50dd9c693af9ac64e6e3de721b0077
   VirgilSDKPythia: b02b5d22047a0894fbe0b108611ea37d6a88300a
 
-PODFILE CHECKSUM: 4c660f659332f2d184342bc95f45911a2bb7fb55
+PODFILE CHECKSUM: 58285999cd8bb853b8a81c25d52582ee1de591e9
 
 COCOAPODS: 1.6.0.beta.2
