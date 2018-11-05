@@ -25,18 +25,25 @@ extension FirestoreHelper {
     }
 
     func createUser(username: String, uid: String, completion: @escaping (Error?) -> ()) {
-        let userReference = self.userCollection.document(username)
-
-        let userData: [String: Any] = [Keys.uid.rawValue: uid,
-                                       Keys.createdAt.rawValue: Date(),
-                                       Keys.channels.rawValue: []]
-
-        userReference.setData(userData) { error in
-            if let error = error {
-                Log.error("Firebase: creating user failed with error: \(error.localizedDescription)")
+        InstanceID.instanceID().instanceID { (result, error) in
+            guard let token = result?.token, error == nil else {
+                completion(error)
+                return
             }
+            let userReference = self.userCollection.document(username)
 
-            completion(error)
+            let userData: [String: Any] = [Keys.uid.rawValue: uid,
+                                           Keys.registrationToken.rawValue: token,
+                                           Keys.createdAt.rawValue: Date(),
+                                           Keys.channels.rawValue: []]
+
+            userReference.setData(userData) { error in
+                if let error = error {
+                    Log.error("Firebase: creating user failed with error: \(error.localizedDescription)")
+                }
+
+                completion(error)
+            }
         }
     }
 

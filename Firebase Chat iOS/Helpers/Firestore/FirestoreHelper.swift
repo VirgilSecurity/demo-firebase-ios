@@ -42,6 +42,7 @@ class FirestoreHelper {
         case receiver
         case uid
         case username
+        case registrationToken = "registration_token"
     }
 
     enum Notifications: String {
