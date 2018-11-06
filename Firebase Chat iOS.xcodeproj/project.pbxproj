@@ -830,7 +830,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B03BC02E2BAA37018F9CBF2A /* Pods-Firebase Chat iOS.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Firebase Chat iOS/Firebase Chat iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -853,7 +853,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D59C297945A36C1F241BDB39 /* Pods-Firebase Chat iOS.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "Firebase Chat iOS/Firebase Chat iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
