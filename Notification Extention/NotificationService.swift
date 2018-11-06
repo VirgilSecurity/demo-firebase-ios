@@ -27,7 +27,8 @@ class NotificationService: UNNotificationServiceExtension {
         let crypto = VirgilCrypto()
 
         if let bestAttemptContent = bestAttemptContent,
-            let keyEntry = try? keychainStorage.retrieveEntry(withName: "FIXME"),
+            let uid = bestAttemptContent.userInfo["uid"] as? String,
+            let keyEntry = try? keychainStorage.retrieveEntry(withName: uid),
             let privateKey = try? crypto.importPrivateKey(from: keyEntry.data),
             let data = Data(base64Encoded: bestAttemptContent.body),
             let decryptedData = try? crypto.decrypt(data, with: privateKey),

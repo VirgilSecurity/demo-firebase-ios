@@ -88,6 +88,7 @@
 
 /* Begin PBXFileReference section */
 		1608048A2170EEB6002C72A3 /* String+Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Bool.swift"; sourceTree = "<group>"; };
+		161A788C2191ED340013BF14 /* Notification Extention.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Notification Extention.entitlements"; sourceTree = "<group>"; };
 		161A83A520951995005C7807 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		161A83A620951995005C7807 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		162469842084C14500001801 /* Data+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+hex.swift"; sourceTree = "<group>"; };
@@ -377,6 +378,7 @@
 		16FB5C812190924900595A6E /* Notification Extention */ = {
 			isa = PBXGroup;
 			children = (
+				161A788C2191ED340013BF14 /* Notification Extention.entitlements */,
 				16FB5C822190924900595A6E /* NotificationService.swift */,
 				16FB5C842190924900595A6E /* Info.plist */,
 			);
@@ -468,6 +470,9 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -475,6 +480,11 @@
 					};
 					16FB5C7F2190924900595A6E = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -876,6 +886,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7005E46D60AD79C004D91939 /* Pods-Notification Extention.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Notification Extention/Notification Extention.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MS3LY2W55D;
 				INFOPLIST_FILE = "Notification Extention/Info.plist";
@@ -899,6 +910,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9EE40467508B1D8555920A72 /* Pods-Notification Extention.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Notification Extention/Notification Extention.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MS3LY2W55D;
 				INFOPLIST_FILE = "Notification Extention/Info.plist";
