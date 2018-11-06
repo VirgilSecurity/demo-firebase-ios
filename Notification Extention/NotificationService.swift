@@ -7,21 +7,33 @@
 //
 
 import UserNotifications
+import VirgilCryptoApiImpl
+import VirgilSDK
 
 class NotificationService: UNNotificationServiceExtension {
 
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
 
-    override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+    override func didReceive(_ request: UNNotificationRequest,
+                             withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
-        
-        if let bestAttemptContent = bestAttemptContent {
-            // Modify the notification content here...
-            bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
-            
-            contentHandler(bestAttemptContent)
+
+        guard let keychainStorageParams = try? KeychainStorageParams.makeKeychainStorageParams() else {
+            return
+        }
+        let keychainStorage = KeychainStorage(storageParams: keychainStorageParams)
+        let crypto = VirgilCrypto()
+
+        if let bestAttemptContent = bestAttemptContent,
+            let keyEntry = try? keychainStorage.retrieveEntry(withName: "FIXME"),
+            let privateKey = try? crypto.importPrivateKey(from: keyEntry.data),
+            let data = Data(base64Encoded: bestAttemptContent.body),
+            let decryptedData = try? crypto.decrypt(data, with: privateKey),
+            let decryptedString = String(data: decryptedData, encoding: .utf8) {
+                bestAttemptContent.body = decryptedString
+                contentHandler(bestAttemptContent)
         }
     }
     

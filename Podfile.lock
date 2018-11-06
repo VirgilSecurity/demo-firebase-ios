@@ -154,7 +154,9 @@ DEPENDENCIES:
   - Firebase/Firestore
   - Firebase/Messaging
   - PKHUD (~> 5.0)
+  - VirgilCryptoApiImpl (~> 3.2.1)
   - VirgilE3Kit (~> 0.1.1)
+  - VirgilSDK (~> 5.5.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -221,6 +223,6 @@ SPEC CHECKSUMS:
   VirgilSDKKeyknox: 5168c406ff50dd9c693af9ac64e6e3de721b0077
   VirgilSDKPythia: b02b5d22047a0894fbe0b108611ea37d6a88300a
 
-PODFILE CHECKSUM: 58285999cd8bb853b8a81c25d52582ee1de591e9
+PODFILE CHECKSUM: 8db3154cdcad9429ffab736176a0efe14a61a4e3
 
 COCOAPODS: 1.6.0.beta.2

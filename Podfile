@@ -18,6 +18,16 @@ target 'Firebase Chat iOS' do
   pod 'PKHUD', '~> 5.0'
 end
 
+target 'Notification Extention' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Notification Extention
+  pod 'VirgilCryptoApiImpl', '~> 3.2.1'
+  pod 'VirgilSDK', '~> 5.5.0'
+end
+
+
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
