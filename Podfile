@@ -24,7 +24,8 @@ target 'Notification Extention' do
 
   # Pods for Notification Extention
   pod 'VirgilCryptoApiImpl', '~> 3.2.1'
-  pod 'VirgilSDK', '~> 5.5.0'
+  pod 'VirgilSDK', git: 'https://github.com/VirgilSecurity/sdk-x.git', branch: 'develop'
+
 end
 
 

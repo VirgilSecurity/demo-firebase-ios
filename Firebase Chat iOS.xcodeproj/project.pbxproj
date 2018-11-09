@@ -58,8 +58,8 @@
 		16E7E359218C454800FCF961 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E7E358218C454800FCF961 /* UserInfo.swift */; };
 		16FB5C832190924900595A6E /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FB5C822190924900595A6E /* NotificationService.swift */; };
 		16FB5C872190924900595A6E /* Notification Extention.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 16FB5C802190924900595A6E /* Notification Extention.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		34ED68E471151C8438C6C90B /* Pods_Firebase_Chat_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A00A15B3FCF7DC2C7EEFF5 /* Pods_Firebase_Chat_iOS.framework */; };
-		B4CC3701EC7822DC1489278C /* Pods_Notification_Extention.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619F25A52E9AE3BB511B85C1 /* Pods_Notification_Extention.framework */; };
+		3A93E3E2F1FD3FC011333010 /* Pods_Firebase_Chat_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F9BD13E41409F3A90572750 /* Pods_Firebase_Chat_iOS.framework */; };
+		7FA1964DB7B6B5FE9BB59981 /* Pods_Notification_Extention.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8C8E1A09970B55C69A4AE6B /* Pods_Notification_Extention.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,12 +149,12 @@
 		16FB5C8C2190AE1C00595A6E /* VirgilSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VirgilSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16FB5C8E2190AF1800595A6E /* VirgilSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VirgilSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16FB5C902190AF2800595A6E /* VirgilSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VirgilSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		619F25A52E9AE3BB511B85C1 /* Pods_Notification_Extention.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Notification_Extention.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7005E46D60AD79C004D91939 /* Pods-Notification Extention.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notification Extention.debug.xcconfig"; path = "Target Support Files/Pods-Notification Extention/Pods-Notification Extention.debug.xcconfig"; sourceTree = "<group>"; };
-		9EE40467508B1D8555920A72 /* Pods-Notification Extention.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notification Extention.release.xcconfig"; path = "Target Support Files/Pods-Notification Extention/Pods-Notification Extention.release.xcconfig"; sourceTree = "<group>"; };
-		B03BC02E2BAA37018F9CBF2A /* Pods-Firebase Chat iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Chat iOS.debug.xcconfig"; path = "Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		D59C297945A36C1F241BDB39 /* Pods-Firebase Chat iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Chat iOS.release.xcconfig"; path = "Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS.release.xcconfig"; sourceTree = "<group>"; };
-		F7A00A15B3FCF7DC2C7EEFF5 /* Pods_Firebase_Chat_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Firebase_Chat_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F9BD13E41409F3A90572750 /* Pods_Firebase_Chat_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Firebase_Chat_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C59950CDE27ADD2878318F7 /* Pods-Firebase Chat iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Chat iOS.debug.xcconfig"; path = "Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		8605D1570F8C48339CF9A159 /* Pods-Firebase Chat iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase Chat iOS.release.xcconfig"; path = "Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS.release.xcconfig"; sourceTree = "<group>"; };
+		8FAF8E7C08793EDE219AB96C /* Pods-Notification Extention.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notification Extention.debug.xcconfig"; path = "Target Support Files/Pods-Notification Extention/Pods-Notification Extention.debug.xcconfig"; sourceTree = "<group>"; };
+		C8C8E1A09970B55C69A4AE6B /* Pods_Notification_Extention.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Notification_Extention.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFE73FE194285E2CA73FE425 /* Pods-Notification Extention.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Notification Extention.release.xcconfig"; path = "Target Support Files/Pods-Notification Extention/Pods-Notification Extention.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,7 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34ED68E471151C8438C6C90B /* Pods_Firebase_Chat_iOS.framework in Frameworks */,
+				3A93E3E2F1FD3FC011333010 /* Pods_Firebase_Chat_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,7 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4CC3701EC7822DC1489278C /* Pods_Notification_Extention.framework in Frameworks */,
+				7FA1964DB7B6B5FE9BB59981 /* Pods_Notification_Extention.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,8 +394,8 @@
 				1642DC4421812BE9007EBAE4 /* VirgilE3Kit.framework */,
 				1642DC4221812BE9007EBAE4 /* VirgilSDKKeyknox.framework */,
 				1642DC4321812BE9007EBAE4 /* VirgilSDKPythia.framework */,
-				F7A00A15B3FCF7DC2C7EEFF5 /* Pods_Firebase_Chat_iOS.framework */,
-				619F25A52E9AE3BB511B85C1 /* Pods_Notification_Extention.framework */,
+				5F9BD13E41409F3A90572750 /* Pods_Firebase_Chat_iOS.framework */,
+				C8C8E1A09970B55C69A4AE6B /* Pods_Notification_Extention.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -403,10 +403,10 @@
 		99CE27E2E8E8264A17969440 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B03BC02E2BAA37018F9CBF2A /* Pods-Firebase Chat iOS.debug.xcconfig */,
-				D59C297945A36C1F241BDB39 /* Pods-Firebase Chat iOS.release.xcconfig */,
-				7005E46D60AD79C004D91939 /* Pods-Notification Extention.debug.xcconfig */,
-				9EE40467508B1D8555920A72 /* Pods-Notification Extention.release.xcconfig */,
+				7C59950CDE27ADD2878318F7 /* Pods-Firebase Chat iOS.debug.xcconfig */,
+				8605D1570F8C48339CF9A159 /* Pods-Firebase Chat iOS.release.xcconfig */,
+				8FAF8E7C08793EDE219AB96C /* Pods-Notification Extention.debug.xcconfig */,
+				FFE73FE194285E2CA73FE425 /* Pods-Notification Extention.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -418,12 +418,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 16A5D62E207D004700DFAD6F /* Build configuration list for PBXNativeTarget "Firebase Chat iOS" */;
 			buildPhases = (
-				C164D267DE2A518E66C3BBB8 /* [CP] Check Pods Manifest.lock */,
+				C75917C6FE6EBDDCDBB2C562 /* [CP] Check Pods Manifest.lock */,
 				16A5D618207D004500DFAD6F /* Sources */,
 				16A5D619207D004500DFAD6F /* Frameworks */,
 				16A5D61A207D004500DFAD6F /* Resources */,
-				386F6D9A487C5E42DBB7E9D4 /* [CP] Embed Pods Frameworks */,
 				16FB5C8B2190924900595A6E /* Embed App Extensions */,
+				F1DBA59997DE92BFDD1EA8F5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -439,7 +439,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 16FB5C8A2190924900595A6E /* Build configuration list for PBXNativeTarget "Notification Extention" */;
 			buildPhases = (
-				B4F24E64CE791A8025E4C76E /* [CP] Check Pods Manifest.lock */,
+				01C03A03B405C58472644CB7 /* [CP] Check Pods Manifest.lock */,
 				16FB5C7C2190924900595A6E /* Sources */,
 				16FB5C7D2190924900595A6E /* Frameworks */,
 				16FB5C7E2190924900595A6E /* Resources */,
@@ -535,7 +535,51 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		386F6D9A487C5E42DBB7E9D4 /* [CP] Embed Pods Frameworks */ = {
+		01C03A03B405C58472644CB7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Notification Extention-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C75917C6FE6EBDDCDBB2C562 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Firebase Chat iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F1DBA59997DE92BFDD1EA8F5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -597,50 +641,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Firebase Chat iOS/Pods-Firebase Chat iOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B4F24E64CE791A8025E4C76E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Notification Extention-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C164D267DE2A518E66C3BBB8 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Firebase Chat iOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -838,7 +838,7 @@
 		};
 		16A5D62F207D004700DFAD6F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B03BC02E2BAA37018F9CBF2A /* Pods-Firebase Chat iOS.debug.xcconfig */;
+			baseConfigurationReference = 7C59950CDE27ADD2878318F7 /* Pods-Firebase Chat iOS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -861,7 +861,7 @@
 		};
 		16A5D630207D004700DFAD6F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D59C297945A36C1F241BDB39 /* Pods-Firebase Chat iOS.release.xcconfig */;
+			baseConfigurationReference = 8605D1570F8C48339CF9A159 /* Pods-Firebase Chat iOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -884,7 +884,7 @@
 		};
 		16FB5C882190924900595A6E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7005E46D60AD79C004D91939 /* Pods-Notification Extention.debug.xcconfig */;
+			baseConfigurationReference = 8FAF8E7C08793EDE219AB96C /* Pods-Notification Extention.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Notification Extention/Notification Extention.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -908,7 +908,7 @@
 		};
 		16FB5C892190924900595A6E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9EE40467508B1D8555920A72 /* Pods-Notification Extention.release.xcconfig */;
+			baseConfigurationReference = FFE73FE194285E2CA73FE425 /* Pods-Notification Extention.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Notification Extention/Notification Extention.entitlements";
 				CODE_SIGN_STYLE = Automatic;
