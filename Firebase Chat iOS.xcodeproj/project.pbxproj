@@ -57,7 +57,7 @@
 		16E6C73E20862C3900FAE035 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16E6C73720862C3900FAE035 /* Chat.storyboard */; };
 		16E7E359218C454800FCF961 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E7E358218C454800FCF961 /* UserInfo.swift */; };
 		16FB5C832190924900595A6E /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FB5C822190924900595A6E /* NotificationService.swift */; };
-		16FB5C872190924900595A6E /* Notification Extention.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 16FB5C802190924900595A6E /* Notification Extention.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		16FB5C872190924900595A6E /* Notification Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 16FB5C802190924900595A6E /* Notification Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3A93E3E2F1FD3FC011333010 /* Pods_Firebase_Chat_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F9BD13E41409F3A90572750 /* Pods_Firebase_Chat_iOS.framework */; };
 		7FA1964DB7B6B5FE9BB59981 /* Pods_Notification_Extention.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8C8E1A09970B55C69A4AE6B /* Pods_Notification_Extention.framework */; };
 /* End PBXBuildFile section */
@@ -79,7 +79,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				16FB5C872190924900595A6E /* Notification Extention.appex in Embed App Extensions */,
+				16FB5C872190924900595A6E /* Notification Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,7 +88,7 @@
 
 /* Begin PBXFileReference section */
 		1608048A2170EEB6002C72A3 /* String+Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Bool.swift"; sourceTree = "<group>"; };
-		161A788C2191ED340013BF14 /* Notification Extention.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Notification Extention.entitlements"; sourceTree = "<group>"; };
+		161A788C2191ED340013BF14 /* Notification Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Notification Extension.entitlements"; sourceTree = "<group>"; };
 		161A83A520951995005C7807 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		161A83A620951995005C7807 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		162469842084C14500001801 /* Data+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+hex.swift"; sourceTree = "<group>"; };
@@ -143,7 +143,7 @@
 		16E6C73720862C3900FAE035 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		16E7E358218C454800FCF961 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		16FB5C6B21905DEF00595A6E /* Firebase Chat iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Firebase Chat iOS.entitlements"; sourceTree = "<group>"; };
-		16FB5C802190924900595A6E /* Notification Extention.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Notification Extention.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		16FB5C802190924900595A6E /* Notification Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Notification Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16FB5C822190924900595A6E /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		16FB5C842190924900595A6E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16FB5C8C2190AE1C00595A6E /* VirgilSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VirgilSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -241,7 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				16A5D61E207D004500DFAD6F /* Firebase Chat iOS */,
-				16FB5C812190924900595A6E /* Notification Extention */,
+				16FB5C812190924900595A6E /* Notification Extension */,
 				16A5D61D207D004500DFAD6F /* Products */,
 				528EFC121184AC9EC2ECA72C /* Frameworks */,
 				99CE27E2E8E8264A17969440 /* Pods */,
@@ -252,7 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				16A5D61C207D004500DFAD6F /* Firebase Chat iOS.app */,
-				16FB5C802190924900595A6E /* Notification Extention.appex */,
+				16FB5C802190924900595A6E /* Notification Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -375,14 +375,14 @@
 			path = TextMessage;
 			sourceTree = "<group>";
 		};
-		16FB5C812190924900595A6E /* Notification Extention */ = {
+		16FB5C812190924900595A6E /* Notification Extension */ = {
 			isa = PBXGroup;
 			children = (
-				161A788C2191ED340013BF14 /* Notification Extention.entitlements */,
+				161A788C2191ED340013BF14 /* Notification Extension.entitlements */,
 				16FB5C822190924900595A6E /* NotificationService.swift */,
 				16FB5C842190924900595A6E /* Info.plist */,
 			);
-			path = "Notification Extention";
+			path = "Notification Extension";
 			sourceTree = "<group>";
 		};
 		528EFC121184AC9EC2ECA72C /* Frameworks */ = {
@@ -435,9 +435,9 @@
 			productReference = 16A5D61C207D004500DFAD6F /* Firebase Chat iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		16FB5C7F2190924900595A6E /* Notification Extention */ = {
+		16FB5C7F2190924900595A6E /* Notification Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 16FB5C8A2190924900595A6E /* Build configuration list for PBXNativeTarget "Notification Extention" */;
+			buildConfigurationList = 16FB5C8A2190924900595A6E /* Build configuration list for PBXNativeTarget "Notification Extension" */;
 			buildPhases = (
 				01C03A03B405C58472644CB7 /* [CP] Check Pods Manifest.lock */,
 				16FB5C7C2190924900595A6E /* Sources */,
@@ -448,9 +448,9 @@
 			);
 			dependencies = (
 			);
-			name = "Notification Extention";
+			name = "Notification Extension";
 			productName = "Notification Extention";
-			productReference = 16FB5C802190924900595A6E /* Notification Extention.appex */;
+			productReference = 16FB5C802190924900595A6E /* Notification Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -502,7 +502,7 @@
 			projectRoot = "";
 			targets = (
 				16A5D61B207D004500DFAD6F /* Firebase Chat iOS */,
-				16FB5C7F2190924900595A6E /* Notification Extention */,
+				16FB5C7F2190924900595A6E /* Notification Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -705,7 +705,7 @@
 /* Begin PBXTargetDependency section */
 		16FB5C862190924900595A6E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 16FB5C7F2190924900595A6E /* Notification Extention */;
+			target = 16FB5C7F2190924900595A6E /* Notification Extension */;
 			targetProxy = 16FB5C852190924900595A6E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -886,10 +886,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8FAF8E7C08793EDE219AB96C /* Pods-Notification Extention.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Notification Extention/Notification Extention.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Notification Extension/Notification Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MS3LY2W55D;
-				INFOPLIST_FILE = "Notification Extention/Info.plist";
+				INFOPLIST_FILE = "Notification Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -898,7 +898,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.virgil.Virgil-Firebase-Sample.Notification-Extention";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgil.Virgil-Firebase-Sample.Notification-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
@@ -910,10 +910,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FFE73FE194285E2CA73FE425 /* Pods-Notification Extention.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Notification Extention/Notification Extention.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Notification Extension/Notification Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MS3LY2W55D;
-				INFOPLIST_FILE = "Notification Extention/Info.plist";
+				INFOPLIST_FILE = "Notification Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -921,7 +921,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.virgil.Virgil-Firebase-Sample.Notification-Extention";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.virgil.Virgil-Firebase-Sample.Notification-Extension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
@@ -950,7 +950,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16FB5C8A2190924900595A6E /* Build configuration list for PBXNativeTarget "Notification Extention" */ = {
+		16FB5C8A2190924900595A6E /* Build configuration list for PBXNativeTarget "Notification Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16FB5C882190924900595A6E /* Debug */,
