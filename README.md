@@ -19,7 +19,7 @@ In order for the app to work, you need to deploy a Firebase function that gives 
 ## Add your Firebase function URL and Firebase project config to your app
 
 * **Copy your new Firebase function's URL**: go to the Firebase console -> your project -> Functions tab and copy your new function's url
-* **Go to Xcode -> Firebase Chat iOS/Helpers/Virgil/VirgilHelper.swift and change variable jwtEndpoint to**:
+* **Go to Xcode -> Firebase Chat iOS/AppDelegate.swift and change variable jwtEndpoint to**:
   ```
   https://YOUR_FUNCTION_URL.cloudfunctions.net/api/generate_jwt
   ```
