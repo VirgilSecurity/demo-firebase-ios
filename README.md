@@ -3,7 +3,11 @@ You can reuse this sample in any Firebase project where you want to end-to-end p
 
 [Also, we've created a helpful video on YouTube to walk you through the steps below and explains what you'll be doing for the next 10 minutes or so. Popcorn not included](https://www.youtube.com/watch?v=6zpzbcm_3I8).
 
-* Looking for other client platforms? [Android](https://github.com/VirgilSecurity/demo-firebase-android) | [JavaScript (browser)](https://github.com/VirgilSecurity/demo-firebase-js)
+**This Demo is based on [Virgil Objective-C/Swift SDK](https://github.com/VirgilSecurity/virgil-sdk-x).** 
+
+* Looking for other client platforms? 
+- [Android](https://github.com/VirgilSecurity/demo-firebase-android) is based on [Virgil Java (Android) SDK](https://github.com/VirgilSecurity/virgil-sdk-java-android)
+- [JavaScript (browser)](https://github.com/VirgilSecurity/demo-firebase-js) is based on [Virgil E3Kit Typescript/Javascript SDK](https://github.com/VirgilSecurity/virgil-e3kit-js). Our new client-side SDK.
 
 ## Clone project
 ```bash
