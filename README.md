@@ -5,7 +5,7 @@ You can reuse this sample in any Firebase project where you want to end-to-end p
 
 **This Demo is based on [Virgil Objective-C/Swift SDK](https://github.com/VirgilSecurity/virgil-sdk-x).** 
 
-* Looking for other client platforms? 
+Looking for other client platforms? 
 - [Android](https://github.com/VirgilSecurity/demo-firebase-android) is based on [Virgil Java (Android) SDK](https://github.com/VirgilSecurity/virgil-sdk-java-android)
 - [JavaScript (browser)](https://github.com/VirgilSecurity/demo-firebase-js) is based on [Virgil E3Kit Typescript/Javascript SDK](https://github.com/VirgilSecurity/virgil-e3kit-js). Our new client-side SDK.
 
