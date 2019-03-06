@@ -1,137 +1,125 @@
 PODS:
-  - BoringSSL (10.0.6):
-    - BoringSSL/Implementation (= 10.0.6)
-    - BoringSSL/Interface (= 10.0.6)
-  - BoringSSL/Implementation (10.0.6):
-    - BoringSSL/Interface (= 10.0.6)
-  - BoringSSL/Interface (10.0.6)
+  - BoringSSL-GRPC (0.0.2):
+    - BoringSSL-GRPC/Implementation (= 0.0.2)
+    - BoringSSL-GRPC/Interface (= 0.0.2)
+  - BoringSSL-GRPC/Implementation (0.0.2):
+    - BoringSSL-GRPC/Interface (= 0.0.2)
+  - BoringSSL-GRPC/Interface (0.0.2)
   - Chatto (3.3.1)
   - ChattoAdditions (3.3.1):
     - Chatto
-  - Firebase/Auth (5.10.0):
+  - Firebase/Auth (5.18.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (= 5.0.4)
-  - Firebase/Core (5.10.0):
+    - FirebaseAuth (= 5.4.0)
+  - Firebase/Core (5.18.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.2.0)
-  - Firebase/CoreOnly (5.10.0):
-    - FirebaseCore (= 5.1.5)
-  - Firebase/Firestore (5.10.0):
+    - FirebaseAnalytics (= 5.7.0)
+  - Firebase/CoreOnly (5.18.0):
+    - FirebaseCore (= 5.3.1)
+  - Firebase/Firestore (5.18.0):
     - Firebase/CoreOnly
-    - FirebaseFirestore (= 0.13.5)
-  - Firebase/Messaging (5.10.0):
+    - FirebaseFirestore (= 1.0.2)
+  - Firebase/Messaging (5.18.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (= 3.2.0)
-  - FirebaseAnalytics (5.2.0):
-    - FirebaseCore (~> 5.1)
-    - FirebaseInstanceID (~> 3.2)
-    - GoogleAppMeasurement (~> 5.2)
+    - FirebaseMessaging (= 3.3.2)
+  - FirebaseAnalytics (5.7.0):
+    - FirebaseCore (~> 5.3)
+    - FirebaseInstanceID (~> 3.6)
+    - GoogleAppMeasurement (= 5.7.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - FirebaseAuth (5.0.4):
+  - FirebaseAnalyticsInterop (1.2.0)
+  - FirebaseAuth (5.4.0):
     - FirebaseAuthInterop (~> 1.0)
-    - FirebaseCore (~> 5.0)
+    - FirebaseCore (~> 5.2)
     - GoogleUtilities/Environment (~> 5.2)
     - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseAuthInterop (1.0.0)
-  - FirebaseCore (5.1.5):
+  - FirebaseCore (5.3.1):
     - GoogleUtilities/Logger (~> 5.2)
-  - FirebaseFirestore (0.13.5):
+  - FirebaseFirestore (1.0.2):
     - FirebaseAuthInterop (~> 1.0)
-    - FirebaseCore (~> 5.1)
-    - FirebaseFirestore/abseil-cpp (= 0.13.5)
-    - "gRPC-C++ (~> 0.0.3)"
-    - gRPC-ProtoRPC (~> 1.0)
+    - FirebaseCore (~> 5.2)
+    - FirebaseFirestore/abseil-cpp (= 1.0.2)
+    - "gRPC-C++ (= 0.0.6)"
     - leveldb-library (~> 1.20)
-    - nanopb (~> 0.3.8)
+    - nanopb (~> 0.3.901)
     - Protobuf (~> 3.1)
-  - FirebaseFirestore/abseil-cpp (0.13.5):
+  - FirebaseFirestore/abseil-cpp (1.0.2):
     - FirebaseAuthInterop (~> 1.0)
-    - FirebaseCore (~> 5.1)
-    - "gRPC-C++ (~> 0.0.3)"
-    - gRPC-ProtoRPC (~> 1.0)
+    - FirebaseCore (~> 5.2)
+    - "gRPC-C++ (= 0.0.6)"
     - leveldb-library (~> 1.20)
-    - nanopb (~> 0.3.8)
+    - nanopb (~> 0.3.901)
     - Protobuf (~> 3.1)
-  - FirebaseInstanceID (3.2.2):
-    - FirebaseCore (~> 5.1)
+  - FirebaseInstanceID (3.6.0):
+    - FirebaseCore (~> 5.3)
     - GoogleUtilities/Environment (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
-  - FirebaseMessaging (3.2.0):
-    - FirebaseCore (~> 5.0)
-    - FirebaseInstanceID (~> 3.0)
-    - GoogleUtilities/Environment (~> 5.2)
-    - GoogleUtilities/Reachability (~> 5.2)
+  - FirebaseMessaging (3.3.2):
+    - FirebaseAnalyticsInterop (~> 1.1)
+    - FirebaseCore (~> 5.2)
+    - FirebaseInstanceID (~> 3.6)
+    - GoogleUtilities/Environment (~> 5.3)
+    - GoogleUtilities/Reachability (~> 5.3)
+    - GoogleUtilities/UserDefaults (~> 5.3)
     - Protobuf (~> 3.1)
-  - GoogleAppMeasurement (5.2.0):
+  - GoogleAppMeasurement (5.7.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - GoogleUtilities/AppDelegateSwizzler (5.3.0):
+  - GoogleUtilities/AppDelegateSwizzler (5.3.7):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (5.3.0)
-  - GoogleUtilities/Logger (5.3.0):
+  - GoogleUtilities/Environment (5.3.7)
+  - GoogleUtilities/Logger (5.3.7):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (5.3.0):
+  - GoogleUtilities/MethodSwizzler (5.3.7):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (5.3.0):
+  - GoogleUtilities/Network (5.3.7):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (5.3.0)"
-  - GoogleUtilities/Reachability (5.3.0):
+  - "GoogleUtilities/NSData+zlib (5.3.7)"
+  - GoogleUtilities/Reachability (5.3.7):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (5.3.0):
+  - GoogleUtilities/UserDefaults (5.3.7):
     - GoogleUtilities/Logger
-  - gRPC (1.14.0):
-    - gRPC-RxLibrary (= 1.14.0)
-    - gRPC/Main (= 1.14.0)
-  - "gRPC-C++ (0.0.3)":
-    - "gRPC-C++/Implementation (= 0.0.3)"
-    - "gRPC-C++/Interface (= 0.0.3)"
-  - "gRPC-C++/Implementation (0.0.3)":
-    - "gRPC-C++/Interface (= 0.0.3)"
-    - gRPC-Core (= 1.14.0)
+  - "gRPC-C++ (0.0.6)":
+    - "gRPC-C++/Implementation (= 0.0.6)"
+    - "gRPC-C++/Interface (= 0.0.6)"
+  - "gRPC-C++/Implementation (0.0.6)":
+    - "gRPC-C++/Interface (= 0.0.6)"
+    - gRPC-Core (= 1.17.0)
     - nanopb (~> 0.3)
-  - "gRPC-C++/Interface (0.0.3)"
-  - gRPC-Core (1.14.0):
-    - gRPC-Core/Implementation (= 1.14.0)
-    - gRPC-Core/Interface (= 1.14.0)
-  - gRPC-Core/Implementation (1.14.0):
-    - BoringSSL (~> 10.0)
-    - gRPC-Core/Interface (= 1.14.0)
+  - "gRPC-C++/Interface (0.0.6)"
+  - gRPC-Core (1.17.0):
+    - gRPC-Core/Implementation (= 1.17.0)
+    - gRPC-Core/Interface (= 1.17.0)
+  - gRPC-Core/Implementation (1.17.0):
+    - BoringSSL-GRPC (= 0.0.2)
+    - gRPC-Core/Interface (= 1.17.0)
     - nanopb (~> 0.3)
-  - gRPC-Core/Interface (1.14.0)
-  - gRPC-ProtoRPC (1.14.0):
-    - gRPC-ProtoRPC/Main (= 1.14.0)
-  - gRPC-ProtoRPC/Main (1.14.0):
-    - gRPC (= 1.14.0)
-    - gRPC-RxLibrary (= 1.14.0)
-    - Protobuf (~> 3.0)
-  - gRPC-RxLibrary (1.14.0)
-  - gRPC/Main (1.14.0):
-    - gRPC-Core (= 1.14.0)
-    - gRPC-RxLibrary (= 1.14.0)
-  - GTMSessionFetcher/Core (1.2.0)
+  - gRPC-Core/Interface (1.17.0)
+  - GTMSessionFetcher/Core (1.2.1)
   - leveldb-library (1.20)
-  - nanopb (0.3.8):
-    - nanopb/decode (= 0.3.8)
-    - nanopb/encode (= 0.3.8)
-  - nanopb/decode (0.3.8)
-  - nanopb/encode (0.3.8)
-  - PKHUD (5.2.0)
-  - Protobuf (3.6.1)
-  - VirgilCrypto (3.2.1)
-  - VirgilCryptoAPI (1.0.3)
-  - VirgilCryptoApiImpl (3.2.1):
-    - VirgilCrypto (= 3.2.1)
+  - nanopb (0.3.901):
+    - nanopb/decode (= 0.3.901)
+    - nanopb/encode (= 0.3.901)
+  - nanopb/decode (0.3.901)
+  - nanopb/encode (0.3.901)
+  - PKHUD (5.2.1)
+  - Protobuf (3.7.0)
+  - VirgilCrypto (3.2.2)
+  - VirgilCryptoAPI (1.0.4)
+  - VirgilCryptoApiImpl (3.2.2):
+    - VirgilCrypto (= 3.2.2)
     - VirgilCryptoAPI (~> 1.0)
   - VirgilE3Kit (0.1.1):
     - VirgilCryptoApiImpl (~> 3.1)
@@ -139,10 +127,10 @@ PODS:
     - VirgilSDKPythia (~> 0.3)
   - VirgilSDK (5.7.0):
     - VirgilCryptoAPI (~> 1.0)
-  - VirgilSDKKeyknox (0.2.1):
+  - VirgilSDKKeyknox (0.3.0):
     - VirgilCryptoApiImpl (~> 3.0)
-    - VirgilSDK (~> 5.3)
-  - VirgilSDKPythia (0.3.3):
+    - VirgilSDK (~> 5.7)
+  - VirgilSDKPythia (0.4.0):
     - VirgilCryptoApiImpl (~> 3.1)
     - VirgilSDK (~> 5.3)
 
@@ -160,11 +148,12 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - BoringSSL
+    - BoringSSL-GRPC
     - Chatto
     - ChattoAdditions
     - Firebase
     - FirebaseAnalytics
+    - FirebaseAnalyticsInterop
     - FirebaseAuth
     - FirebaseAuthInterop
     - FirebaseCore
@@ -173,11 +162,8 @@ SPEC REPOS:
     - FirebaseMessaging
     - GoogleAppMeasurement
     - GoogleUtilities
-    - gRPC
     - "gRPC-C++"
     - gRPC-Core
-    - gRPC-ProtoRPC
-    - gRPC-RxLibrary
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
@@ -192,36 +178,34 @@ SPEC REPOS:
     - VirgilSDKPythia
 
 SPEC CHECKSUMS:
-  BoringSSL: e10f92a27043805c01071fe815a5cd98ae8212e7
+  BoringSSL-GRPC: 2a230d9cd93e7ce39916044f645cebb31f37dde6
   Chatto: 24a6c9b0c91b08130466888b8b61563b90191c6f
   ChattoAdditions: cc74cd3dd371aa3f70e5ab8568a4f383f0c0eb8c
-  Firebase: 6691d47562a780c26281ce8464518faafc90c610
-  FirebaseAnalytics: 831f1f127f4a75698e9875a87bf7e2668730d953
-  FirebaseAuth: 504b198ceb3472dca5c65bb95544ea44cfc9439e
+  Firebase: 02f3281965c075426141a0ce1277e9de6649cab9
+  FirebaseAnalytics: 23851fe602c872130a2c5c55040b302120346cc2
+  FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
+  FirebaseAuth: d85d052354447f30b4b2a805ab91b511458b56a6
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
-  FirebaseCore: c6079de64c1a87000e52e9b408dddcadc901177f
-  FirebaseFirestore: 45a9a3045a2dc27f23c13bf832556fe287fbe1b5
-  FirebaseInstanceID: 78ba376fcd5b94c001f9999b2cbd3d1f1e56e78d
-  FirebaseMessaging: 000b32447b461b34b6b912b23ec11be20b503b5b
-  GoogleAppMeasurement: 2b3a023a61239c8d002e6e4fcf4abce8eddce0e0
-  GoogleUtilities: 760ccb53b7c7f40f9c02d8c241f76f841a7a6162
-  gRPC: 9d4c549f37c7cef22478634bac7a0405b6e3dbfb
-  "gRPC-C++": ee0b01db3122f0b6c2be28b5b11039f62fa15fe6
-  gRPC-Core: f4836515817c0eb479aeeb9cc27c91c4ba62a9f6
-  gRPC-ProtoRPC: 76f6053639a842e1fb45fa82aa598bf3f4d9f66f
-  gRPC-RxLibrary: 3c305f32155024b116b780f389323c73a28197e6
-  GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
+  FirebaseCore: 52f851b30e11360f1e67cf04b1edfebf0a47a2d3
+  FirebaseFirestore: ccdaffb8a73c591ff61872b8f7905ad0c237ef50
+  FirebaseInstanceID: 7221670e908b41e7ae669600db9d0d201417d0cd
+  FirebaseMessaging: d740150547f7686b33799f6489f5b69a4706631b
+  GoogleAppMeasurement: 6cf307834da065863f9faf4c0de0a936d81dd832
+  GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
+  "gRPC-C++": e76441995900ac90e9bd98644ab4733f12521edf
+  gRPC-Core: 4028031ed2c5267cca0d846c876d8046b1ecb9b6
+  GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
-  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  PKHUD: dd5357ac65f26115c35c4a68e9b328053326c5fe
-  Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  VirgilCrypto: a99fff02d7327ae240275cefe28dc14e4697877a
-  VirgilCryptoAPI: c3b20b0d3d2b801b0a2b6e7f624653321c32da32
-  VirgilCryptoApiImpl: 0182af2b5e483f031dda9d3b2aca88c4d36fe802
+  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  PKHUD: 4e6162c4c39ac367c6934e9855c6b4762ee16256
+  Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
+  VirgilCrypto: fa3e20938ab6f0920555ad2c9f34fdf1a6a56ebc
+  VirgilCryptoAPI: 2dee1d0199ddd36fa848f5782ccec0bbd953ec39
+  VirgilCryptoApiImpl: 711c404cbdf6ac26f86fc05bc4f899f71f33236e
   VirgilE3Kit: 20f9dc13ffda9a21e29a9ce06096de0bf79c96e4
   VirgilSDK: 437a3b48f8d3ca7c16a7402aeef063d575f063ae
-  VirgilSDKKeyknox: 5168c406ff50dd9c693af9ac64e6e3de721b0077
-  VirgilSDKPythia: b02b5d22047a0894fbe0b108611ea37d6a88300a
+  VirgilSDKKeyknox: aff1148855f19544248c61fa28380531e049e48c
+  VirgilSDKPythia: 0f73024e95263eb2b5549dc44aa284abb7c11d8d
 
 PODFILE CHECKSUM: bfb388846b9620f35f74d00d6c41a93788093f23
 
