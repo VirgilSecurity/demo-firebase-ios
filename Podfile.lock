@@ -137,7 +137,7 @@ PODS:
     - VirgilCryptoApiImpl (~> 3.1)
     - VirgilSDKKeyknox (~> 0.2)
     - VirgilSDKPythia (~> 0.3)
-  - VirgilSDK (5.5.0):
+  - VirgilSDK (5.7.0):
     - VirgilCryptoAPI (~> 1.0)
   - VirgilSDKKeyknox (0.2.1):
     - VirgilCryptoApiImpl (~> 3.0)
@@ -156,7 +156,7 @@ DEPENDENCIES:
   - PKHUD (~> 5.0)
   - VirgilCryptoApiImpl (~> 3.2.1)
   - VirgilE3Kit (~> 0.1.1)
-  - VirgilSDK (~> 5.5.0)
+  - VirgilSDK (~> 5.7)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -219,10 +219,10 @@ SPEC CHECKSUMS:
   VirgilCryptoAPI: c3b20b0d3d2b801b0a2b6e7f624653321c32da32
   VirgilCryptoApiImpl: 0182af2b5e483f031dda9d3b2aca88c4d36fe802
   VirgilE3Kit: 20f9dc13ffda9a21e29a9ce06096de0bf79c96e4
-  VirgilSDK: 824d0265af01ab23f7e34ba4bc9e19e05c2de417
+  VirgilSDK: 437a3b48f8d3ca7c16a7402aeef063d575f063ae
   VirgilSDKKeyknox: 5168c406ff50dd9c693af9ac64e6e3de721b0077
   VirgilSDKPythia: b02b5d22047a0894fbe0b108611ea37d6a88300a
 
-PODFILE CHECKSUM: 8db3154cdcad9429ffab736176a0efe14a61a4e3
+PODFILE CHECKSUM: bfb388846b9620f35f74d00d6c41a93788093f23
 
 COCOAPODS: 1.6.0.beta.2
