@@ -26,7 +26,7 @@ import Foundation
 import Chatto
 import ChattoAdditions
 import Firebase
-import VirgilCryptoApiImpl
+import VirgilE3Kit
 
 class DataSource: ChatDataSourceProtocol {
     var nextMessageId: Int = 0
@@ -34,9 +34,9 @@ class DataSource: ChatDataSourceProtocol {
     private let pageSize: Int
     private var countCore: Int = 0
     var slidingWindow: SlidingDataSource<ChatItemProtocol>!
-    private let publicKeys: [VirgilPublicKey]
+    private let publicKeys: EThree.LookupResult
 
-    init(pageSize: Int, publicKeys: [VirgilPublicKey]) {
+    init(pageSize: Int, publicKeys: EThree.LookupResult) {
         self.slidingWindow = SlidingDataSource(pageSize: pageSize)
         self.pageSize = pageSize
         self.publicKeys = publicKeys
@@ -83,7 +83,7 @@ class DataSource: ChatDataSourceProtocol {
 
                 var decryptedBody: String?
                 do {
-                    decryptedBody = try E3KitHelper.sharedInstance.decrypt(text: body, from: self.publicKeys)
+                    decryptedBody = try E3KitHelper.sharedInstance.decrypt(text: body, from: self.publicKeys.first?.value)
                 } catch {
                     Log.error("Decrypting failed with error: \(error.localizedDescription)")
                 }

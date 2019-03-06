@@ -8,7 +8,7 @@
 
 import Foundation
 import Firebase
-import VirgilCryptoApiImpl
+import VirgilE3Kit
 
 extension FirestoreHelper {
     func send(message: String, to receiver: String, from currentUser: String, completion: @escaping (Error?) -> ()) {
@@ -64,7 +64,7 @@ extension FirestoreHelper {
         }
     }
 
-    func updateMessages(of channel: String, publicKeys: [VirgilPublicKey], completion: @escaping (Error?) -> ()) {
+    func updateMessages(of channel: String, publicKeys: EThree.LookupResult, completion: @escaping (Error?) -> ()) {
         let channelReference = self.channelCollection.document(channel)
         let messagesCollection = channelReference.collection(Collections.messages.rawValue)
 
@@ -100,7 +100,7 @@ extension FirestoreHelper {
                         decryptedBody = "Message deleted"
                     } else {
                         do {
-                            decryptedBody = try E3KitHelper.sharedInstance.decrypt(text: body, from: publicKeys)
+                            decryptedBody = try E3KitHelper.sharedInstance.decrypt(text: body, from: publicKeys.first?.value)
                         } catch {
                             Log.error("Decrypting failed with error: \(error.localizedDescription)")
                         }

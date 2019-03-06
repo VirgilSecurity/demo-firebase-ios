@@ -10,7 +10,7 @@ target 'Firebase Chat iOS' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Messaging'
 
-  pod 'VirgilE3Kit', '~> 0.1.1'
+  pod 'VirgilE3Kit', '~> 0.4.0'
 
   pod 'Chatto', '~> 3.3.1'
   pod 'ChattoAdditions', '~> 3.3.1'

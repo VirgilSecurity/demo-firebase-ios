@@ -8,11 +8,11 @@
 
 import Foundation
 import Firebase
-import VirgilCryptoApiImpl
+import VirgilE3Kit
 
 class ChatListController: ViewController {
     @IBOutlet weak var tableView: UITableView!
-    private var publicKeys: [VirgilPublicKey] = []
+    private var publicKeys: EThree.LookupResult = [:]
 
     override func viewDidLoad() {
         if let id = CoreDataHelper.sharedInstance.currentAccount?.identity,
@@ -33,7 +33,7 @@ class ChatListController: ViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.publicKeys = []
+        self.publicKeys = [:]
         FirestoreHelper.sharedInstance.channelListener?.remove()
         FirestoreHelper.sharedInstance.channelListener = nil
     }
@@ -176,12 +176,13 @@ extension ChatListController: CellTapDelegate {
                     return
             }
 
-            E3KitHelper.sharedInstance.lookupPublicKeys(of: [uid]) { publicKeys, errors in
-                guard errors.isEmpty, !publicKeys.isEmpty else {
+            E3KitHelper.sharedInstance.lookupPublicKeys(of: [uid]) { publicKeys, error in
+                guard let publicKeys = publicKeys, error == nil else {
                     self.alert("LookUpPublicKeys failed")
                     self.view.isUserInteractionEnabled = true
                     return
                 }
+
                 self.publicKeys = publicKeys
 
                 FirestoreHelper.sharedInstance.updateMessages(of: globalName, publicKeys: publicKeys) { error in

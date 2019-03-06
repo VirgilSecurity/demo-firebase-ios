@@ -121,10 +121,10 @@ PODS:
   - VirgilCryptoApiImpl (3.2.2):
     - VirgilCrypto (= 3.2.2)
     - VirgilCryptoAPI (~> 1.0)
-  - VirgilE3Kit (0.1.1):
-    - VirgilCryptoApiImpl (~> 3.1)
-    - VirgilSDKKeyknox (~> 0.2)
-    - VirgilSDKPythia (~> 0.3)
+  - VirgilE3Kit (0.4.0):
+    - VirgilCryptoApiImpl (~> 3.2)
+    - VirgilSDKKeyknox (~> 0.3)
+    - VirgilSDKPythia (~> 0.4)
   - VirgilSDK (5.7.0):
     - VirgilCryptoAPI (~> 1.0)
   - VirgilSDKKeyknox (0.3.0):
@@ -143,7 +143,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - PKHUD (~> 5.0)
   - VirgilCryptoApiImpl (~> 3.2.1)
-  - VirgilE3Kit (~> 0.1.1)
+  - VirgilE3Kit (~> 0.4.0)
   - VirgilSDK (~> 5.7)
 
 SPEC REPOS:
@@ -202,11 +202,11 @@ SPEC CHECKSUMS:
   VirgilCrypto: fa3e20938ab6f0920555ad2c9f34fdf1a6a56ebc
   VirgilCryptoAPI: 2dee1d0199ddd36fa848f5782ccec0bbd953ec39
   VirgilCryptoApiImpl: 711c404cbdf6ac26f86fc05bc4f899f71f33236e
-  VirgilE3Kit: 20f9dc13ffda9a21e29a9ce06096de0bf79c96e4
+  VirgilE3Kit: 7feda1ad5410b37512a8479e5b18ba4c2aa0ea7b
   VirgilSDK: 437a3b48f8d3ca7c16a7402aeef063d575f063ae
   VirgilSDKKeyknox: aff1148855f19544248c61fa28380531e049e48c
   VirgilSDKPythia: 0f73024e95263eb2b5549dc44aa284abb7c11d8d
 
-PODFILE CHECKSUM: bfb388846b9620f35f74d00d6c41a93788093f23
+PODFILE CHECKSUM: 72c8c4fa663b5a177dd5841b469748240ff23fb9
 
 COCOAPODS: 1.6.0.beta.2

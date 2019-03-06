@@ -25,17 +25,17 @@
 import Foundation
 import Chatto
 import ChattoAdditions
-import VirgilCryptoApiImpl
+import VirgilE3Kit
 
 public protocol DemoMessageModelProtocol: MessageModelProtocol {
     var status: MessageStatus { get set }
 }
 
 public class MessageSender {
-    public let publicKeys: [VirgilPublicKey]
+    public let publicKeys: EThree.LookupResult
     public var onMessageChanged: ((_ message: DemoMessageModelProtocol) -> ())?
 
-    public init(publicKeys: [VirgilPublicKey]) {
+    public init(publicKeys: EThree.LookupResult) {
         self.publicKeys = publicKeys
     }
 

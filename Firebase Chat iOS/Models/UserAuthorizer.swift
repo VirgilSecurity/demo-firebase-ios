@@ -31,6 +31,7 @@ class UserAuthorizer {
                         completion(false)
                         return
                     }
+
                     CoreDataHelper.sharedInstance.setUpAccount(withIdentity: email)
                     FirestoreHelper.sharedInstance.setUpUser(username: email, uid: user.uid,
                                                              completion: { completion($0 == nil ? true : false) })
@@ -57,16 +58,23 @@ class UserAuthorizer {
                     return
                 }
 
-                self.setUpVirgil(password: password, token: token) { error in
+                let tokenCallback = self.makeTokenCallback(firebaseToken: token)
+                E3KitHelper.initialize(tokenCallback: tokenCallback) { error in
                     guard error == nil else {
                         completion(error)
                         return
                     }
-                    CoreDataHelper.sharedInstance.setUpAccount(withIdentity: email)
-                    FirestoreHelper.sharedInstance.setUpUser(username: email, uid: user.uid,
-                                                             completion: completion)
 
-                    completion(nil)
+                    E3KitHelper.sharedInstance.restorePrivateKey(password: password) { error in
+                        guard error == nil else {
+                            completion(error)
+                            return
+                        }
+
+                        CoreDataHelper.sharedInstance.setUpAccount(withIdentity: email)
+                        FirestoreHelper.sharedInstance.setUpUser(username: email, uid: user.uid,
+                                                                 completion: completion)
+                    }
                 }
             }
         }
@@ -95,34 +103,39 @@ class UserAuthorizer {
                     return
                 }
 
-                self.setUpVirgil(password: password, token: token) { error in
+                let tokenCallback = self.makeTokenCallback(firebaseToken: token)
+                E3KitHelper.initialize(tokenCallback: tokenCallback) { error in
                     guard error == nil else {
                         reverseCreatingUser()
                         completion(error)
                         return
                     }
 
-                    CoreDataHelper.sharedInstance.createAccount(withIdentity: email)
-                    FirestoreHelper.sharedInstance.setUpUser(username: email, uid: user.uid,
-                                                             completion: completion)
+                    E3KitHelper.sharedInstance.register { error in
+                        guard error == nil else {
+                            reverseCreatingUser()
+                            completion(error)
+                            return
+                        }
+
+                        E3KitHelper.sharedInstance.backupPrivateKey(password: password) { error in
+                            guard error == nil else {
+                                reverseCreatingUser()
+                                completion(error)
+                                return
+                            }
+
+                            CoreDataHelper.sharedInstance.createAccount(withIdentity: email)
+                            FirestoreHelper.sharedInstance.setUpUser(username: email, uid: user.uid,
+                                                                     completion: completion)
+                        }
+                    }
                 }
             }
         }
     }
 
     // MARK: - Private API
-
-    private func setUpVirgil(password: String, token: String, completion: @escaping (Error?) -> ()) {
-        let tokenCallback = makeTokenCallback(firebaseToken: token)
-        E3KitHelper.initialize(tokenCallback: tokenCallback) { error in
-            guard error == nil else {
-                completion(error)
-                return
-            }
-
-            E3KitHelper.sharedInstance.bootstrap(password: password, completion: completion)
-        }
-    }
 
     private func makeTokenCallback(firebaseToken token: String) -> EThree.RenewJwtCallback {
         let headers = ["Content-Type": "application/json",
