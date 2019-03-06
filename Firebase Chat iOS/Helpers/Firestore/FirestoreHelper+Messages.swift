@@ -100,6 +100,7 @@ extension FirestoreHelper {
                         decryptedBody = "Message deleted"
                     } else {
                         do {
+                            // For group chats here should be getting sender id and decrypting from publicKeys[senderId]
                             decryptedBody = try E3KitHelper.sharedInstance.decrypt(text: body, from: publicKeys.first?.value)
                         } catch {
                             Log.error("Decrypting failed with error: \(error.localizedDescription)")
