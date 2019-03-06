@@ -20,6 +20,8 @@ extension FirestoreHelper {
 
                     completion(error)
                 }
+            } else {
+                completion(nil)
             }
         }
     }
@@ -30,6 +32,7 @@ extension FirestoreHelper {
                 completion(error)
                 return
             }
+            
             let userReference = self.userCollection.document(username)
 
             let userData: [String: Any] = [Keys.uid.rawValue: uid,
@@ -55,8 +58,10 @@ extension FirestoreHelper {
                 Log.debug("Firebase: user do not exist")
                 return
             }
-            completion(true)
+
             Log.debug("Firebase: user exist")
+
+            completion(true)
         }
     }
 }
