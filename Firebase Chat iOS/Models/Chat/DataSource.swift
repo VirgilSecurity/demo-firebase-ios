@@ -84,7 +84,8 @@ class DataSource: ChatDataSourceProtocol {
                 var decryptedBody: String?
                 do {
                     // For group chats here should be getting sender id and decrypting from publicKeys[senderId]
-                    decryptedBody = try E3KitHelper.sharedInstance.decrypt(text: body, from: self.publicKeys.first?.value)
+                    let publicKey = isIncoming ? self.publicKeys.first?.value : nil
+                    decryptedBody = try E3KitHelper.sharedInstance.decrypt(text: body, from: publicKey)
                 } catch {
                     Log.error("Decrypting failed with error: \(error.localizedDescription)")
                 }
